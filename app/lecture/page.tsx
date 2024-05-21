@@ -55,7 +55,7 @@ const Lecture: React.FC = () => {
     }, []);
 
     return (
-        <div className="w-full h-full mt-24">
+        <div className="w-full h-full pt-20">
             <Head />
             {loader ? (
                 <div className='h-[90%] flex items-center justify-center'>

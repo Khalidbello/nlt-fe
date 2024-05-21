@@ -90,11 +90,11 @@ const Main: React.FC<{ courseData: courseDataType }> = ({ courseData }) => {
             <Name name={courseData.courseName} />
             {courseData.enrolled && (
                 <>
-                    <div className=''>
+                    <div className='mt-2'>
                         <h3 className='px-4 font-medium'>Quiz Performance</h3>
                         <DoughnutChart percentage={60} data={data} />
                     </div>
-                    <div className="flex items-center mb-4 mx-4">
+                    <div className="flex items-center mb-6 mx-4">
                         <p className="text-gray-600 mr-2">Progress:</p>
                         <div className="w-full h-2 rounded-full bg-gray-100">
                             <div

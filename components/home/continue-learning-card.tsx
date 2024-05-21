@@ -7,13 +7,14 @@ import Loader from '@/components/multipurpose/loader';
 import showClicked from '@/app/utils/clicked';
 import { useRouter } from 'next/navigation';
 import Welcome from '@/components/home/welcome';
+import { headers } from 'next/headers';
 
 interface continueLTypes {
+    courseId: number;
+    courseName: string;
+    title: string;
     chapter: number;
     lesson: number
-    title: string;
-    prompt: string;
-    courseName: string;
     lastVisited: string;
     progress: number;
 };
@@ -23,25 +24,42 @@ const ContinueLearningCard = () => {
         chapter: 0,
         lesson: 0,
         title: 'title',
-        prompt: 'prompt',
         courseName: 'course name',
         lastVisited: '20-03-2024',
+        courseId: 345,
         progress: 0
     });
     const [showLoader, setShowLoader] = useState<boolean>(true);
     const [showError, setShowError] = useState<boolean>(false);
     const [reload, setReload] = useState<boolean>(false);
+    const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 
-    useEffect(() => {
+    const fetchData = async () => {
         setShowLoader(true);
         setShowError(false);
 
-        //simulate fetch request 
-        setTimeout(() => {
+        try {
+            const response = await fetch(`${apiHost}/users/continue-last`, {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            if (response.status === 200) {
+                const data = await response.json();
+                setCourse(data);
+                setShowLoader(false);
+                return;
+            }
+            throw 'erro somrthing went wrong'
+        } catch (err) {
+            setShowError(true);
+        } finally {
             setShowLoader(false);
-            setCourse(mockData);
-            //setShowError(true);
-        }, 2000);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
     }, [reload]);
 
     return (
@@ -84,7 +102,7 @@ const Main: React.FC<MainProps> = ({ course }) => {
     // function to push user to class view 
     const toClass = () => {
         showClicked(continueBtRef);
-        setTimeout(() => router.push(`/course-view`), 250);
+        setTimeout(() => router.push(`/course-view?course_id=${course.courseId}`), 250);
     };
 
     return (
@@ -103,7 +121,7 @@ const Main: React.FC<MainProps> = ({ course }) => {
                     <span>Chapter {course.chapter}</span>
                     <span>Lesson {course.lesson}</span>
                 </p>
-                <p className="text-lg font-semibold text-gray-800">{course.title}</p>
+                <p className="text-lg font-medium text-gray-800">{course.title}</p>
             </div>
             <div className="flex items-center mb-5">
                 <p className="text-gray-600 mr-2">Progress:</p>
@@ -116,7 +134,7 @@ const Main: React.FC<MainProps> = ({ course }) => {
                 <p className="text-gray-600 ml-2">{course.progress.toFixed(2)}%</p>
             </div>
             <div className="mb-4">
-                <p className="text-gray-600">{course.prompt}</p>
+                <p className="text-gray-600">Continue learning</p>
             </div>
             <button
                 ref={continueBtRef}
@@ -132,7 +150,7 @@ const mockData: continueLTypes = {
     chapter: 3,
     lesson: 9,
     title: 'what to not do with money',
-    prompt: 'take your next step',
+    courseId: 24356,
     courseName: 'Financial Cons',
     lastVisited: '20-02-2023',
     progress: 87.55566

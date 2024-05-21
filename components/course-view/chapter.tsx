@@ -43,7 +43,7 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
                 />
             ) : (
                 chapter.completed === 'ongoing' ? (
-                    <div className="w-2 h-2 rounded-full bg-green-500 absolute top-2 right-2"></div>
+                    <div className="w-2 h-2 rounded-full bg-green-500 absolute top-3 right-3"></div>
                 ) : (
                     ''
                 )

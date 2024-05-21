@@ -9,7 +9,7 @@ const Home: React.FC = () => {
         <div className='w-full h-full pt-16 px-2'>
             <Head />
             <ContinueLearningCard />
-            <Courses />
+            <Courses enrolled={false}/>
             <div className='h-20'></div>
         </div>
     )

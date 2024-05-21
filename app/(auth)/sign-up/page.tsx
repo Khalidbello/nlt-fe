@@ -10,7 +10,8 @@ const SignUpForm: React.FC = () => {
     const router = useRouter();
     const [email, setEmail] = useState<string>('');
     const [phoneNumber, setPhoneNumber] = useState<string>('');
-    //const [adress, setAddress] = useState('');
+    const [firstName, setFirstName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
     const [gender, setGender] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
@@ -18,11 +19,14 @@ const SignUpForm: React.FC = () => {
     const [succesfull, setSuccesfull] = useState<string>('');
     const [showBtLoader, setshowBtLoader] = useState<boolean>(false);
     const submitBt = useRef<HTMLButtonElement | null>(null);
+    const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 
-    const handleSignUp = (e: React.FormEvent) => {
+    const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
 
         // Perform form validation
+        if (!firstName) return setErrorMessage('Please enter you first name');
+        if (!lastName) return setErrorMessage('Please enter you last name');
         if (!validateEmail(email)) return setErrorMessage('Please enter a valid email.');
         if (!verifyPhoneNumber(phoneNumber)) return setErrorMessage('Please enter a valid phone number.');
         if (!gender) return setErrorMessage('Please select gender');
@@ -30,26 +34,44 @@ const SignUpForm: React.FC = () => {
         if (password !== confirmPassword) return setErrorMessage('Password confirmation not correct.')
         setErrorMessage('');
 
-        // send login request
-        if (submitBt.current) submitBt.current.disabled = true;
+        try {
+            if (submitBt.current) submitBt.current.disabled = true;
+            setshowBtLoader(true);
 
-        setshowBtLoader(true)
+            const response = await fetch(`${apiHost}/auth/create-account`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    firstName: firstName.trim(),
+                    lastName: lastName.trim(),
+                    email: email.trim(),
+                    phoneNumber: phoneNumber.trim(),
+                    gender: gender,
+                    password: password.trim()
+                })
+            });
 
-        setTimeout(() => {
-            setTimeout(() => {
-                router.push('/home');
-            }, 1000)
-            setEmail('');
-            setPassword('');
+            if (response.status === 200) {
+                setEmail('');
+                setPassword('');
+                setshowBtLoader(false);
+                setSuccesfull('account succesfully created');
+                setTimeout(() => router.push('/home'), 1000);
+            } else if (response.status ===  409) {
+                setErrorMessage('User with email alredy exist login instead.')
+            } else {
+                throw 'somehing went wrong please try again';
+            };
+        } catch (err) {
+            console.log('error in signing in ', err);
+            setErrorMessage('Something went wrong please try again.');
+        } finally {
+            if (submitBt.current) submitBt.current.disabled = false;
             setshowBtLoader(false);
-            setSuccesfull('account succesfully created');
-
-            // setTimeout(() => {
-            //     setshowBtLoader(false);
-            //     setErrorMessage('Invalid email or passowrd');
-            //     if (submitBt.current) submitBt.current.disabled = false;
-            // }, 2000);
-        }, 2000);
+        };
     };
 
     return (
@@ -62,6 +84,24 @@ const SignUpForm: React.FC = () => {
                 <h2 className="text-2xl mb-4 text-center font-bold">Sign Up</h2>
 
                 <form onSubmit={handleSignUp}>
+                    <div className="mb-10 mt-10">
+                        <input
+                            type="text"
+                            placeholder="First name"
+                            value={firstName}
+                            onChange={(e) => { setErrorMessage(''); setFirstName(e.target.value) }}
+                            className="w-full border-gray-300 border-[1px] rounded-md py-2 px-3 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-500"
+                        />
+                    </div>
+                    <div className="mb-10 mt-10">
+                        <input
+                            type="text"
+                            placeholder="Last name"
+                            value={lastName}
+                            onChange={(e) => { setErrorMessage(''); setLastName(e.target.value) }}
+                            className="w-full border-gray-300 border-[1px] rounded-md py-2 px-3 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-500"
+                        />
+                    </div>
                     <div className="mb-10 mt-10">
                         <input
                             type="email"

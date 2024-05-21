@@ -16,7 +16,7 @@ const Head: React.FC = () => {
     };
 
     return (
-        <header className="fixed top-0 left-0 z-50 bg-white w-full p-4 border-b border-blue-100 flex items-center justify-between">
+        <header className="fixed top-0 left-0 z-50 bg-white w-full py-2 px-4 border-b border-blue-100 flex items-center justify-between">
             <div className="flex items-center gap-2">
                 <button ref={backBt} onClick={back}>
                     <FontAwesomeIcon icon={faArrowLeft} className="bg-blue-500 p-2 text-white w-[1rem] h-[1rem] rounded-md" />

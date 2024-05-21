@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/navigation';
 import React, { useRef } from 'react';
 import showClicked from '@/app/utils/clicked';
+import Image from 'next/image';
 
 interface courseCardProps {
     title: string;
@@ -39,6 +40,7 @@ function CourseCard({ title, description, imageUrl, enrolledStudents, numChapter
     return (
         <div className="bg-blue-50 mb-4 mx-3 pt-2 px-2 rounded-lg shadow-md overflow-hidden">
             <div className='w-full h-[15rem] rounded-lg bg-blue-500'>
+                <Image alt='course image' src={imageUrl} height={400} width={300} className='w-full h-full rounded-lg' />
             </div>
 
             <div className="p-6 flex flex-col gap-4">
