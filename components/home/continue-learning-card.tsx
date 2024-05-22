@@ -113,19 +113,19 @@ const Main: React.FC<MainProps> = ({ course }) => {
                 </div >
                 <div className="flex flex-col">
                     <p className="text-xl font-semibold text-gray-800">{course.courseName}</p>
-                    <p className="text-gray-600 text-xs">Last Visited: {course.lastVisited}</p>
+                    <p className="text-gray-600 text-xs">Last Visited: {course.lastVisited.split('T')[0]}</p>
                 </div>
             </div >
             <div className="mb-5">
-                <p className="text-gray-600 flex gap-4 text-sm">
+                <p className="mb-2 text-gray-600 flex gap-4 text-sm">
                     <span>Chapter {course.chapter}</span>
                     <span>Lesson {course.lesson}</span>
                 </p>
-                <p className="text-lg font-medium text-gray-800">{course.title}</p>
+                <p className="font-medium text-gray-800">{course.title}</p>
             </div>
             <div className="flex items-center mb-5">
                 <p className="text-gray-600 mr-2">Progress:</p>
-                <div className="w-full h-2 rounded-full bg-gray-100">
+                <div className="w-full h-2 rounded-full bg-gray-200">
                     <div
                         className="h-full rounded-full bg-blue-500"
                         style={{ width: `${course.progress.toFixed(2)}%` }}

@@ -9,6 +9,8 @@ import showClicked from '@/app/utils/clicked';
 import Image from 'next/image';
 
 interface courseCardProps {
+    courseId: number;
+    courseName: string;
     title: string;
     description: string;
     imageUrl: string;
@@ -21,7 +23,7 @@ interface courseCardProps {
 }
 
 
-function CourseCard({ title, description, imageUrl, enrolledStudents, numChapters, numLessons, isEnrolled, progress, lastVisited }: courseCardProps) {
+function CourseCard({ courseId, courseName, title, description, imageUrl, enrolledStudents, numChapters, numLessons, isEnrolled, progress, lastVisited }: courseCardProps) {
     const actionBtRef = useRef<null | HTMLButtonElement>(null);
     const router = useRouter();
 
@@ -32,7 +34,7 @@ function CourseCard({ title, description, imageUrl, enrolledStudents, numChapter
             if (isEnrolled) {
                 router.push(`/course-view`);
             } else {
-                router.push(`/course-view`);
+                router.push(`/course-view?course_id=${courseId}`);
             };
         }, 250);
     }
@@ -45,8 +47,8 @@ function CourseCard({ title, description, imageUrl, enrolledStudents, numChapter
 
             <div className="p-6 flex flex-col gap-4">
                 <div className="flex flex-col">
-                    <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-                    <p className="text-gray-600 line-clamp-3">{description}</p>
+                    <h3 className="text-lg font-semibold text-gray-800">{courseName}</h3>
+                    <p className="text-gray-600 line-clamp-3">{title}</p>
                 </div>
                 {isEnrolled ? (
                     <>
@@ -62,7 +64,7 @@ function CourseCard({ title, description, imageUrl, enrolledStudents, numChapter
                         </div>
                         <div className="flex items-center text-gray-500 text-sm">
                             <FontAwesomeIcon icon={faClock} className='w-5 h-5 text-blue-400' />
-                            <p className='ml-3'>Last Visited: {lastVisited}</p>
+                            <p className='ml-3'>Last Visited: {lastVisited.split('T')[0]}</p>
                         </div>
                     </>
                 ) : (

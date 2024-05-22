@@ -6,18 +6,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 
 interface courseType {
-    courseId: number;
-    courseName: string;
-    courseTitle: string;
-    courseDescription: string;
-    createdAt: string;
-    lessonNumber: number;
+    course_id: number;
+    course_name: string;
+    course_title: string;
+    course_description: string;
+    created_at: string;
     chapterNumber: number;
-    enrolledStudents: number;
-    lastVisited: string;
-    progress: number;
-    imageUrl: string;
+    lessonNumber: number;
     isEnrolled: boolean;
+    lastVisited: string;
+    enrolledStudents: number;
+    progress: number;
+    image: string;
 };
 
 const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
@@ -77,10 +77,12 @@ const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
                             {courses.map((course, index) => {
                                 return <CourseCard
                                     key={index}
-                                    title={course.courseTitle}
-                                    description={course.courseDescription}
+                                    courseId={course.course_id}
+                                    courseName={course.course_name}
+                                    title={course.course_title}
+                                    description={course.course_description}
                                     enrolledStudents={course.enrolledStudents}
-                                    imageUrl={course.imageUrl}
+                                    imageUrl={course.image}
                                     numChapters={course.chapterNumber}
                                     numLessons={course.lessonNumber}
                                     isEnrolled={course.isEnrolled}
@@ -98,37 +100,37 @@ const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
 };
 const mockData: courseType[] = [
     {
-        courseId: 123,
-        courseName: 'Protocol oo1',
-        courseTitle: 'Basics of networking',
-        courseDescription: `"Welcome to Quantum Computing Fundamentals! This course offers an 
+        course_id: 123,
+        course_name: 'Protocol oo1',
+        course_title: 'Basics of networking',
+        course_description: `"Welcome to Quantum Computing Fundamentals! This course offers an 
     introductory exploration into the fascinating world of quantum computing. Designed for 
     beginners, it provides a foundational understanding of the principles and concepts that 
     underpin quantum computation and quantum information theory.`,
-        createdAt: '2020-05-13',
+        created_at: '2020-05-13',
         lessonNumber: 40,
         chapterNumber: 4,
         enrolledStudents: 320,
         lastVisited: '2020-05-13',
         progress: 60,
-        imageUrl: '/images/e-learning-1.jpg',
+        image: '/images/e-learning-1.jpg',
         isEnrolled: false,
     },
     {
-        courseId: 123,
-        courseName: 'Protocol oo1',
-        courseTitle: 'Basics of networking',
-        courseDescription: `"Welcome to Quantum Computing Fundamentals! This course offers an 
+        course_id: 123,
+        course_name: 'Protocol oo1',
+        course_title: 'Basics of networking',
+        course_description: `"Welcome to Quantum Computing Fundamentals! This course offers an 
     introductory exploration into the fascinating world of quantum computing. Designed for 
     beginners, it provides a foundational understanding of the principles and concepts that 
     underpin quantum computation and quantum information theory.`,
-        createdAt: '2020-05-13',
+        created_at: '2020-05-13',
         lessonNumber: 40,
         chapterNumber: 4,
         enrolledStudents: 320,
         lastVisited: '2020-05-13',
         progress: 60,
-        imageUrl: '/images/e-learning-1.jpg',
+        image: '/images/e-learning-1.jpg',
         isEnrolled: true,
     }
 ]
