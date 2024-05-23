@@ -43,7 +43,7 @@ const ContinueLearningCard = () => {
                 method: 'GET',
                 credentials: 'include',
             });
-
+          
             if (response.status === 200) {
                 const data = await response.json();
                 setCourse(data);

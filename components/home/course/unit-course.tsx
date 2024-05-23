@@ -48,7 +48,7 @@ function CourseCard({ courseId, courseName, title, description, imageUrl, enroll
             <div className="p-6 flex flex-col gap-4">
                 <div className="flex flex-col">
                     <h3 className="text-lg font-semibold text-gray-800">{courseName}</h3>
-                    <p className="text-gray-600 line-clamp-3">{title}</p>
+                    <p className="text-gray-600 line-clamp-3">{isEnrolled ? title : description}</p>
                 </div>
                 {isEnrolled ? (
                     <>

@@ -4,18 +4,21 @@ import { useEffect, useState } from "react";
 import CourseCard from '@/components/home/course/unit-course';
 import Loader from '@/components/multipurpose/loader';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { faExclamationCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 
 interface courseType {
-    title: string;
-    description: string;
-    enrolledStudents: number;
-    imageUrl: string;
-    numChapters: number;
-    numLessons: number;
+    course_id: number;
+    course_name: string;
+    course_title: string;
+    course_description: string;
+    created_at: string;
+    chapterNumber: number;
+    lessonNumber: number;
     isEnrolled: boolean;
-    progress: number;
     lastVisited: string;
+    enrolledStudents: number;
+    progress: number;
+    image: string;
 };
 
 const EnrolldedCourses: React.FC = () => {
@@ -23,17 +26,31 @@ const EnrolldedCourses: React.FC = () => {
     const [showLoader, setShowLoader] = useState<boolean>(true);
     const [showError, setShowError] = useState<boolean>(false);
     const [reload, setReload] = useState<boolean>(false);
+    const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 
-    useEffect(() => {
-        setShowLoader(true);
-        setShowError(false);
+    const fetchData = async () => {
+        try {
+            setShowLoader(true);
+            setShowError(false);
 
-        // simulate data fetching
-        setTimeout(() => {
-            setCourses(mockData);
+            const response = await fetch(`${apiHost}/users/enrolled-courses/0/5`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+
+            if (response.status === 200) {
+                const data = await response.json();
+                setCourses([...courses, ...data.data])
+            }
+        } catch (err) {
+            console.log('error in enrolled courses component', err);
+            setShowError(true)
+        } finally {
             setShowLoader(false);
-            //setShowError(true);
-        }, 3000)
+        }
+    }
+    useEffect(() => {
+        fetchData();
     }, [reload]);
 
     return (
@@ -54,20 +71,32 @@ const EnrolldedCourses: React.FC = () => {
                         </div>
                     ) : (
                         <div>
-                            {courses.map((course, index) => {
-                                return <CourseCard
-                                    key={index}
-                                    title={course.title}
-                                    description={course.description}
-                                    enrolledStudents={course.enrolledStudents}
-                                    imageUrl={course.imageUrl}
-                                    numChapters={course.numChapters}
-                                    numLessons={course.numLessons}
-                                    isEnrolled={course.isEnrolled}
-                                    progress={course.progress}
-                                    lastVisited={course.lastVisited}
-                                />
-                            })}
+                            {true ? (
+
+                                <div className="flex flex-col items-center gap-6 bg-blue-500 px-5 py-5 mt-20 mx-6 text-white rounded-md">
+                                    <FontAwesomeIcon icon={faExclamationCircle} className="mr-2 h-10" />
+                                    <p className="text-sm font-medium">{`Yo've not enrolled for any courses component yet.`}</p>
+                                </div>
+
+                            ) : (
+                                courses.map((course, index) => {
+                                    console.log(course);
+                                    return <CourseCard
+                                        key={index}
+                                        courseId={course.course_id}
+                                        courseName={course.course_name}
+                                        title={course.course_title}
+                                        description={course.course_description}
+                                        enrolledStudents={course.enrolledStudents}
+                                        imageUrl={course.image}
+                                        numChapters={course.chapterNumber}
+                                        numLessons={course.lessonNumber}
+                                        isEnrolled={course.isEnrolled}
+                                        progress={course.progress}
+                                        lastVisited={course.lastVisited}
+                                    />
+                                })
+                            )}
                         </div>
                     )}
                 </div>
@@ -76,28 +105,6 @@ const EnrolldedCourses: React.FC = () => {
 
     )
 };
-const mockData: courseType[] = [
-    {
-        title: 'Finacial freedom 101',
-        description: 'basic princeple to living a financialy free life',
-        enrolledStudents: 200,
-        imageUrl: '/images/e-learning-1.jpg',
-        numChapters: 4,
-        numLessons: 6,
-        isEnrolled: true,
-        progress: 60,
-        lastVisited: '12-09-2023',
-    },
-    {
-        title: 'Finacial freedom 104',
-        description: 'advance princeple to living a financialy free life',
-        enrolledStudents: 190,
-        imageUrl: '/images/e-learning-1.jpg',
-        numChapters: 4,
-        numLessons: 6,
-        isEnrolled: true,
-        progress: 30,
-        lastVisited: '20-01-2024',
-    }
-]
+
+
 export default EnrolldedCourses;

@@ -37,7 +37,7 @@ const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
                 method: 'GET',
                 credentials: 'include'
             });
-
+           
             if (response.status === 200) {
                 const data = await response.json();
                 setCourses([...data.data]);
