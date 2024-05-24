@@ -32,14 +32,14 @@ const DoughnutChart: React.FC<DoughnutChartProps> = ({ percentage, data, contain
                         className="w-3 h-3 mr-1 rounded-full"
                         style={{ backgroundColor: data.datasets[0].backgroundColor[1] }}
                     />
-                    <div className='font-medium'>{data.labels[1]} {data.datasets[0].data[1]}%</div>
+                    <div className=''>{data.labels[1]} {data.datasets[0].data[1]}%</div>
                 </div>
                 <div className="flex items-center mr-2">
                     <div
                         className="w-3 h-3 mr-1 rounded-full"
                         style={{ backgroundColor: data.datasets[0].backgroundColor[0] }}
                     />
-                    <div className='font-medium'>{data.labels[0]} {data.datasets[0].data[0]}%</div>
+                    <div className=''>{data.labels[0]} {data.datasets[0].data[0]}%</div>
                 </div>
             </div>
         </div>

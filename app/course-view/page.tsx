@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import DoughnutChart from '@/components/course-view/doughnu';
 import ContinueLearningBT from '@/components/course-view/continue-bt';
+import { useSearchParams } from 'next/navigation';
 
 
 interface courseDataType {
@@ -20,9 +21,13 @@ interface courseDataType {
     quizPerfomace: number;
     progress: number;
     chapters: chapterType[];
+    currentChapter: number;
+    currentLesson: number;
+    lessonNumbers: { [key: number]: number }
 }
 
 const CourseView = () => {
+    const searchParams = useSearchParams();
     const [courseData, setCourseData] = useState<courseDataType>({
         courseName: '',
         about: '',
@@ -30,21 +35,41 @@ const CourseView = () => {
         quizPerfomace: 0,
         progress: 0,
         chapters: [],
+        currentChapter: 0,
+        currentLesson: 0,
+        lessonNumbers: { 0: 0 }
     });
     const [showLoader, setShowLoader] = useState<boolean>(true);
     const [showError, setShowError] = useState<boolean>(false);
     const [reload, setReload] = useState<boolean>(false);
+    const apiHost = process.env.NEXT_PUBLIC_API_HOST;
+    const courseId = searchParams.get('course_id');
+
+    const fetchData = async () => {
+        try {
+            setShowLoader(true);
+            setShowError(false);
+
+            const response = await fetch(`${apiHost}/users/course-view/${courseId}`, {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            if ((await response).status === 200) {
+                const data = await response.json();
+                setCourseData(data)
+            }
+            //throw 'somrthng went wrong';
+        } catch (err) {
+            console.log('error in course view', err);
+            setShowError(true);
+        } finally {
+            setShowLoader(false);
+        }
+    }
 
     useEffect(() => {
-        setShowLoader(true);
-        setShowError(false);
-
-        // simulate data fetching
-        setTimeout(() => {
-            setCourseData(course);
-            setShowLoader(false);
-            //setShowError(true);
-        }, 1000)
+        fetchData();
     }, [reload]);
 
     return (
@@ -76,10 +101,10 @@ const CourseView = () => {
 
 const Main: React.FC<{ courseData: courseDataType }> = ({ courseData }) => {
     const data = {
-        labels: ['Pending', 'completed',],
+        labels: ['Failed', 'Passed',],
         datasets: [
             {
-                data: [30, 70],
+                data: [100 - courseData.quizPerfomace, courseData.quizPerfomace],
                 backgroundColor: ['#f56565', '#4299e1'],
             },
         ],
@@ -92,7 +117,7 @@ const Main: React.FC<{ courseData: courseDataType }> = ({ courseData }) => {
                 <>
                     <div className='mt-2'>
                         <h3 className='px-4 font-medium'>Quiz Performance</h3>
-                        <DoughnutChart percentage={60} data={data} />
+                        <DoughnutChart percentage={courseData.progress} data={data} />
                     </div>
                     <div className="flex items-center mb-6 mx-4">
                         <p className="text-gray-600 mr-2">Progress:</p>
@@ -102,12 +127,12 @@ const Main: React.FC<{ courseData: courseDataType }> = ({ courseData }) => {
                                 style={{ width: `${courseData.progress.toFixed(2)}%` }}
                             />
                         </div>
-                        <p className="text-gray-600 ml-2">{courseData.progress.toFixed(2)}%</p>
+                        <p className="text-gray-600 ml-2 font-medium">{courseData.progress.toFixed(2)}%</p>
                     </div>
                 </>
             )}
-            <About text={course.about} limit={200} />
-            {courseData.chapters.map((chapter: chapterType, index: number) => <Chapter key={index} chapter={chapter} />)}
+            <About text={courseData.about} limit={200} />
+            {courseData.chapters.map((chapter: chapterType, index: number) => <Chapter key={index} chapter={chapter} lessonNumber={courseData.lessonNumbers[chapter.chapter_number]} />)}
             {courseData.enrolled ? (
                 <ContinueLearningBT />
             ) : (
@@ -124,44 +149,34 @@ const course: courseDataType = {
     consequatur? Illo ipsum velit perferendis veritatis expedita.`,
     enrolled: true,
     quizPerfomace: 70,
-    progress: 30,
+    progress: 60,
     chapters: [
         {
-            num: 1,
-            name: "Data Analysis with Python",
-            completed: 'finished',
-            lessons: [
-                { title: "Python Basics", completed: 'finished' },
-                { title: "Working with Data Structures", completed: 'finished' },
-                { title: "Data Cleaning and Manipulation", completed: 'finished' },
-                { title: "Exploratory Data Analysis", completed: 'finished' },
-                { title: "Data Visualization with Libraries", completed: 'finished' },
-            ],
+            chapter_id: 1,
+            chapter_title: "just the 1",
+            chapter_number: 1,
+            completed: "finished"
         },
         {
-            num: 2,
-            name: "Data Analysis with Python",
-            completed: 'ongoing',
-            lessons: [
-                { title: "Python Basics", completed: 'ongoing' },
-                { title: "Working with Data Structures", completed: 'pending' },
-                { title: "Data Cleaning and Manipulation", completed: 'pending' },
-                { title: "Exploratory Data Analysis", completed: 'pending' },
-                { title: "Data Visualization with Libraries", completed: 'pending' },
-            ],
+            chapter_id: 34,
+            chapter_title: "just the 1",
+            chapter_number: 2,
+            completed: "ongoing"
         },
         {
-            num: 3,
-            name: "Machine Learning Fundamentals",
-            completed: 'pending',
-            lessons: [
-                { title: "Supervised vs. Unsupervised Learning", completed: 'pending' },
-                { title: "Linear Regression", completed: 'pending' },
-                { title: "Classification Algorithms", completed: 'pending' },
-                { title: "Model Evaluation and Tuning", completed: 'pending' },
-            ],
+            chapter_id: 121,
+            chapter_title: "just the 1",
+            chapter_number: 3,
+            completed: undefined,
         },
-    ]
+    ],
+    currentChapter: 2,
+    currentLesson: 4,
+    lessonNumbers: {
+        1: 3,
+        2: 2,
+        3: 5,
+    }
 }
 
 export default CourseView;

@@ -10,13 +10,14 @@ import showClicked from '@/app/utils/clicked';
 
 interface ChapterProps {
     chapter: chapterType;
+    lessonNumber: number;
 }
 
 interface chapterType {
-    num: number;
-    name: string;
-    completed: 'finished' | 'ongoing' | 'pending';
-    lessons: Lesson[];
+    chapter_id: number;
+    chapter_title: string;
+    chapter_number: number;
+    completed: 'ongoing' | 'finished' | undefined;
 }
 
 interface Lesson {
@@ -25,7 +26,7 @@ interface Lesson {
 }
 
 
-const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
+const Chapter: React.FC<ChapterProps> = ({ chapter, lessonNumber }) => {
     const router = useRouter();
     const [showLessons, setShowLessons] = useState(false);
 
@@ -50,28 +51,28 @@ const Chapter: React.FC<ChapterProps> = ({ chapter }) => {
             )}
 
             {/* Chapter title */}
-            <h3 className="text-lgF font-medium text-gray-800 mb-2">{chapter.num}. {chapter.name}</h3>
+            <h3 className="text-lgF font-medium text-gray-800 mb-2">{chapter.chapter_number}. {chapter.chapter_title}</h3>
 
             {/* Lesson count and toggle */}
             <div
                 onClick={toggleLesson}
                 className="flex justify-between items-center cursor-pointer"
             >
-                <span className="text-gray-700">{chapter.lessons.length} Lessons</span>
+                <span className="text-gray-700">{lessonNumber} Lessons</span>
                 <FontAwesomeIcon
                     icon={showLessons ? faArrowUp : faArrowDown}
                     className="text-blue-500"
                 />
             </div>
 
-            {/* Lessons list */}
-            {showLessons && (
+            {/* Lessons list  would rewrite thsi loggic*/}
+            {/* {showLessons && (
                 <ul className="mt-4 list-none pl-4">
                     {chapter.lessons.map((lesson, index) => (
                         <Lesson key={index} lesson={lesson} router={router} />
                     ))}
                 </ul>
-            )}
+            )} */}
         </div>
     );
 };
@@ -80,9 +81,12 @@ const Lesson: React.FC<{ lesson: Lesson; router: AppRouterInstance }> = ({ lesso
     const optionRef = useRef<HTMLLIElement | null>(null);
 
     const toLecture = () => {
-        if (lesson.completed === 'pending') return console.log('lessson not completed.........');
-        showClicked(optionRef);
-        setTimeout(() => router.push('/lecture'), 250);
+        if (lesson.completed === 'finished' || lesson.completed === 'ongoing') {
+            showClicked(optionRef);
+            setTimeout(() => router.push('/lecture'), 250);
+            return
+        }
+        console.log('lessson not completed.........');
     };
 
     return (
@@ -91,10 +95,9 @@ const Lesson: React.FC<{ lesson: Lesson; router: AppRouterInstance }> = ({ lesso
             onClick={toLecture}
             className="flex items-center gap-3 py-2 border-b border-gray-200">
             <div
-                className={`w-3 h-3 rounded-full mr-2 ${lesson.completed === 'finished' && "bg-blue-500"}  ${lesson.completed === 'pending' && "bg-gray-500"}
-                ${lesson.completed === 'ongoing' && "bg-green-500"} }`}
+                className={`w-3 h-3 rounded-full mr-2 ${lesson.completed === 'finished' ? "bg-blue-500" : (lesson.completed === 'ongoing' ? "bg-green-500" : "bg-gray-500")}`}
             ></div>
-            <div className={`${lesson.completed === 'finished' && 'text-blue-400'} ${lesson.completed === 'pending' && 'text-gray-600'} ${lesson.completed === 'ongoing' && 'text-green-600'}
+            <div className={`${lesson.completed === 'finished' ? 'text-blue-400' : (lesson.completed === 'ongoing' ? 'text-green-600' : 'text-gray-600')}
             `}>{lesson.title}</div>
         </li>
     );
