@@ -50,7 +50,7 @@ const AudioComponent: React.FC<AudioProps> = ({ src }) => {
         controls
         ref={audioRef}
         onTimeUpdate={handleTimeUpdate}
-        className="w-full"
+        className="w-full pointer-events-none"
       >
         <source src={src} />
         Your browser does not support the audio element.

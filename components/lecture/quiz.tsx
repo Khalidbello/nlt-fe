@@ -1,12 +1,27 @@
 import { useRef, useState } from "react";
 import Question from "./question"
-import { questionInterface, answersInterface } from '@/app/lecture/page';
 import showClicked from '@/app/utils/clicked';
 import QuizResult from '@/components/lecture/quiz-result';
 
 interface QuizProps {
-    questions: questionInterface[];
-    correctAns: answersInterface;
+    courseId: number;
+    chapterId: number;
+    lessonId: number;
+};
+
+interface optionsInerface {
+    number: number;
+    text: string;
+};
+
+interface answersInterface {
+    [key: number]: number
+};
+
+interface questionInterface {
+    id: number;
+    question: string;
+    options: optionsInerface[];
 };
 
 interface resultInterface {
@@ -14,7 +29,7 @@ interface resultInterface {
     status: boolean;
 };
 
-const Quiz: React.FC<QuizProps> = ({ questions, correctAns }) => {
+const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId }) => {
     const [answers, setAnswers] = useState<answersInterface>({ 1: 100 });
     const submitBtRef = useRef<null | HTMLButtonElement>(null);
     const [result, setResult] = useState<resultInterface[]>([]);

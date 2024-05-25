@@ -43,10 +43,10 @@ const ContinueLearningCard = () => {
                 method: 'GET',
                 credentials: 'include',
             });
-          
+
             if (response.status === 200) {
                 const data = await response.json();
-                setCourse(data);
+                setCourse(data.data);
                 setShowLoader(false);
                 return;
             }
@@ -78,7 +78,7 @@ const ContinueLearningCard = () => {
                         </button>
                     </div>
                 ) : (
-                    Object.values(course).length < 1 ? (
+                    course === null ? (
                         <Welcome />
                     ) : (
                         <Main course={course} />

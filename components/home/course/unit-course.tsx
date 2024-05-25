@@ -29,15 +29,8 @@ function CourseCard({ courseId, courseName, title, description, imageUrl, enroll
 
     const handleClick = () => {
         showClicked(actionBtRef);
-
-        setTimeout(() => {
-            if (isEnrolled) {
-                router.push(`/course-view`);
-            } else {
-                router.push(`/course-view?course_id=${courseId}`);
-            };
-        }, 250);
-    }
+        setTimeout(() => router.push(`/course-view?course_id=${courseId}`), 250);
+    };
 
     return (
         <div className="bg-blue-50 mb-4 mx-3 pt-2 px-2 rounded-lg shadow-md overflow-hidden">

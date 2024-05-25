@@ -4,14 +4,20 @@ import { useRouter } from 'next/navigation';
 import showClicked from '@/app/utils/clicked';
 import { useRef } from 'react';
 
-function FloatingEnrollButton() {
+interface continueLearningBTProps {
+    courseId: number;
+    chapterId: number;
+    chapterNUmber: number;
+    lessonNumber: number;
+}
+const ContinueLearningBT: React.FC<continueLearningBTProps> = ({ courseId, chapterId, chapterNUmber, lessonNumber }) => {
     const router = useRouter();
     const btRef = useRef<null | HTMLButtonElement>(null)
 
     const handleClick = () => {
         showClicked(btRef);
         setTimeout(() => {
-            router.push('/lecture');
+            router.push(`/lecture?courseId=${courseId}&chapterId=${chapterId}&chapterNumber=${chapterNUmber}&lessonNumber=${lessonNumber}`);
         }, 250);
     };
 
@@ -29,4 +35,4 @@ function FloatingEnrollButton() {
     );
 }
 
-export default FloatingEnrollButton;
+export default ContinueLearningBT;

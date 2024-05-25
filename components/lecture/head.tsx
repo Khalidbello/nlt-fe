@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import showClicked from '@/app/utils/clicked';
 import { useRef } from "react";
 
-const Head: React.FC = () => {
+const Head: React.FC<{ chapter: number; lesson: number }> = ({ chapter, lesson }) => {
     const router = useRouter();
     const backBt = useRef<null | HTMLButtonElement>(null);
 
@@ -24,8 +24,8 @@ const Head: React.FC = () => {
                 <span className="font-semibold">Lectures</span>
             </div>
             <div className="flex gap-4 items-center">
-                <span>Chapter 4</span>
-                <span className="text-sm">Lesson 2</span>
+                <span>Chapter {chapter}</span>
+                <span className="text-sm">Lesson {lesson}</span>
             </div>
         </header>
     )

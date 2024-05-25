@@ -22,6 +22,7 @@ interface courseDataType {
     progress: number;
     chapters: chapterType[];
     currentChapter: number;
+    currentChapterId: number;
     currentLesson: number;
     lessonNumbers: { [key: number]: number }
 }
@@ -36,6 +37,7 @@ const CourseView = () => {
         progress: 0,
         chapters: [],
         currentChapter: 0,
+        currentChapterId: 0,
         currentLesson: 0,
         lessonNumbers: { 0: 0 }
     });
@@ -90,7 +92,8 @@ const CourseView = () => {
                             </button>
                         </div>
                     ) : (
-                        <Main courseData={courseData} />
+                        // e
+                        <Main courseData={courseData} courseId={parseInt(courseId)} />
                     )}
                 </div>
             )}
@@ -99,7 +102,7 @@ const CourseView = () => {
     );
 };
 
-const Main: React.FC<{ courseData: courseDataType }> = ({ courseData }) => {
+const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ courseData, courseId }) => {
     const data = {
         labels: ['Failed', 'Passed',],
         datasets: [
@@ -131,10 +134,29 @@ const Main: React.FC<{ courseData: courseDataType }> = ({ courseData }) => {
                     </div>
                 </>
             )}
+
             <About text={courseData.about} limit={200} />
-            {courseData.chapters.map((chapter: chapterType, index: number) => <Chapter key={index} chapter={chapter} lessonNumber={courseData.lessonNumbers[chapter.chapter_number]} />)}
+
+            {courseData.chapters.map((chapter: chapterType, index: number) => {
+                return (
+                    <Chapter
+                        key={index}
+                        chapter={chapter}
+                        courseId={courseId}
+                        lessonNumber={courseData.lessonNumbers[chapter.chapter_number]}
+                        currentChapter={courseData.currentChapter}
+                        currentLesson={courseData.currentLesson}
+                    />
+                )
+            })}
+
             {courseData.enrolled ? (
-                <ContinueLearningBT />
+                <ContinueLearningBT
+                    courseId={courseId}
+                    chapterId={courseData.currentChapterId}
+                    chapterNUmber={courseData.currentChapter}
+                    lessonNumber={courseData.currentLesson}
+                />
             ) : (
                 <FloatingEnrollButton />
             )}

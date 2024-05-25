@@ -71,7 +71,7 @@ const EnrolldedCourses: React.FC = () => {
                         </div>
                     ) : (
                         <div>
-                            {true ? (
+                            {courses.length === 0 ? (
 
                                 <div className="flex flex-col items-center gap-6 bg-blue-500 px-5 py-5 mt-20 mx-6 text-white rounded-md">
                                     <FontAwesomeIcon icon={faExclamationCircle} className="mr-2 h-10" />

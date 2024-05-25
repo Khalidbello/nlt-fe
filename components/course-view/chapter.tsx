@@ -6,11 +6,15 @@ import { faArrowUp, faArrowDown, faCheckCircle } from "@fortawesome/free-solid-s
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import showClicked from '@/app/utils/clicked';
+import Lessons, { LessonType } from "./lessons";
 
 
 interface ChapterProps {
     chapter: chapterType;
     lessonNumber: number;
+    courseId: number;
+    currentChapter: number;
+    currentLesson: number;
 }
 
 interface chapterType {
@@ -20,15 +24,11 @@ interface chapterType {
     completed: 'ongoing' | 'finished' | undefined;
 }
 
-interface Lesson {
-    title: string;
-    completed: 'finished' | 'ongoing' | 'pending';
-}
 
-
-const Chapter: React.FC<ChapterProps> = ({ chapter, lessonNumber }) => {
+const Chapter: React.FC<ChapterProps> = ({ chapter, lessonNumber, courseId, currentChapter, currentLesson }) => {
     const router = useRouter();
     const [showLessons, setShowLessons] = useState(false);
+    const [lessons, setLessons] = useState<LessonType[]>([]);
 
     const toggleLesson = () => {
         setShowLessons(!showLessons);
@@ -56,7 +56,7 @@ const Chapter: React.FC<ChapterProps> = ({ chapter, lessonNumber }) => {
             {/* Lesson count and toggle */}
             <div
                 onClick={toggleLesson}
-                className="flex justify-between items-center cursor-pointer"
+                className="flex justify-between items-center cursor-pointer pl-2"
             >
                 <span className="text-gray-700">{lessonNumber} Lessons</span>
                 <FontAwesomeIcon
@@ -66,40 +66,17 @@ const Chapter: React.FC<ChapterProps> = ({ chapter, lessonNumber }) => {
             </div>
 
             {/* Lessons list  would rewrite thsi loggic*/}
-            {/* {showLessons && (
-                <ul className="mt-4 list-none pl-4">
-                    {chapter.lessons.map((lesson, index) => (
-                        <Lesson key={index} lesson={lesson} router={router} />
-                    ))}
-                </ul>
-            )} */}
+            {showLessons && (
+                <Lessons
+                    chapterId={chapter.chapter_id}
+                    courseId={courseId} 
+                    lessons={lessons}
+                    setLessons={setLessons}
+                    currentChapter={currentChapter}
+                    currentLesson={currentLesson}
+                />
+            )}
         </div>
-    );
-};
-
-const Lesson: React.FC<{ lesson: Lesson; router: AppRouterInstance }> = ({ lesson, router }) => {
-    const optionRef = useRef<HTMLLIElement | null>(null);
-
-    const toLecture = () => {
-        if (lesson.completed === 'finished' || lesson.completed === 'ongoing') {
-            showClicked(optionRef);
-            setTimeout(() => router.push('/lecture'), 250);
-            return
-        }
-        console.log('lessson not completed.........');
-    };
-
-    return (
-        <li
-            ref={optionRef}
-            onClick={toLecture}
-            className="flex items-center gap-3 py-2 border-b border-gray-200">
-            <div
-                className={`w-3 h-3 rounded-full mr-2 ${lesson.completed === 'finished' ? "bg-blue-500" : (lesson.completed === 'ongoing' ? "bg-green-500" : "bg-gray-500")}`}
-            ></div>
-            <div className={`${lesson.completed === 'finished' ? 'text-blue-400' : (lesson.completed === 'ongoing' ? 'text-green-600' : 'text-gray-600')}
-            `}>{lesson.title}</div>
-        </li>
     );
 };
 

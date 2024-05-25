@@ -8,68 +8,91 @@ import Quiz from '@/components/lecture/quiz';
 import { useEffect, useRef, useState } from 'react';
 import Loader from '@/components/multipurpose/loader';
 import showClicked from '@/app/utils/clicked';
+import { useSearchParams } from 'next/navigation';
+import Chapter from '@/components/course-view/chapter';
 
-
-interface optionsInerface {
-    number: number;
-    text: string;
-};
-
-interface answersInterface {
-    [key: number]: number
-};
-
-interface questionInterface {
-    id: number;
-    question: string;
-    options: optionsInerface[];
-};
 
 interface datainterface {
-    audio: string;
-    openNote: string;
-    quiz: questionInterface[];
-    answers: answersInterface
+    course_id: number;
+    course_name: string;
+    chapter_id: number;
+    open_note: string;
+    close_note: string;
+    chapter_number: number;
+    lesson_number: number;
+    lesson_title: string;
+    lesson_id: number;
+    audio: null;
 };
 
 const Lecture: React.FC = () => {
     const [data, setData] = useState<datainterface>({
-        audio: '',
-        openNote: '',
-        quiz: [],
-        answers: { 0: 100 }
+        course_id: 0,
+        course_name: '',
+        chapter_id: 0,
+        open_note: '',
+        close_note: '',
+        chapter_number: 0,
+        lesson_number: 0,
+        lesson_title: '',
+        lesson_id: 0,
+        audio: null,
     });
     const [loader, setShowLoader] = useState<boolean>(true);
     const [showQuiz, setShowQuiz] = useState<boolean>(false);
+    const [showError, setShowError] = useState<boolean>(false);
+    const searchParams = useSearchParams();
+    const apiHost = process.env.NEXT_PUBLIC_API_HOST;
+    const courseId = searchParams.get('courseId');
+    const chapterId = searchParams.get('chapterId');
+    const chapterNumber = searchParams.get('chapterNumber');
+    const lessonNumber = searchParams.get('lessonNumber');
 
     const startQuiz = () => {
         setTimeout(() => setShowQuiz(true), 250);
     };
 
-    useEffect(() => {
-        // simulate data fecting
-        setTimeout(() => {
+    const fetchLecture = async () => {
+        try {
+            setShowLoader(true);
+            const response = await fetch(`${apiHost}/users/lecture/${courseId}/${chapterId}/${chapterNumber}/${lessonNumber}`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+
+            if (response.status === 200) {
+                const data = await response.json();
+                if (!data.data) throw 'empty response recieved';
+                setData(data.data)
+            };
+            throw 'something went wrong';
+        } catch (err) {
+            setShowError(true)
+        } finally {
             setShowLoader(false);
-            setData(mockdata);
-        }, 2000);
-    }, []);
+        }
+    }
+
+    useEffect(() => {
+        fetchLecture()
+    }, [searchParams]);
 
     return (
         <div className="w-full h-full pt-20">
-            <Head />
+            <Head chapter={data.chapter_number} lesson={data.lesson_number} />
             {loader ? (
                 <div className='h-[90%] flex items-center justify-center'>
                     <Loader h='h-[8rem]' />
                 </div>
             ) : (
                 <>
-                    <Note text={data.openNote} />
-                    <Audio src={data.audio} />
-                    <Note text={data.openNote} />
+                    <Note text={data.open_note} />
+                    <Audio src={'/audio/test.m4a'} />
+                    <Note text={data.close_note} />
                     <div className='h-10'></div>
 
                     {!showQuiz && <QuizButton onClick={startQuiz} />}
-                    {showQuiz && <Quiz questions={data.quiz} correctAns={data.answers} />}
+                    {showQuiz && <Quiz courseId={data.course_id} chapterId={data.chapter_id} lessonId={data.lesson_id} />}
 
                     <div className='h-10'></div>
                 </>
@@ -80,56 +103,18 @@ const Lecture: React.FC = () => {
 
 
 const mockdata: datainterface = {
-    audio: '/audio/test.m4a',
-    openNote: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis blanditiis quas distinctio repellendus earum temporibus adipisci quibusdam tenetur eaque cumque alias ipsa dicta,',
-    quiz: [
-        {
-            id: 1,
-            question: 'hello word q22',
-            options: [
-                { number: 1, text: 'hello' },
-                { number: 2, text: 'fine' },
-                { number: 3, text: 'cool' },
-                { number: 4, text: 'nice' }
-            ]
-        },
-        {
-            id: 2,
-            question: 'weio eurv',
-            options: [
-                { number: 1, text: 'hello' },
-                { number: 2, text: 'dj' },
-                { number: 3, text: 'id' },
-                { number: 4, text: 'nskdjfice' }
-            ],
-        },
-        {
-            id: 3,
-            question: 'okay nice ak v',
-            options: [
-                { number: 1, text: 'helloosidj' },
-                { number: 2, text: 'shdhdfine' },
-                { number: 3, text: 'c   ool' },
-                { number: 4, text: 'nice uwdfh' }
-            ],
-        },
-        {
-            id: 4,
-            question: 'okay nice ak v',
-            options: [
-                { number: 1, text: 'helloosidj' },
-                { number: 2, text: 'shdhdfine' },
-                { number: 3, text: 'c   ool' },
-                { number: 4, text: 'nice uwdfh' }
-            ],
-        },
-    ],
-    answers: {
-        1: 2,
-        2: 4,
-        3: 2,
-        4: 1
-    }
+    course_id: 123,
+    chapter_id: 23,
+    course_name: 'Cash flow 101',
+    open_note: " This lesson focuses on measurement in quantum computing and how observing a quantum state affects it.",
+    close_note: "Understanding measurement is crucial, as it collapses a quantum state to a definite value, impacting quantum computation outcomes.",
+    chapter_number: 2,
+    lesson_number: 2,
+    lesson_title: " Quantum Gates and Circuits",
+    lesson_id: 5,
+    audio: null
 }
+
+
+
 export default Lecture;
-export type { questionInterface, optionsInerface, answersInterface };
