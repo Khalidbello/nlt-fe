@@ -9,6 +9,8 @@ import { useEffect, useRef, useState } from 'react';
 import Loader from '@/components/multipurpose/loader';
 import showClicked from '@/app/utils/clicked';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import NoAccess from '@/components/lecture/access-denied';
 
 
 interface datainterface {
@@ -40,6 +42,8 @@ const Lecture: React.FC = () => {
     const [loader, setShowLoader] = useState<boolean>(true);
     const [showQuiz, setShowQuiz] = useState<boolean>(false);
     const [showError, setShowError] = useState<boolean>(false);
+    const [showNoAcess, setShowNoAcess] = useState<boolean>(false);
+    const [showLecture, setShowLecture] = useState<boolean>(false);
     const searchParams = useSearchParams();
     const courseId = searchParams.get('courseId');
     const chapterId = searchParams.get('chapterId');
@@ -58,6 +62,8 @@ const Lecture: React.FC = () => {
     const fetchLecture = async () => {
         try {
             setShowLoader(true);
+            setShowNoAcess(false);
+            setShowError(false);
             const response = await fetch(`${apiHost}/users/lecture/${courseId}/${chapterId}/${chapterNumber}/${lessonNumber}`, {
                 method: 'GET',
                 credentials: 'include'
@@ -66,9 +72,13 @@ const Lecture: React.FC = () => {
             if (response.status === 200) {
                 const data = await response.json();
                 if (!data.data) throw 'empty response recieved';
-                setData(data.data)
+                setData(data.data);
+                setShowLecture(true);
+            } else if (response.status === 401) {
+                setShowNoAcess(true);
+            } else {
+                throw 'something went wrong';
             };
-            throw 'something went wrong';
         } catch (err) {
             setShowError(true)
         } finally {
@@ -89,20 +99,30 @@ const Lecture: React.FC = () => {
                 </div>
             ) : (
                 <>
-                    <Note text={data.open_note} />
-                    <Audio src={'/audio/test.m4a'} />
-                    <Note text={data.close_note} />
-                    <div className='h-10'></div>
-
-                    {!showQuiz && <QuizButton onClick={startQuiz} />}
-                    {showQuiz && (
+                    {showLecture && (
                         <>
-                            <h3 className='mb-3 text-center border-2 border-gray-100 rounded-xl px-4 py-2'>Quiz</h3>
-                            <Quiz courseId={data.course_id} chapterId={data.chapter_id} lessonId={data.lesson_id} setShowQuiz={setShowQuiz} />
+                            <Link href={`course-view?course_id=${data.course_id}`}>
+                                <div className='text-xl font-medium mx-4 mb-4'>{data.course_name}</div>
+                            </Link>
+                            <Note text={data.open_note} />
+                            <Audio src={'/audio/test.m4a'} />
+                            <Note text={data.close_note} />
+
+                            <div className='h-10'></div>
+
+                            {!showQuiz && <QuizButton onClick={startQuiz} />}
+                            {showQuiz && (
+                                <>
+                                    <h3 className='mb-3 text-center border-2 border-gray-100 rounded-xl px-4 py-2'>Quiz</h3>
+                                    <Quiz courseId={data.course_id} chapterId={data.chapter_id} lessonId={data.lesson_id} setShowQuiz={setShowQuiz} />
+                                </>
+                            )}
+
+                            <div className='h-10'></div>
                         </>
                     )}
 
-                    <div className='h-10'></div>
+                    {showNoAcess && <NoAccess />}
                 </>
             )}
         </div >

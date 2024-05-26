@@ -92,7 +92,7 @@ const CourseView = () => {
                             </button>
                         </div>
                     ) : (
-                        // e
+                        // eslint-disable-next-line
                         <Main courseData={courseData} courseId={parseInt(courseId)} />
                     )}
                 </div>
@@ -158,7 +158,7 @@ const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ cour
                     lessonNumber={courseData.currentLesson}
                 />
             ) : (
-                <FloatingEnrollButton />
+                <FloatingEnrollButton courseId={courseId} />
             )}
             <div className='h-16'></div>
         </>
