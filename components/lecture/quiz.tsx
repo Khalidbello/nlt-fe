@@ -1,89 +1,130 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Question from "./question"
 import showClicked from '@/app/utils/clicked';
+import Loader from '@/components/multipurpose/loader';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import QuizResult from '@/components/lecture/quiz-result';
+import { useRouter } from "next/navigation";
 
 interface QuizProps {
     courseId: number;
     chapterId: number;
     lessonId: number;
+    setShowQuiz: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-interface optionsInerface {
-    number: number;
-    text: string;
-};
-
-interface answersInterface {
-    [key: number]: number
-};
-
-interface questionInterface {
-    id: number;
+interface questionType {
+    question_id: string;
     question: string;
-    options: optionsInerface[];
-};
+    option_a: string;
+    option_b: string;
+    option_c: string;
+    option_d: string;
+    correct_option: string;
+}
 
-interface resultInterface {
-    qNum: number;
-    status: boolean;
-};
-
-const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId }) => {
-    const [answers, setAnswers] = useState<answersInterface>({ 1: 100 });
-    const submitBtRef = useRef<null | HTMLButtonElement>(null);
-    const [result, setResult] = useState<resultInterface[]>([]);
+const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz }) => {
+    const [questions, setQuestions] = useState<questionType[]>([])
+    const [answers, setAnswers] = useState<{ [key: number]: boolean }>({ 1: false })
+    const [showLoader, setShowLoader] = useState<boolean>(true);
+    const [showError, setShowError] = useState<boolean>(false);
+    const [reload, setReload] = useState<boolean>(false);
     const [showResult, setShowResult] = useState<boolean>(false);
+    const submitBtRef = useRef<null | HTMLButtonElement>(null);
+    const apiHost = process.env.NEXT_PUBLIC_API_HOST;
+    const router = useRouter();
 
     const handleSubmit = () => {
         showClicked(submitBtRef);
-        setTimeout(() => {
-            const result = checkCorrectAns();
-            setResult(result);
-            setShowResult(true);
-        }, 250);
+        setTimeout(() => setShowResult(true), 250);
     };
 
-    const checkCorrectAns = () => {
-        const result: resultInterface[] = [];
-
-        questions.forEach((ele, index) => {
-            const holder: resultInterface = {
-                qNum: 1,
-                status: false
-            };
-
-            holder.qNum = ele.id;
-            holder.status = correctAns[ele.id] === answers[ele.id];
-            result.push(holder);
+    // function to handle  no quiz scnerio
+    const handleNoQuiz = async () => {
+        console.log('push tonext lesson no quiz');
+        const response = await fetch(`${apiHost}/users/quiz-submit/${courseId}/${chapterId}/${lessonId}`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ percentage: 100 })
         });
-        return result;
-    }
 
+        if (response.status === 200) {
+            const data = await response.json();
+            router.push(`/lecture?courseId=${data.courseId}&chapterId=${data.chapterId}&chapterNumber=${data.chapterNumber}&lessonNumber=${data.lessonNumber}`);
+            setTimeout(() => setShowQuiz(false), 250);
+        }
+    };
+
+    const fetchQUiz = async () => {
+        try {
+            setShowError(false);
+            setShowLoader(true)
+
+            const response = await fetch(`${apiHost}/users/quiz/${courseId}/${chapterId}/${lessonId}`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+
+            if (response.status === 200) {
+                const questions = await response.json();
+                setQuestions(questions.quiz);
+                setShowLoader(false);
+                console.log('quiz', questions.quiz, !questions.quiz);
+
+                // set all answers to false 
+                for (let i = 0; i < questions.quiz.length; i++) {
+                    answers[i + 1] = false;
+                };
+
+                // check if quiz is empty just push user to next lesson
+                if (questions.quiz.length === 0) handleNoQuiz()
+            } else {
+                throw 'somthing went wrong';
+            }
+        } catch (err) {
+            setShowError(true)
+        } finally {
+            setShowLoader(false)
+        }
+    };
+
+    useEffect(() => {
+        fetchQUiz();
+    }, [reload])
     return (
-        <div>
-            <h3 className="text-center mb-4 font-semibold">QUIZ</h3>
-            {questions.map((question, index) => <Question
-                key={question.id}
-                question={question}
-                answers={answers}
-                setAnswers={setAnswers}
-            />)}
+        <>
+            {showLoader ? (
+                <div> <Loader h='h-[6rem]' /></div>
+            ) : (
+                <>
+                    {showError ? (
+                        <div className="error-container mx-4 bg-red-100 text-red-500 p-4 rounded-lg shadow-md mt-8">
+                            <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+                            <span className="text-lg">Something went wrong</span>
+                            <button onClick={() => setReload(!reload)} className="bg-white text-red-500 px-4 py-2 ml-4 rounded-md shadow-md">
+                                Reload
+                            </button>
+                        </div>
+                    ) : (
+                        <div>
+                            {questions.map((ele, index) => <Question key={index} question={ele} setAnswers={setAnswers} answers={answers} index={index} />)}
 
-            <div className="text-center mt-5">
-                <button
-                    ref={submitBtRef}
-                    onClick={handleSubmit}
-                    className="px-5 py-2 bg-blue-500 text-white rounded-full">
-                    Submit
-                </button>
-            </div>
+                            <div className='mt-5 text-center'>
+                                <button ref={submitBtRef} onClick={handleSubmit} className='bg-blue-500 text-white px-4 py-2 rounded-full '>Submiit</button>
+                            </div>
 
-            {showResult && <QuizResult result={result} setShowResult={setShowResult} />}
-        </div>
+                            {showResult && <QuizResult answers={answers} setShowResult={setShowResult} setShowQuiz={setShowQuiz} courseId={courseId} chapterId={chapterId} lessonId={lessonId} />}
+                        </div>
+                    )}
+                </>
+            )}
+        </>
     )
-};
-
+}
 
 export default Quiz;
-export type { resultInterface }
+export type { questionType }

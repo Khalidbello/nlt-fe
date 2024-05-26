@@ -164,41 +164,43 @@ const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ cour
         </>
     )
 }
-const course: courseDataType = {
-    courseName: 'Cash flow',
-    about: `This course take yo fro lore Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-    Iure, ut quos pariatur cumque eius, officiis non quaerat inventore suscipit vel rem corporis assumenda 
-    consequatur? Illo ipsum velit perferendis veritatis expedita.`,
-    enrolled: true,
-    quizPerfomace: 70,
-    progress: 60,
-    chapters: [
-        {
-            chapter_id: 1,
-            chapter_title: "just the 1",
-            chapter_number: 1,
-            completed: "finished"
-        },
-        {
-            chapter_id: 34,
-            chapter_title: "just the 1",
-            chapter_number: 2,
-            completed: "ongoing"
-        },
-        {
-            chapter_id: 121,
-            chapter_title: "just the 1",
-            chapter_number: 3,
-            completed: undefined,
-        },
-    ],
-    currentChapter: 2,
-    currentLesson: 4,
-    lessonNumbers: {
-        1: 3,
-        2: 2,
-        3: 5,
-    }
-}
+
+
+// const course: courseDataType = {
+//     courseName: 'Cash flow',
+//     about: `This course take yo fro lore Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+//     Iure, ut quos pariatur cumque eius, officiis non quaerat inventore suscipit vel rem corporis assumenda 
+//     consequatur? Illo ipsum velit perferendis veritatis expedita.`,
+//     enrolled: true,
+//     quizPerfomace: 70,
+//     progress: 60,
+//     chapters: [
+//         {
+//             chapter_id: 1,
+//             chapter_title: "just the 1",
+//             chapter_number: 1,
+//             completed: "finished"
+//         },
+//         {
+//             chapter_id: 34,
+//             chapter_title: "just the 1",
+//             chapter_number: 2,
+//             completed: "ongoing"
+//         },
+//         {
+//             chapter_id: 121,
+//             chapter_title: "just the 1",
+//             chapter_number: 3,
+//             completed: undefined,
+//         },
+//     ],
+//     currentChapter: 2,
+//     currentLesson: 4,
+//     lessonNumbers: {
+//         1: 3,
+//         2: 2,
+//         3: 5,
+//     }
+// }
 
 export default CourseView;

@@ -105,7 +105,7 @@ const Lesson: React.FC<LessonProps> = ({ lesson, router, currentChapter, current
             <div
                 className={`w-2 h-2 rounded-full mr-2 
                 ${lesson.chapter_number < currentChapter ? "bg-blue-500" :
-                        (lesson.chapter_number === currentChapter && currentLesson > lesson.lesson_number ? "bg-red-500" :
+                        (lesson.chapter_number === currentChapter && currentLesson > lesson.lesson_number ? "bg-blue-500" :
                             (lesson.chapter_number === currentChapter && lesson.lesson_number === currentLesson ? "bg-green-500" : "bg-gray-500"))}`}
             ></div>
 

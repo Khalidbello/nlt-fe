@@ -9,7 +9,6 @@ import { useEffect, useRef, useState } from 'react';
 import Loader from '@/components/multipurpose/loader';
 import showClicked from '@/app/utils/clicked';
 import { useSearchParams } from 'next/navigation';
-import Chapter from '@/components/course-view/chapter';
 
 
 interface datainterface {
@@ -42,15 +41,19 @@ const Lecture: React.FC = () => {
     const [showQuiz, setShowQuiz] = useState<boolean>(false);
     const [showError, setShowError] = useState<boolean>(false);
     const searchParams = useSearchParams();
-    const apiHost = process.env.NEXT_PUBLIC_API_HOST;
     const courseId = searchParams.get('courseId');
     const chapterId = searchParams.get('chapterId');
     const chapterNumber = searchParams.get('chapterNumber');
     const lessonNumber = searchParams.get('lessonNumber');
+    const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 
     const startQuiz = () => {
         setTimeout(() => setShowQuiz(true), 250);
     };
+
+    const handleSubmit = () => {
+
+    }
 
     const fetchLecture = async () => {
         try {
@@ -92,7 +95,12 @@ const Lecture: React.FC = () => {
                     <div className='h-10'></div>
 
                     {!showQuiz && <QuizButton onClick={startQuiz} />}
-                    {showQuiz && <Quiz courseId={data.course_id} chapterId={data.chapter_id} lessonId={data.lesson_id} />}
+                    {showQuiz && (
+                        <>
+                            <h3 className='mb-3 text-center border-2 border-gray-100 rounded-xl px-4 py-2'>Quiz</h3>
+                            <Quiz courseId={data.course_id} chapterId={data.chapter_id} lessonId={data.lesson_id} setShowQuiz={setShowQuiz} />
+                        </>
+                    )}
 
                     <div className='h-10'></div>
                 </>
