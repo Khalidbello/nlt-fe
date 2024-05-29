@@ -1,9 +1,14 @@
-import React from "react";
+import Header from "@/components/multipurpose/header";
+import AccountDetails from "@/components/payment/accont-details";
 
-const Payment: React.FC = () => {
+
+const Page: React.FC = () => {
     return (
-        <div></div>
+        <div className="h-full w-full">
+            <Header heading="Payment" />
+            <AccountDetails />
+        </div>
     )
 }
 
-export default Payment;
+export default Page;

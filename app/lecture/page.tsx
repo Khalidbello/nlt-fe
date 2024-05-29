@@ -11,6 +11,7 @@ import showClicked from '@/app/utils/clicked';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import NoAccess from '@/components/lecture/access-denied';
+import EnrollmentOpt from '@/components/course-view/enrollment-option';
 
 
 interface datainterface {
@@ -42,8 +43,9 @@ const Lecture: React.FC = () => {
     const [loader, setShowLoader] = useState<boolean>(true);
     const [showQuiz, setShowQuiz] = useState<boolean>(false);
     const [showError, setShowError] = useState<boolean>(false);
-    const [showNoAcess, setShowNoAcess] = useState<boolean>(false);
+    const [showMakePayment, setShowMakePayment] = useState<boolean>(false);
     const [showLecture, setShowLecture] = useState<boolean>(false);
+    const [options, setOptions] = useState<1 | 2>(2);
     const searchParams = useSearchParams();
     const courseId = searchParams.get('courseId');
     const chapterId = searchParams.get('chapterId');
@@ -62,7 +64,7 @@ const Lecture: React.FC = () => {
     const fetchLecture = async () => {
         try {
             setShowLoader(true);
-            setShowNoAcess(false);
+            setShowMakePayment(false);
             setShowError(false);
             const response = await fetch(`${apiHost}/users/lecture/${courseId}/${chapterId}/${chapterNumber}/${lessonNumber}`, {
                 method: 'GET',
@@ -75,7 +77,15 @@ const Lecture: React.FC = () => {
                 setData(data.data);
                 setShowLecture(true);
             } else if (response.status === 401) {
-                setShowNoAcess(true);
+                const data = await response.json();
+
+                if (data.status === 'endOfFree') {
+                    setOptions(2);
+                    setShowMakePayment(true);
+                } else {
+                    setOptions(1);
+                    setShowMakePayment(true);
+                }
             } else {
                 throw 'something went wrong';
             };
@@ -122,7 +132,9 @@ const Lecture: React.FC = () => {
                         </>
                     )}
 
-                    {showNoAcess && <NoAccess />}
+                    {/* {showNoAcess && <NoAccess />} */}
+
+                    {showMakePayment && <EnrollmentOpt courseId={parseInt(courseId)} hide={setShowMakePayment} options={options} />}
                 </>
             )}
         </div >
