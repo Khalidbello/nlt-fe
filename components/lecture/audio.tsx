@@ -1,8 +1,8 @@
-'use client';
+// 'use client'; // Not required in modern React setups
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackward, faForward } from '@fortawesome/free-solid-svg-icons';
+import { faBackward, faForward, faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 
 interface AudioProps {
   src: string;
@@ -12,16 +12,16 @@ const AudioComponent: React.FC<AudioProps> = ({ src }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlay = () => {
+  const handlePlayPause = () => {
     if (audioRef.current) {
-      audioRef.current.play();
-    }
-  };
-
-  const handlePause = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
     }
   };
 
@@ -44,10 +44,29 @@ const AudioComponent: React.FC<AudioProps> = ({ src }) => {
     }
   };
 
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const clickPosition = e.nativeEvent.offsetX;
+    const newTime = (clickPosition / e.currentTarget.clientWidth) * duration;
+    if (audioRef.current) audioRef.current.currentTime = newTime;
+  };
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.addEventListener('ended', () => setIsPlaying(false));
+    }
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener('ended', () => setIsPlaying(false));
+      }
+    };
+  }, [audioRef]);
+
+  const progress = (currentTime / duration) * 100;
+
   return (
     <div className="max-w-md mx-4 mt-6 mb-10 bg-blue-100 p-3 shadow-md rounded-lg overflow-hidden">
       <audio
-        controls
+        controls={false} // Hide default controls
         ref={audioRef}
         onTimeUpdate={handleTimeUpdate}
         className="w-full pointer-events-none"
@@ -62,9 +81,21 @@ const AudioComponent: React.FC<AudioProps> = ({ src }) => {
         <div className="text-gray-600">
           {currentTime.toFixed(0)}s / {duration.toFixed(0)}s
         </div>
+        <button onClick={handlePlayPause} className="text-gray-600">
+          {isPlaying ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
+        </button>
         <button onClick={handleForward} className="text-gray-600">
           <FontAwesomeIcon icon={faForward} />
         </button>
+      </div>
+      <div
+        className="w-full h-2 bg-gray-200 rounded-full overflow-hidden cursor-pointer"
+        onClick={handleProgressClick}
+      >
+        <div
+          style={{ width: `${progress}%` }}
+          className="h-full bg-blue-500 rounded-full"
+        />
       </div>
     </div>
   );

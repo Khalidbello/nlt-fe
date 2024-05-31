@@ -12,6 +12,8 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import NoAccess from '@/components/lecture/access-denied';
 import EnrollmentOpt from '@/components/course-view/enrollment-option';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 
 interface datainterface {
@@ -46,6 +48,7 @@ const Lecture: React.FC = () => {
     const [showMakePayment, setShowMakePayment] = useState<boolean>(false);
     const [showLecture, setShowLecture] = useState<boolean>(false);
     const [options, setOptions] = useState<1 | 2>(2);
+    const [reload, setReload] = useState<boolean>(false);
     const searchParams = useSearchParams();
     const courseId = searchParams.get('courseId');
     const chapterId = searchParams.get('chapterId');
@@ -98,7 +101,8 @@ const Lecture: React.FC = () => {
 
     useEffect(() => {
         fetchLecture()
-    }, [searchParams]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams, reload]);
 
     return (
         <div className="w-full h-full pt-20">
@@ -106,6 +110,15 @@ const Lecture: React.FC = () => {
             {loader ? (
                 <div className='h-[90%] flex items-center justify-center'>
                     <Loader h='h-[8rem]' />
+                </div>
+            ) : (showError ? (
+
+                <div className="error-container mx-4 bg-red-100 text-red-500 p-4 rounded-lg shadow-md mt-20">
+                    <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+                    <span className="text-lg">Something went wrong</span>
+                    <button onClick={() => setReload(!reload)} className="bg-white text-red-500 px-4 py-2 ml-4 rounded-md shadow-md">
+                        Reload
+                    </button>
                 </div>
             ) : (
                 <>
@@ -133,9 +146,9 @@ const Lecture: React.FC = () => {
                     )}
 
                     {/* {showNoAcess && <NoAccess />} */}
-
                     {showMakePayment && <EnrollmentOpt courseId={parseInt(courseId)} hide={setShowMakePayment} options={options} />}
                 </>
+            )
             )}
         </div >
     );

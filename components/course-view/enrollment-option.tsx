@@ -9,18 +9,27 @@ import RollerAnimation from "../multipurpose/roller-white";
 import { useRouter } from "next/navigation";
 
 interface enrollProps {
-    courseId: number;F
+    courseId: number;
     hide: React.Dispatch<React.SetStateAction<boolean>>;
     options: 1 | 2 | 3;
+}
+interface dataType {
+    price: number;
+    discount: number
 }
 
 const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) => {
     const cancleBtRef = useRef<null | HTMLButtonElement>(null);
-    const [price, setPrice] = useState<number>(5);
+    const [data, setData] = useState<dataType>({
+        price: 0,
+        discount: 0,
+    });
     const [showLoader, setShowLoader] = useState<boolean>(false);
     const [showError, setShowError] = useState<boolean>(false);
     const [startFreeLoading, setStartFreeLoading] = useState<boolean>(false);
     const freeBtRef = useRef<null | HTMLButtonElement>(null);
+    const halfBtRef = useRef<null | HTMLButtonElement>(null);
+    const fullBtRef = useRef<null | HTMLButtonElement>(null);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
     const router = useRouter();
 
@@ -50,14 +59,23 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
         }
     };
 
-    const fetchPrice = async () => {
+    const handlePaymentButtonCLicked = (type: 'full' | 'half' | 'completeHalf', btRef: null | HTMLButtonElement) => {
+        showClick(btRef);
+
+        setTimeout(() => router.push(`payment/?courseId=${courseId}&type=${type}`), 210);
+    }
+
+    const fetchData = async () => {
         try {
             const response = await fetch(`${apiHost}/users/get-price/${courseId}`, { credentials: 'include' });
 
             if (response.status === 200) {
                 const data = await response.json();
                 console.log('in nerllment opt ', data.price)
-                setPrice(data.price)
+                setData({
+                    price: data.price,
+                    discount: data.discount
+                });
             } else {
                 throw 'something went wrong'
             }
@@ -69,7 +87,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
     };
 
     useEffect(() => {
-        fetchPrice();
+        fetchData();
     }, []);
 
     return (
@@ -89,9 +107,10 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
                             <div className="text-sm text-red-500 text-center p-4">Something went wrong please try again</div>
                         ) : (
                             <>
+                                {/* this woulld be shown only when user free offer of half payment have ended */}
                                 {options < 3 && <p>Complete payment to continue course</p>}
 
-                                <p className="text-xl font-medium mb-6">Price: $ {price}</p>
+                                <p className="text-xl font-medium mb-6">Price: $ {data.price}</p>
                                 {options > 2 && (
                                     <button
                                         ref={freeBtRef}
@@ -104,11 +123,31 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
 
                                 {options > 1 && (
                                     <>
-                                        <button className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-5 rounded-xl">Pay Half ${Math.floor(price * 0.5)}</button>
-                                        <button className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-45 rounded-xl">
-                                            Pay Full ${price - price * 0.005} <span className="text-xs bg-green-600 rounded-full px-2 py-1 mx-3">5% discout</span>
+                                        <button
+                                            ref={halfBtRef}
+                                            onClick={() => handlePaymentButtonCLicked('half', halfBtRef)}
+                                            className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-5 rounded-xl"
+                                        >
+                                            Pay Half ${Math.floor(data.price * 0.5)}
+                                        </button>
+                                        <button
+                                            ref={fullBtRef}
+                                            onClick={() => handlePaymentButtonCLicked('full', fullBtRef)}
+                                            className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-45 rounded-xl"
+                                        >
+                                            Pay Full ${data.price - (data.price * data.discount / 100)} <span className="text-xs bg-green-600 rounded-full px-2 py-1 mx-3">{data.discount}% discout</span>
                                         </button>
                                     </>
+                                )}
+
+                                {options === 1 && (
+                                    <button
+                                        ref={halfBtRef}
+                                        onClick={() => handlePaymentButtonCLicked('completeHalf', halfBtRef)}
+                                        className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-5 rounded-xl"
+                                    >
+                                        Complete half payment ${Math.floor(data.price * 0.5)}
+                                    </button>
                                 )}
                             </>
                         )}
