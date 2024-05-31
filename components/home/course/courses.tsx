@@ -4,6 +4,7 @@ import Loader from '@/components/multipurpose/loader';
 import { tree } from "next/dist/build/templates/app-page";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
 
 interface courseType {
     course_id: number;
@@ -21,6 +22,7 @@ interface courseType {
 };
 
 const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
+    const router = useRouter();
     const [courses, setCourses] = useState<courseType[]>([]);
     const [showLoader, setShowLoader] = useState<boolean>(true);
     const [showError, setShowError] = useState<boolean>(false);
@@ -37,18 +39,22 @@ const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
                 method: 'GET',
                 credentials: 'include'
             });
-           
+
             if (response.status === 200) {
                 const data = await response.json();
                 setCourses([...data.data]);
                 setShowLoader(false);
-            }
+            } else if (response.status === 403) {
+                router.push('/sign-in?redirect=true');
+            } else {
+                throw 'something went wrong';
+            };
         } catch (error) {
             setShowError(true)
         } finally {
             setShowLoader(false)
         }
-    }
+    };
 
     useEffect(() => {
         fetchCourses();

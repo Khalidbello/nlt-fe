@@ -20,6 +20,7 @@ interface continueLTypes {
 };
 
 const ContinueLearningCard = () => {
+    const router = useRouter();
     const [course, setCourse] = useState<continueLTypes>({
         chapter: 0,
         lesson: 0,
@@ -48,9 +49,11 @@ const ContinueLearningCard = () => {
                 const data = await response.json();
                 setCourse(data.data);
                 setShowLoader(false);
-                return;
+            } else if (response.status === 403) {
+                router.push('/sign-in?redirect=true');
+            } else {
+                throw 'erro somrthing went wrong';
             }
-            throw 'erro somrthing went wrong'
         } catch (err) {
             setShowError(true);
         } finally {

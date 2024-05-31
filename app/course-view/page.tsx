@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import DoughnutChart from '@/components/course-view/doughnu';
 import ContinueLearningBT from '@/components/course-view/continue-bt';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 
 interface courseDataType {
@@ -28,6 +28,7 @@ interface courseDataType {
 }
 
 const CourseView = () => {
+    const router = useRouter();
     const searchParams = useSearchParams();
     const [courseData, setCourseData] = useState<courseDataType>({
         courseName: '',
@@ -60,8 +61,11 @@ const CourseView = () => {
             if ((await response).status === 200) {
                 const data = await response.json();
                 setCourseData(data)
+            } else if (response.status === 403) {
+                router.push('/sign-in?redirect=true');
+            } else {
+                throw 'somrthng went wrong';
             }
-            //throw 'somrthng went wrong';
         } catch (err) {
             console.log('error in course view', err);
             setShowError(true);
@@ -92,7 +96,7 @@ const CourseView = () => {
                             </button>
                         </div>
                     ) : (
-                        // eslint-disable-next-line
+                        // @ts-ignore
                         <Main courseData={courseData} courseId={parseInt(courseId)} />
                     )}
                 </div>

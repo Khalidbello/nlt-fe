@@ -1,4 +1,5 @@
-const Clicked = (ele) => {
+// @ts-nocheck
+const showClicked = (ele) => {
     try {
         ele.current.style.opacity = '0.3';
         setTimeout(() => ele.current.style.opacity = '1', 200);
@@ -8,4 +9,4 @@ const Clicked = (ele) => {
     }
 }
 
-export default Clicked;
+export default showClicked;

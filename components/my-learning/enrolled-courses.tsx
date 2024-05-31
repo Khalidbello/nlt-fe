@@ -5,6 +5,7 @@ import CourseCard from '@/components/home/course/unit-course';
 import Loader from '@/components/multipurpose/loader';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
 
 interface courseType {
     course_id: number;
@@ -22,6 +23,7 @@ interface courseType {
 };
 
 const EnrolldedCourses: React.FC = () => {
+    const router = useRouter();
     const [courses, setCourses] = useState<courseType[]>([]);
     const [showLoader, setShowLoader] = useState<boolean>(true);
     const [showError, setShowError] = useState<boolean>(false);
@@ -41,6 +43,10 @@ const EnrolldedCourses: React.FC = () => {
             if (response.status === 200) {
                 const data = await response.json();
                 setCourses([...courses, ...data.data])
+            } else if (response.status === 430) {
+                router.push('/sign-in?redirect=true');
+            } else {
+                throw 'something went wrong';
             }
         } catch (err) {
             console.log('error in enrolled courses component', err);

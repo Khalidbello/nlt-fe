@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import React, { useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/components/multipurpose/roller-white';
 import { validateEmail, validatePassword } from './../validators';
 
 const LoginForm: React.FC = () => {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
@@ -15,6 +16,7 @@ const LoginForm: React.FC = () => {
     const [showBtLoader, setshowBtLoader] = useState<boolean>(false);
     const submitBt = useRef<HTMLButtonElement | null>(null);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
+    const redirect = searchParams.get('redirect');
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -46,7 +48,12 @@ const LoginForm: React.FC = () => {
                 setPassword('');
                 setshowBtLoader(false);
                 setLoggedIn('succesfully loggedin');
-                setTimeout(() => router.push('/home'), 500);
+
+                if (redirect === 'true') {
+                    router.back()
+                } else {
+                    setTimeout(() => router.push('/home'), 500);
+                };
             } else if (response.status === 404) {
                 setErrorMessage('Incorrect email or password.');
             } else {

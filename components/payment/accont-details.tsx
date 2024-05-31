@@ -2,7 +2,7 @@
 
 import { faCopy, faExclamation, faExclamationTriangle, faFrownOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Loader from "../multipurpose/loader";
 import { icon } from "@fortawesome/fontawesome-svg-core";
@@ -16,6 +16,7 @@ interface dataType {
     amount: number;
 }
 const AccountDetails = () => {
+    const router = useRouter();
     const searchParams = useSearchParams();
     const [showError, setShowError] = useState<boolean>(false);
     const [showLoader, setShowLoader] = useState<boolean>(true);
@@ -64,6 +65,8 @@ const AccountDetails = () => {
             if (response.status === 200) {
                 const paymentInfo = await response.json();
                 setData(paymentInfo)
+            } else if (response.status === 403) {
+                router.push('/sign-in?redirect=true');
             } else {
                 throw 'somethin went wrong';
             }

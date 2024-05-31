@@ -8,7 +8,7 @@ import Quiz from '@/components/lecture/quiz';
 import { useEffect, useRef, useState } from 'react';
 import Loader from '@/components/multipurpose/loader';
 import showClicked from '@/app/utils/clicked';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import NoAccess from '@/components/lecture/access-denied';
 import EnrollmentOpt from '@/components/course-view/enrollment-option';
@@ -30,6 +30,7 @@ interface datainterface {
 };
 
 const Lecture: React.FC = () => {
+    const router = useRouter();
     const [data, setData] = useState<datainterface>({
         course_id: 0,
         course_name: '',
@@ -89,6 +90,8 @@ const Lecture: React.FC = () => {
                     setOptions(1);
                     setShowMakePayment(true);
                 }
+            } else if (response.status === 403) {
+                router.push('/sign-in?redirect=true');
             } else {
                 throw 'something went wrong';
             };
@@ -145,8 +148,10 @@ const Lecture: React.FC = () => {
                         </>
                     )}
 
-                    {/* {showNoAcess && <NoAccess />} */}
-                    {showMakePayment && <EnrollmentOpt courseId={parseInt(courseId)} hide={setShowMakePayment} options={options} />}
+                    {showMakePayment && (
+                        // @ts-ignore
+                        <EnrollmentOpt courseId={parseInt(courseId)} hide={setShowMakePayment} options={options} />
+                    )}
                 </>
             )
             )}
