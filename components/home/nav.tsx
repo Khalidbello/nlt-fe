@@ -5,6 +5,9 @@ import { faHome, faCog, faUser, faChartBar, faSignOut, faBook } from "@fortaweso
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRef, useState } from "react";
+import showClicked from "@/app/utils/clicked";
+import ConfirmLogout from "./confrm-logout";
 
 type route = {
     path: string;
@@ -33,15 +36,27 @@ const routes: route[] = [
     }
 ]
 
-export default function nav() {
+const Nav: React.FC = () => {
+    const [showConfirmLogout, setShowConfirmLogout] = useState<boolean>(false);
+    const logOutBtRef = useRef<null | HTMLButtonElement>(null);
+
+    const handleLogout = () => {
+        showClicked(logOutBtRef);
+        setTimeout(() => setShowConfirmLogout(true), 210)
+    };
+
     return (
-        <nav className="p-1 bg-white flex items-center justify-around w-[90%] rounded-full border-solid border-[2px] border-blue-100 fixed bottom-[5px] left-[5%]">
-            {routes.map(Helper)}
-            <button>
-                <FontAwesomeIcon icon={faSignOut} className={`text-blue-600 h-4 p-2 rounded-x}`} />
-                <span className="text-sm"></span>
-            </button>
-        </nav>
+        <>
+            <nav className="p-1 bg-white flex items-center justify-around w-[90%] rounded-full border-solid border-[2px] border-blue-100 fixed bottom-[5px] left-[5%]">
+                {routes.map(Helper)}
+                <button ref={logOutBtRef} onClick={handleLogout}>
+                    <FontAwesomeIcon icon={faSignOut} className={`text-blue-600 h-4 p-2 rounded-x}`} />
+                    <span className="text-sm"></span>
+                </button>
+            </nav>
+
+            {showConfirmLogout && <ConfirmLogout hide={setShowConfirmLogout} />}
+        </>
     )
 }
 
@@ -54,3 +69,6 @@ function Helper(data: route, index: number) {
         </Link>
     )
 }
+
+
+export default Nav
