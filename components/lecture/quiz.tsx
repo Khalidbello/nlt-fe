@@ -94,6 +94,7 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
 
     useEffect(() => {
         fetchQUiz();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload])
     return (
         <>

@@ -71,7 +71,7 @@ export default function Page() {
             <Former data={Support} />
             {/* <SignOut /> */}
             {/* add all ediing functionalitiees here */}
-            {showChangeEmail && <ChangeEmail hide={setShowChangeEmail} />}
+            {showChangeEmail && <ChangeEmail hide={setShowChangeEmail} hideVerifyEmail={null} />}
             {showChangePasword && <ChangePassword hide={setShowChangePasword} />}
             {showChangeName && <ChangeName hide={setShowChangeName} />}
             {showContactUs && <ContactUs hide={setShowContactUs} />}

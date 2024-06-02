@@ -58,6 +58,7 @@ const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
 
     useEffect(() => {
         fetchCourses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload]);
 
     return (

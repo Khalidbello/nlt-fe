@@ -33,6 +33,7 @@ export default function Head() {
 
     useEffect(() => {
         getFistName();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

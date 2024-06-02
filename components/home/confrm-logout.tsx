@@ -30,7 +30,7 @@ const ConfirmLogout: React.FC<ConfirmLogoutProps> = ({ hide }) => {
             const response = await fetch(`${apiHost}/users/logout`, { credentials: 'include' });
 
             if (response.status === 200 || response.status === 403) {
-                router.push('/sign-ingit');
+                router.push('/sign-in');
             } else {
                 throw 'something went wrong';
             }

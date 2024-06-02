@@ -28,7 +28,7 @@ const FloatingEnrollButton: React.FC<{ courseId: number }> = ({ courseId }) => {
                     Enroll Now
                 </button>
             </div>
-            {showEnrollOpt && <EnrollmentOpt courseId={courseId} hide={setShowEnrollOpt} />}
+            {showEnrollOpt && <EnrollmentOpt courseId={courseId} hide={setShowEnrollOpt} options={3} />}
         </>
     );
 }

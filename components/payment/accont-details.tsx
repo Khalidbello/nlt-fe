@@ -80,6 +80,7 @@ const AccountDetails = () => {
 
     useEffect(() => {
         fetchPaymentInfo()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

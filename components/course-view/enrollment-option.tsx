@@ -88,6 +88,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
 
     useEffect(() => {
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -125,6 +126,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
                                     <>
                                         <button
                                             ref={halfBtRef}
+                                            // @ts-ignore
                                             onClick={() => handlePaymentButtonCLicked('half', halfBtRef)}
                                             className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-5 rounded-xl"
                                         >
@@ -132,6 +134,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
                                         </button>
                                         <button
                                             ref={fullBtRef}
+                                            // @ts-ignore
                                             onClick={() => handlePaymentButtonCLicked('full', fullBtRef)}
                                             className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-45 rounded-xl"
                                         >
@@ -143,6 +146,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
                                 {options === 1 && (
                                     <button
                                         ref={halfBtRef}
+                                        // @ts-ignore
                                         onClick={() => handlePaymentButtonCLicked('completeHalf', halfBtRef)}
                                         className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-5 rounded-xl"
                                     >

@@ -56,6 +56,7 @@ const AudioComponent: React.FC<AudioProps> = ({ src }) => {
     }
     return () => {
       if (audioRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         audioRef.current.removeEventListener('ended', () => setIsPlaying(false));
       }
     };

@@ -77,7 +77,7 @@ function CourseCard({ courseId, courseName, title, description, imageUrl, enroll
                     ref={actionBtRef}
                     className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md inline-flex items-center justify-center"
                 >
-                    {isEnrolled ? 'View Course' : 'Enroll Now'}
+                    {isEnrolled ? 'View Course' : 'Explore'}
                 </button>
             </div>
         </div>

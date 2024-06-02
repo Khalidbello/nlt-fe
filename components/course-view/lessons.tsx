@@ -46,6 +46,7 @@ const Lessons: React.FC<LessonsProps> = ({ chapterId, courseId, lessons, setLess
 
     useEffect(() => {
         if (lessons.length === 0) fetchLessons();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

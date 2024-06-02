@@ -38,7 +38,8 @@ function CourseStructure({ }) {
   ]
   const [expandedChapter, setExpandedChapter] = useState(null);
 
-  const handleChapterClick = (chapterIndex) => {
+  const handleChapterClick = (chapterIndex: number) => {
+    //@ts-ignore
     setExpandedChapter(chapterIndex === expandedChapter ? null : chapterIndex);
   };
 

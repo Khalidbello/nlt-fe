@@ -77,12 +77,14 @@ const QuizResult: React.FC<QuizResultProps> = ({ answers, setShowResult, setShow
         let percentage: number;
 
         keys.forEach((key: string, index: number) => {
+            //@ts-ignore
             if (answers[key]) passed++;
         });
 
         percentage = passed / total * 100;
         if (percentage < 60) setShowCondition(true);
         setStatistics({ passed, total, percentage: parseInt(percentage.toFixed(2)) });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [answers]);
 
     return (
@@ -102,7 +104,10 @@ const QuizResult: React.FC<QuizResultProps> = ({ answers, setShowResult, setShow
                     return (
                         <div key={index} className="flex items-center justify-start gap-5 mb-3">
                             <span className="font-semibold">Q{key}</span>
-                            <FontAwesomeIcon icon={answers[key] ? faCheck : faX} className={`h-5 w-5 ${answers[key] ? 'text-green-500' : 'text-red-500'}`} />
+                            {
+                                //@ts-ignore
+                                <FontAwesomeIcon icon={answers[key] ? faCheck : faX} className={`h-5 w-5 ${answers[key] ? 'text-green-500' : 'text-red-500'}`} />
+                            }
                         </div>
                     )
                 })}
@@ -115,7 +120,7 @@ const QuizResult: React.FC<QuizResultProps> = ({ answers, setShowResult, setShow
                     {showCondition ? (
                         <div className="text-left">
                             <p className="mb-2">
-                                You must earn above 60% to go to next lesson <b /> please kindly retake quiz.
+                                Oops you scored below 60% <b /> try again {`you've`} got this!!!
                             </p>
                             {showError && <p>Something went wrong please try again.</p>}
                             <button
