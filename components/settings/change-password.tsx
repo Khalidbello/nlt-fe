@@ -3,17 +3,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useState } from 'react';
 import Roller from '@/components/multipurpose/roller-white';
 import showClicked from '@/app/utils/clicked';
+import { useRouter } from 'next/navigation';
 
 interface ChangePasswordProps {
     hide: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ChangePassword: React.FC<ChangePasswordProps> = ({ hide }) => {
+    const router = useRouter();
     const [password, setPassword] = useState<string>('');
     const [newPassword, setNewPassword] = useState<string>('');
     const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
     const [showRoller, setShowRoller] = useState<boolean>(false);
-    const closeBtRef = useRef<null | HTMLButtonElement>(null)
+    const [error, setError] = useState<string>('');
+    const [sucessfull, setSucessfull] = useState<string>('');
+    const closeBtRef = useRef<null | HTMLButtonElement>(null);
+    const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
@@ -27,19 +32,44 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ hide }) => {
         setConfirmNewPassword(event.target.value);
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         //validate form data
-
+        if (password.length < 8 || newPassword.length < 8) return setError('password length has to be atleast 8 digit');
+        if (newPassword !== confirmNewPassword) return setError('New password does not match confirm new password');
         //onSave(email);
         setShowRoller(true);
 
         // make request to sever to 
-        setTimeout(() => {
+        try {
+            const response = await fetch(`${apiHost}/users/change-password`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    password: password,
+                    newPassword: newPassword,
+                })
+            })
+
+            if (response.status === 200) {
+                setSucessfull('Password changed succesfully');
+                setTimeout(() => hide(false), 2000);
+            } else if (response.status === 401) {
+                setError('The password you entred is incorrect')
+            } else if (response.status === 403) {
+                router.push('/sign-in?redirect=true');
+            } else {
+                throw 'Something went wrong';
+            }
+        } catch (err) {
+            setError('Something went wrong')
+        } finally {
             setShowRoller(false);
-            hide(false);
-        }, 2000)
+        }
     };
 
     const close = () => {
@@ -64,7 +94,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ hide }) => {
                         <label className='block mb-2 pl-4'>Old Password</label>
                         <input
                             className='border-blue-50 border-[1px] text-gray-600 rounded-xl px-4 py-2'
-                            type="email"
+                            type="text"
                             value={password}
                             onChange={handlePasswordChange}
                             placeholder='password'
@@ -74,7 +104,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ hide }) => {
                         <label className='block mb-2 pl-4'>New password</label>
                         <input
                             className='border-blue-50 border-[1px] text-gray-600 rounded-xl px-4 py-2'
-                            type="email"
+                            type="text"
                             value={newPassword}
                             onChange={handleNewPasswordChange}
                             placeholder='****'
@@ -84,12 +114,14 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ hide }) => {
                         <label className='block mb-2 pl-4'>Confirm password</label>
                         <input
                             className='border-blue-50 border-[1px] text-gray-600 rounded-xl px-4 py-2'
-                            type="email"
+                            type="text"
                             value={confirmNewPassword}
                             onChange={handleConfirmNewPasswordChange}
                             placeholder='****'
                         />
                     </div>
+                    <p className='text-sm text-red-500 text-center mb-3'>{error}</p>
+                    <p className='text-sm text-green-600 text-center mb-3'>{sucessfull}</p>
                     <div className='text-right'>
                         <button
                             className='bg-blue-500 text-white px-5 py-2 rounded-full'

@@ -11,6 +11,7 @@ import ContactUs from '@/components/settings/contact-us';
 import { useState } from "react";
 import { faListSquares } from "@fortawesome/free-solid-svg-icons/faListSquares";
 import { faFileText } from "@fortawesome/free-solid-svg-icons/faFileText";
+import CheckEmailVerify from "@/components/multipurpose/check-email-verify/check-email-verify";
 
 export default function Page() {
     const [showChangeEmail, setShowChangeEmail] = useState<boolean>(false);
@@ -76,6 +77,8 @@ export default function Page() {
             {showChangeName && <ChangeName hide={setShowChangeName} />}
             {showContactUs && <ContactUs hide={setShowContactUs} />}
             <div className="h-20"></div>
+
+            <CheckEmailVerify />
         </div>
     )
 };

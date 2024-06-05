@@ -1,3 +1,5 @@
+'use client';
+
 import Header from "@/components/multipurpose/header";
 import AccountDetails from "@/components/payment/accont-details";
 

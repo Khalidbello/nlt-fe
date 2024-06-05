@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useRef, useState } from 'react';
 import Roller from '@/components/multipurpose/roller-white';
 import showClicked from '@/app/utils/clicked';
+import { useRouter } from 'next/navigation';
 
 interface ChangeEmailProps {
     hide: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,7 +11,8 @@ interface ChangeEmailProps {
 }
 
 const ChangeEmail: React.FC<ChangeEmailProps> = ({ hide, hideVerifyEmail = null }) => {
-    const [email, setEmail] = useState<string>('bello@gmail.com');
+    const router = useRouter();
+    const [email, setEmail] = useState<string>('');
     const [otp, setOtp] = useState<number>();
     const [showRoller, setShowRoller] = useState<boolean>(false);
     const [enterEmail, setEnterEmail] = useState<boolean>(true);
@@ -43,7 +45,9 @@ const ChangeEmail: React.FC<ChangeEmailProps> = ({ hide, hideVerifyEmail = null 
                 },
                 body: JSON.stringify({ email: email })
             });
-            //throw 'errorr'
+
+            if (response.status === 403) return router.push('/sign-in?redirect=true');
+
             if (response.status !== 200) throw 'request otp faileed';
 
             setTimeout(() => {
@@ -86,12 +90,14 @@ const ChangeEmail: React.FC<ChangeEmailProps> = ({ hide, hideVerifyEmail = null 
                 })
             })
 
+            if (response.status === 403) return router.push('/sign-in?redirect=true');
+
             if (response.status === 200) {
                 const data = await response.json();
 
                 if (data.status) {
                     setSuccessfull(true);
-                    setTimeout(() => hide(false), 700)
+                    setTimeout(() => hide(false), 2000)
                 } else {
                     setError('wrong OTP entred');
                 }
@@ -136,9 +142,10 @@ const ChangeEmail: React.FC<ChangeEmailProps> = ({ hide, hideVerifyEmail = null 
                         <div className='mb-5'>
                             <label className='block mb-2 pl-4'>Email:</label>
                             <input
-                                className='border-blue-50 border-[1px] text-gray-600 rounded-xl px-4 py-2'
+                                className='border-blue-50 border-[1px] text-gray-600 rounded-xl px-4 py-2 w-full'
                                 type="email"
                                 value={email}
+                                placeholder='Email...'
                                 onChange={handleEmailChange}
                             />
                         </div>
@@ -164,30 +171,31 @@ const ChangeEmail: React.FC<ChangeEmailProps> = ({ hide, hideVerifyEmail = null 
                         <div className='mb-5'>
                             <label className='block mb-2 pl-4'>Enter OTP sent to: {email}</label>
                             <input
-                                className='border-blue-50 border-[1px] text-gray-600 rounded-xl px-4 py-2'
+                                className='border-blue-50 border-[1px] text-gray-600 rounded-xl px-4 py-2 w-full'
                                 type="number"
                                 value={otp}
+                                placeholder='OTP'
                                 onChange={handleOtpChange}
                             />
                         </div>
                         {error && <p className='text-red-500 text-sm text-center'>{error}</p>}
-                        {showSucessfull && <p>Email Change Succesfully</p>}
-                <div className='text-right'>
-                    <button
-                        className='bg-blue-500 text-white px-5 py-2 rounded-full'
-                        type="submit"
-                        disabled={showRoller}
-                    >
-                        {showRoller ? (
-                            <Roller h='h-[1.5rem]' />
-                        ) : (
-                            'Submit'
-                        )}
-                    </button>
-                </div>
-            </form>
+                        {showSucessfull && <p className='text-green-600 text-sm text-center'>Email Change Succesfully</p>}
+                        <div className='text-right'>
+                            <button
+                                className='bg-blue-500 text-white px-5 py-2 rounded-full'
+                                type="submit"
+                                disabled={showRoller}
+                            >
+                                {showRoller ? (
+                                    <Roller h='h-[1.5rem]' />
+                                ) : (
+                                    'Submit'
+                                )}
+                            </button>
+                        </div>
+                    </form>
                 )}
-        </div>
+            </div>
         </div >
     );
 };

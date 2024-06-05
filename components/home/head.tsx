@@ -24,16 +24,20 @@ export default function Head() {
     }
     // function to get user first name
     const getFistName = async () => {
-        const response = await fetch(`${apiHost}/users/profile`, { credentials: 'include' });
-        if (response.status === 200) {
-            const data = await response.json();
-            setUserName(data.first_name);
+        try {
+            const response = await fetch(`${apiHost}/users/profile`, { credentials: 'include' });
+            if (response.status === 200) {
+                const data = await response.json();
+                setUserName(data.first_name);
+            };
+        } catch (err) {
+            console.error('error in head', err);
         };
     };
 
     useEffect(() => {
         getFistName();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
