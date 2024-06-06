@@ -2,6 +2,7 @@
   "/(auth)/sign-in/page": "app/(auth)/sign-in/page.js",
   "/course-view/page": "app/course-view/page.js",
   "/payment/page": "app/payment/page.js",
+  "/(auth)/sign-up/page": "app/(auth)/sign-up/page.js",
   "/lecture/page": "app/lecture/page.js",
   "/(app)/home/page": "app/(app)/home/page.js"
 }
