@@ -43,7 +43,7 @@ const EnrolldedCourses: React.FC = () => {
             if (response.status === 200) {
                 const data = await response.json();
                 setCourses([...courses, ...data.data])
-            } else if (response.status === 430) {
+            } else if (response.status === 403) {
                 router.push('/sign-in?redirect=true');
             } else {
                 throw 'something went wrong';
