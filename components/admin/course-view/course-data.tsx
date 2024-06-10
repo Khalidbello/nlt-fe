@@ -17,6 +17,7 @@ interface CourseData {
     price: number;
     discount: number;
     image: string;
+    courseId: number
 }
 
 interface DisplayCourseDataProps {
@@ -35,7 +36,7 @@ const DisplayCourseData: React.FC<DisplayCourseDataProps> = ({ courseId, setShow
     const editCourseDataBtRef = useRef<HTMLButtonElement | null>(null);
 
     // function to handle click of edit course bt 
-    const hadleClick = () => {
+    const hadleClick = (): void => {
         showClicked(editCourseDataBtRef);
         setTimeout(() => setShowEditCourse(true), 250);
     };
@@ -103,18 +104,18 @@ const DisplayCourseData: React.FC<DisplayCourseDataProps> = ({ courseId, setShow
     return (
         <>
             <div className="course-data mb-2 mx-3 bg-gray-100 rounded-lg shadow-md p-4">
-                <h2 className='text-xl font-medium'>{courseData.courseName}</h2>
+                <h2 className='text-xl font-medium mb-3'>{courseData.courseName}</h2>
                 {
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={`data:image/jpeg;base64,${courseData.image}`} alt="Selected Image"
                         className='rounded-xl border-[2px] border-blue-300' />
                 }
-                <h2 className='text-lg'>{courseData.title}</h2>
+                <h2 className='font-medium mt-3 mb-3'>{courseData.title}</h2>
                 <About text={courseData.aboutCourse} limit={200} />
                 <div className="flex items-center">
                     <p className="text-blue-500 font-medium">Price: ${courseData.price}</p>
                     {courseData.discount > 0 && (
-                        <p className="ml-4 text-green-500">
+                        <p className="ml-4 text-green-700">
                             Discount: {courseData.discount}%
                         </p>
                     )}

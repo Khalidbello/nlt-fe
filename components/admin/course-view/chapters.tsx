@@ -11,8 +11,8 @@ interface ChapterProps {
 }
 
 interface chapter {
-    number: number;
-    name: string;
+    chapterNumber: number;
+    title: string;
     numberOfLessons: number;
 }
 
@@ -38,6 +38,9 @@ const Chapters: React.FC<ChapterProps> = ({ courseId }) => {
 
             if (response.status !== 200) throw 'something went wrong';
 
+            const data = await response.json();
+            console.log('data in chapters', data);
+            setChapters(data);
         } catch (err) {
             console.log('error ccured in fetch chapters', err);
             setError(true);
@@ -48,6 +51,7 @@ const Chapters: React.FC<ChapterProps> = ({ courseId }) => {
 
     useEffect(() => {
         fetchChapters()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload]);
 
     if (isFetching) {
@@ -70,7 +74,7 @@ const Chapters: React.FC<ChapterProps> = ({ courseId }) => {
         )
     };
 
-    if (chapters.length === 0) {
+    if (chapters.length < 1) {
         return (
             <div className="flex flex-col items-center gap-6 bg-blue-500 px-5 py-5 mx-6 text-white rounded-md">
                 <FontAwesomeIcon icon={faExclamationCircle} className="mr-2 h-10" />
@@ -81,11 +85,11 @@ const Chapters: React.FC<ChapterProps> = ({ courseId }) => {
 
     return (
         <div>
-            <div className="bg-cyan-100 p-3">
+            <div className="mx-2">
                 {chapters.map((chapter: chapter, index: number) => (
-                    <p key={index} className='border-b-[1px] border-gray-200 mb-3'>
-                        <p>{chapter.number}. {chapter.name}</p>
-                        <p>{chapter.numberOfLessons} lessons</p>
+                    <p key={index} className='mb-3 bg-blue-100 rounded-xl p-3'>
+                        <p>{chapter.chapterNumber}. {chapter.title}</p>
+                        <p className="pl-3 text-sm">{chapter.numberOfLessons} lessons</p>
                     </p>
                 ))}
             </div>

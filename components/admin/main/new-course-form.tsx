@@ -41,6 +41,7 @@ interface NewCourseForm {
         price: number;
         discount: number;
         image: string;
+        courseId: number
     }
 }
 
@@ -59,23 +60,19 @@ const NewCourseForm: React.FC<NewCourseForm> = ({ show, data }) => {
     const [edited, setEdited] = useState<boolean>(false);
     const hideBtRef = useRef<null | HTMLButtonElement>(null);
     let apiHost = process.env.NEXT_PUBLIC_API_HOST;
-    let url = `${apiHost}/admin/create-course`;
+    const [url, setUrl] = useState<string>(`${apiHost}/admin/create-course`);
 
     // function to configure component to handle creation and update of course
     const configureComponent = () => {
-        console.log('in edit ourse............', data)
         if (!data) return;
 
-        url = `${apiHost}/admin/update-course`;
-
-        setTimeout(() => {
-            setImageUrl(`data:image/jpeg;base64,${data.image}`);
-            setCourseName(data.courseName);
-            setTitle(data.title);
-            setaboutCourse(data.aboutCourse);
-            setPrice(data.price);
-            setDiscount(data.discount);
-        }, 1000);
+        setUrl(`${apiHost}/admin/edit-course/${data.courseId}`);
+        setImageUrl(`data:image/jpeg;base64,${data.image}`);
+        setCourseName(data.courseName);
+        setTitle(data.title);
+        setaboutCourse(data.aboutCourse);
+        setPrice(data.price);
+        setDiscount(data.discount);
     };
 
     const hide = () => {

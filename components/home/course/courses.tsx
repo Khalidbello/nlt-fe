@@ -58,7 +58,7 @@ const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
 
     useEffect(() => {
         fetchCourses();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload]);
 
     return (
@@ -81,8 +81,8 @@ const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
                         </div>
                     ) : (
                         <div>
-                            {courses.map((course, index) => {
-                                return <CourseCard
+                            {courses.map((course, index) => (
+                                <CourseCard
                                     key={index}
                                     courseId={course.course_id}
                                     courseName={course.course_name}
@@ -96,7 +96,7 @@ const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
                                     progress={course.progress}
                                     lastVisited={course.lastVisited}
                                 />
-                            })}
+                            ))}
                         </div>
                     )}
                 </div>

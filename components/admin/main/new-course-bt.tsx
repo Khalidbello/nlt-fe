@@ -19,7 +19,7 @@ const CreateCourseBt: React.FC<CreateCourseBt> = ({ show }) => {
         <button
             ref={createCourseBtRef}
             onClick={handleClick}
-            className="fixed bottom-2 right-2 px-4 py-2 rounded-full bg-blue-500 text-white">
+            className="fixed bottom-2 right-2 px-4 py-2 rounded-full bg-blue-500 text-white border-[1px] border-white">
             <FontAwesomeIcon icon={faPlus} className="w-4 h-4" /> New course
         </button>
     )

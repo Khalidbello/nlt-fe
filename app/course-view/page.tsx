@@ -24,6 +24,7 @@ interface courseDataType {
     currentChapter: number;
     currentChapterId: number;
     currentLesson: number;
+    image: string;
     lessonNumbers: { [key: number]: number }
 }
 
@@ -40,7 +41,8 @@ const CourseView = () => {
         currentChapter: 0,
         currentChapterId: 0,
         currentLesson: 0,
-        lessonNumbers: { 0: 0 }
+        lessonNumbers: { 0: 0 },
+        image: '',
     });
     const [showLoader, setShowLoader] = useState<boolean>(true);
     const [showError, setShowError] = useState<boolean>(false);
@@ -76,7 +78,7 @@ const CourseView = () => {
 
     useEffect(() => {
         fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload]);
 
     return (
@@ -120,7 +122,7 @@ const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ cour
 
     return (
         <>
-            <Name name={courseData.courseName} />
+            <Name name={courseData.courseName} image={courseData.image} />
             {courseData.enrolled && (
                 <>
                     <div className='mt-2'>
@@ -169,43 +171,5 @@ const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ cour
         </>
     )
 }
-
-
-// const course: courseDataType = {
-//     courseName: 'Cash flow',
-//     about: `This course take yo fro lore Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-//     Iure, ut quos pariatur cumque eius, officiis non quaerat inventore suscipit vel rem corporis assumenda 
-//     consequatur? Illo ipsum velit perferendis veritatis expedita.`,
-//     enrolled: true,
-//     quizPerfomace: 70,
-//     progress: 60,
-//     chapters: [
-//         {
-//             chapter_id: 1,
-//             chapter_title: "just the 1",
-//             chapter_number: 1,
-//             completed: "finished"
-//         },
-//         {
-//             chapter_id: 34,
-//             chapter_title: "just the 1",
-//             chapter_number: 2,
-//             completed: "ongoing"
-//         },
-//         {
-//             chapter_id: 121,
-//             chapter_title: "just the 1",
-//             chapter_number: 3,
-//             completed: undefined,
-//         },
-//     ],
-//     currentChapter: 2,
-//     currentLesson: 4,
-//     lessonNumbers: {
-//         1: 3,
-//         2: 2,
-//         3: 5,
-//     }
-// }
 
 export default CourseView;

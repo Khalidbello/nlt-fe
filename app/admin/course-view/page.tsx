@@ -31,12 +31,16 @@ const CourseView = () => {
             <Chapters courseId={courseId} />
 
             {showAddChapterBt && (
-                <button ref={btRef} onClick={handleAddChapterBtClick} className='absolute bottom-4 right-4 bg-blue-500 px-4 py-2 rounded-full text-white'>
+                <button ref={btRef} onClick={handleAddChapterBtClick} className='fixed bottom-4 right-4 bg-blue-500 px-4 py-2 rounded-full text-white border-[1px] border-white'>
                     <FontAwesomeIcon icon={faPlus} className='w-5 h-5 text-white' /> Chapter
                 </button>
             )}
 
-            {showAddChapter && <AddChapter show={setShowAddChapter} />}
+            {
+                // @ts-ignore
+                showAddChapter && <AddChapter show={setShowAddChapter} courseId={courseId} />
+            }
+            <div className="h-20"></div>
         </div>
     )
 }

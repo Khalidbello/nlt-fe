@@ -15,7 +15,11 @@ const Admin: React.FC = () => {
             <Courses />
             <CreateCourseBt show={setShowCreateNewCourse} />
 
-            {showCreateNewCourse && <NewCourseForm show={setShowCreateNewCourse} data={null} />}
+            {
+                // @ts-ignore
+                showCreateNewCourse && <NewCourseForm show={setShowCreateNewCourse} data={null} />
+            }
+            <div className="h-20"></div>
         </div>
     )
 }

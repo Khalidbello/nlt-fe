@@ -47,6 +47,9 @@ const AddChapter: React.FC<AddChapterProps> = ({ show, courseId }) => {
             const response = await fetch(`${url}/${courseId}`, {
                 method: 'POST',
                 credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     chapterTitle,
                     chapterNum,
