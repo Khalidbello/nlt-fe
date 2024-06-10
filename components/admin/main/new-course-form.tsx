@@ -67,12 +67,15 @@ const NewCourseForm: React.FC<NewCourseForm> = ({ show, data }) => {
         if (!data) return;
 
         url = `${apiHost}/admin/update-course`;
-        setImageUrl(`data:image/jpeg;base64,${data.image}`);
-        setCourseName(data.courseName);
-        setTitle(data.title);
-        setaboutCourse(data.aboutCourse);
-        setPrice(data.price);
-        setDiscount(data.discount);
+
+        setTimeout(() => {
+            setImageUrl(`data:image/jpeg;base64,${data.image}`);
+            setCourseName(data.courseName);
+            setTitle(data.title);
+            setaboutCourse(data.aboutCourse);
+            setPrice(data.price);
+            setDiscount(data.discount);
+        }, 1000);
     };
 
     const hide = () => {
@@ -106,6 +109,7 @@ const NewCourseForm: React.FC<NewCourseForm> = ({ show, data }) => {
         const file = event.target.files?.[0];
 
         if (!file) return; // Handle empty selection
+        setEdited(true);
         // @ts-ignoreF
         setImage(file);
 
@@ -115,7 +119,8 @@ const NewCourseForm: React.FC<NewCourseForm> = ({ show, data }) => {
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!courseName || !title || !aboutCourse || !image || !price || !discount) return setError('Please fill out all fields');
+        if (!image) return setError('Please select an image');
+        if (!courseName || !title || !aboutCourse || !price || !discount) return setError('Please fill out all fields');
 
         setError('');
         setShowRoller(true);
@@ -149,13 +154,13 @@ const NewCourseForm: React.FC<NewCourseForm> = ({ show, data }) => {
         } finally {
             setShowRoller(false);
         }
-    }
+    };
 
     useEffect(() => {
         if (data) configureComponent();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
-    
+
     return (
         <div className='fixed top-0 left-0 w-full px-4 py-3 h-full bg-white z-50 overflow-auto'>
             <button ref={hideBtRef} onClick={hide} className='absolute top-4 right-4 w-6 h-6 rounded-full bg-red-100'>
@@ -168,30 +173,38 @@ const NewCourseForm: React.FC<NewCourseForm> = ({ show, data }) => {
                 <label htmlFor="course-name" className='block'>Course Name</label>
                 <input type="text" name='course-name' className='w-full border-[1px] border-gray-200 px-4 py-2 rounded-full'
                     onChange={(e) => inputChange('courseName', e.target.value)}
+                    value={courseName}
                 />
 
                 <label htmlFor="course-title" className='block mt-4'>Course title</label>
                 <input type="text" name='course-title' className='w-full border-[1px] border-gray-200 px-4 py-2 rounded-full'
                     onChange={(e) => inputChange('title', e.target.value)}
+                    value={title}
                 />
 
                 <label htmlFor="course-about" className='block mt-4'>About course</label>
                 <textarea name='course-title' className='w-full border-[1px] border-gray-200 px-4 py-2 rounded-xl'
                     onChange={(e) => inputChange('aboutCourse', e.target.value)}
+                    value={aboutCourse}
                 />
 
                 <label htmlFor="course-price" className='block mt-4'>Course price ($)</label>
                 <input type="number" name='course-price' className='w-full border-[1px] border-gray-200 px-4 py-2 rounded-full'
                     onChange={(e) => inputChange('price', e.target.value)}
+                    value={price}
                 />
 
                 <label htmlFor="course-discount" className='block mt-4'>Full payment discount</label>
                 <input type="number" name='course-discount' className='w-full border-[1px] border-gray-200 px-4 py-2 rounded-full'
                     onChange={(e) => inputChange('discount', e.target.value)}
+                    value={discount}
                 />
 
                 <label htmlFor="imageInput" className='block mt-4'>Course Image</label>
-                <input type="file" id="imageInput" accept="image/*" onChange={handleImageChange} className='mb-3' />
+                {
+                    // @ts-ignore
+                    <input type="file" id="imageInput" accept="image/*" onChange={handleImageChange} className='mb-3' />
+                }
 
                 <ImagePreview imageUrl={imageUrl} />
 

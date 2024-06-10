@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faExclamationTriangle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import showClicked from '@/app/utils/clicked';
 import NewCourseForm from '../main/new-course-form';
+import About from '@/components/course-view/about';
 
 interface CourseData {
     courseName: string;
@@ -109,7 +110,7 @@ const DisplayCourseData: React.FC<DisplayCourseDataProps> = ({ courseId, setShow
                         className='rounded-xl border-[2px] border-blue-300' />
                 }
                 <h2 className='text-lg'>{courseData.title}</h2>
-                <p className="text-gray-600">{courseData.aboutCourse}</p>
+                <About text={courseData.aboutCourse} limit={200} />
                 <div className="flex items-center">
                     <p className="text-blue-500 font-medium">Price: ${courseData.price}</p>
                     {courseData.discount > 0 && (
