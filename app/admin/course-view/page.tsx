@@ -18,7 +18,7 @@ const CourseView = () => {
     const btRef = useRef<HTMLButtonElement | null>(null);
 
     const handleAddChapterBtClick = () => {
-        showClicked(btRef);
+        if (btRef.current) showClicked(btRef.current);
         setTimeout(() => setShowAddChapter(true), 250);
     };
 

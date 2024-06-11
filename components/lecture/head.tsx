@@ -11,7 +11,7 @@ const Head: React.FC<{ chapter: number; lesson: number }> = ({ chapter, lesson }
     const backBt = useRef<null | HTMLButtonElement>(null);
 
     const back = () => {
-        showClicked(backBt);
+        if (backBt.current) showClicked(backBt.current);
         setTimeout(() => router.back(), 250);
     };
 

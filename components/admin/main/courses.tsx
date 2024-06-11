@@ -21,7 +21,7 @@ const Courses = () => {
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 
     const seeMoreClicked = () => {
-        showClicked(seeMoreBtRef);
+        if (seeMoreBtRef.current) showClicked(seeMoreBtRef.current);
         console.log(courses)
         setTimeout(() => setPagin(pagin + 5), 230);
     };

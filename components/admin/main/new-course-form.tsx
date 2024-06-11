@@ -76,7 +76,7 @@ const NewCourseForm: React.FC<NewCourseForm> = ({ show, data }) => {
     };
 
     const hide = () => {
-        showClicked(hideBtRef);
+        if (hideBtRef.current) showClicked(hideBtRef.current);
         setTimeout(() => show(false), 250);
     };
 

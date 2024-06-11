@@ -18,7 +18,7 @@ const ContactUs: React.FC<ContactUsProps> = ({ hide }) => {
     const whatsappNumber = '+2348000000000';
 
     const handleWhatsAppClick = () => {
-        showClicked(btRef);
+        if (btRef.current) showClicked(btRef.current);
 
         setTimeout(() => {
             // Construct WhatsApp URL with appropriate encoding
@@ -31,7 +31,7 @@ const ContactUs: React.FC<ContactUsProps> = ({ hide }) => {
     };
 
     const close = () => {
-        showClicked(closeBtRef);
+        if (closeBtRef.current) showClicked(closeBtRef.current);
         setTimeout(() => hide(false), 250);
     }
 

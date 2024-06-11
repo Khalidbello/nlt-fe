@@ -40,7 +40,7 @@ const AccountDetails = () => {
         }
 
         try {
-            showClick(copyBtRef);
+            if (copyBtRef.current) showClick(copyBtRef.current);
             await navigator.clipboard.writeText(data.accountNumber);
             setCopied(true);
         } catch (err) {
@@ -80,7 +80,7 @@ const AccountDetails = () => {
 
     useEffect(() => {
         fetchPaymentInfo()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

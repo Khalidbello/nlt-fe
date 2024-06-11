@@ -29,7 +29,7 @@ const CourseCard: React.FC<courseCardProps> =
         const router = useRouter();
 
         const handleClick = () => {
-            showClicked(actionBtRef);
+            if (actionBtRef.current) showClicked(actionBtRef.current);
             setTimeout(() => router.push(`/course-view?course_id=${courseId}`), 250);
         };
 

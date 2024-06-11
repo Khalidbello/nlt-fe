@@ -15,7 +15,7 @@ const ContinueLearningBT: React.FC<continueLearningBTProps> = ({ courseId, chapt
     const btRef = useRef<null | HTMLButtonElement>(null)
 
     const handleClick = () => {
-        showClicked(btRef);
+        if (btRef.current) showClicked(btRef.current);
         setTimeout(() => {
             router.push(`/lecture?courseId=${courseId}&chapterId=${chapterId}&chapterNumber=${chapterNUmber}&lessonNumber=${lessonNumber}`);
         }, 250);

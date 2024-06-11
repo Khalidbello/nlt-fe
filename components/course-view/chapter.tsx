@@ -4,8 +4,6 @@ import React, { useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import showClicked from '@/app/utils/clicked';
 import Lessons, { LessonType } from "./lessons";
 
 
@@ -69,7 +67,7 @@ const Chapter: React.FC<ChapterProps> = ({ chapter, lessonNumber, courseId, curr
             {showLessons && (
                 <Lessons
                     chapterId={chapter.chapter_id}
-                    courseId={courseId} 
+                    courseId={courseId}
                     lessons={lessons}
                     setLessons={setLessons}
                     currentChapter={currentChapter}

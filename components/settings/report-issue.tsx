@@ -26,7 +26,7 @@ const ContactUs: React.FC<ContactUsProps> = ({ hide }) => {
     };
 
     const close = () => {
-        showClicked(closeBtRef);
+        if (closeBtRef.current) showClicked(closeBtRef.current);
         setTimeout(() => hide(false), 250);
     }
 

@@ -11,7 +11,7 @@ export default function SignOut() {
     const signOutBtRef = useRef<null | HTMLButtonElement>(null);
 
     const signOut = (e: React.MouseEvent) => {
-        showClicked(signOutBtRef);
+        if (signOutBtRef.current) showClicked(signOutBtRef.current);
         setTimeout(() => router.push('/sign-in'), 250);
     }
 

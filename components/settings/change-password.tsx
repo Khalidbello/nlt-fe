@@ -73,7 +73,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ hide }) => {
     };
 
     const close = () => {
-        showClicked(closeBtRef);
+        if (closeBtRef.current) showClicked(closeBtRef.current);
         setTimeout(() => hide(false), 250);
     }
 

@@ -68,7 +68,7 @@ const VerifyEmail: React.FC<VerifyEmailProps> = ({ email, hide }) => {
 
     // function t handle shoe change email
     const handeleShowChangeEmail = () => {
-        showClicked(changeEmailBtRef);
+        if (changeEmailBtRef.current) showClicked(changeEmailBtRef.current);
         setTimeout(() => setShowChangeEmail(true), 210);
     }
 

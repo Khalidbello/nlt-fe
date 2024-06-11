@@ -37,7 +37,7 @@ const DisplayCourseData: React.FC<DisplayCourseDataProps> = ({ courseId, setShow
 
     // function to handle click of edit course bt 
     const hadleClick = (): void => {
-        showClicked(editCourseDataBtRef);
+        if (editCourseDataBtRef.current) showClicked(editCourseDataBtRef.current);
         setTimeout(() => setShowEditCourse(true), 250);
     };
 

@@ -118,8 +118,7 @@ const ChangeEmail: React.FC<ChangeEmailProps> = ({ hide, hideVerifyEmail = null 
 
     // function to close dialogue
     const close = () => {
-        showClicked(closeBtRef);
-
+        if (closeBtRef.current) showClicked(closeBtRef.current);
         setTimeout(() => {
             hide(false);
         }, 250);

@@ -36,7 +36,7 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
     const router = useRouter();
 
     const handleSubmit = () => {
-        showClicked(submitBtRef);
+        if (submitBtRef.current) showClicked(submitBtRef.current);
         setTimeout(() => setShowResult(true), 250);
     };
 
@@ -94,7 +94,7 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
 
     useEffect(() => {
         fetchQUiz();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload])
     return (
         <>

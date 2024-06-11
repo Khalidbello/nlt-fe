@@ -5,13 +5,21 @@ import RollerAnimation from "@/components/multipurpose/roller-white";
 import { faPlus, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 
 interface AddChapterProps {
     show: React.Dispatch<React.SetStateAction<boolean>>;
     courseId: number;
+    data: null | {
+        chapterId: number;
+        chapterTitle: string;
+        chapterNumber: number;
+        numOfLessons: Number;
+        courseName: string;
+    };
 }
-const AddChapter: React.FC<AddChapterProps> = ({ show, courseId }) => {
+
+const AddChapter: React.FC<AddChapterProps> = ({ show, courseId, data }) => {
     const router = useRouter();
     const [error, setError] = useState<string>('');
     const [success, setSuccess] = useState<boolean>(false);
@@ -20,10 +28,19 @@ const AddChapter: React.FC<AddChapterProps> = ({ show, courseId }) => {
     const [submitting, setSubmitting] = useState<boolean>(false);
     const hideBtRef = useRef<HTMLButtonElement | null>(null);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
-    let url = `${apiHost}/admin/create-chapter`
+    const [url, setUrl] = useState<string>(`${apiHost}/admin/create-chapter/${courseId}`);
+
+    // function to configure for edit chapter
+    const configure = () => {
+        if (!data) return;
+
+        setUrl(`${apiHost}/admin/update-chapter/${courseId}/${data.chapterId}`);
+        setchapterTitle(data.chapterTitle);
+        setChapterNum(data.chapterNumber);
+    };
 
     const hide = () => {
-        showClicked(hideBtRef);
+        if (hideBtRef.current) showClicked(hideBtRef.current);
         setTimeout(() => show(false), 250);
     };
 
@@ -43,8 +60,10 @@ const AddChapter: React.FC<AddChapterProps> = ({ show, courseId }) => {
         if (!chapterTitle || !chapterNum) return setError('Please enter all  fields');
 
         setSubmitting(true);
+        setError('');
+
         try {
-            const response = await fetch(`${url}/${courseId}`, {
+            const response = await fetch(url, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -56,7 +75,8 @@ const AddChapter: React.FC<AddChapterProps> = ({ show, courseId }) => {
                 })
             });
 
-            if (response.status == 403) router.push('/sign-in?redirected=true');
+            if (response.status === 403) router.push('/sign-in?redirected=true');
+            if (response.status === 401) return setError('Chapter with number alredy exist');
             if (response.status !== 200) throw 'something went wronrg';
 
             setSuccess(true);
@@ -71,6 +91,11 @@ const AddChapter: React.FC<AddChapterProps> = ({ show, courseId }) => {
         };
     };
 
+    useEffect(() => {
+        configure();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <div className="bg-blue-600 flex justify-center items-center fixed top-0 left-0 w-full h-full px-6 bg-opacity-95">
             <form onSubmit={handleSubmit} className="-mt-10 bg-white rounded-xl p-3 pt-8 relative w-full">
@@ -78,7 +103,7 @@ const AddChapter: React.FC<AddChapterProps> = ({ show, courseId }) => {
                     <FontAwesomeIcon icon={faX} className="text-red-500" />
                 </button>
 
-                <h3 className="mb-4 font-medium text-lg">Create Chapter</h3>
+                <h3 className="mb-4 font-medium text-lg">{data ? 'Edit' : 'Create'} Chapter</h3>
 
                 <label htmlFor="chapter-title" className="block">Chapter title</label>
                 <input type="text" name="chapter-title" className="w-full rounded-full py-2 px-4 border-[1px] border-gray-200"
@@ -91,7 +116,7 @@ const AddChapter: React.FC<AddChapterProps> = ({ show, courseId }) => {
                 />
 
                 {error && <p className="text-red-500 text-sm text-center mt-3">{error}</p>}
-                {success && <p className="text-center text-green-500 text-sm mt-3">Chapter created successfully</p>}
+                {success && <p className="text-center text-green-500 text-sm mt-3">Chapter {data ? 'edited' : 'created'} successfully</p>}
 
                 <div className="mt-4 text-right">
                     <button

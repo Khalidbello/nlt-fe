@@ -21,7 +21,7 @@ const UnitCourse: React.FC<courseCardProps> = ({ courseId, courseName, courseDes
     const actionBtRef = useRef<null | HTMLButtonElement>(null);
 
     const handleClick = () => {
-        showClicked(actionBtRef);
+        if (actionBtRef.current) showClicked(actionBtRef.current);
         setTimeout(() => router.push(`/admin/course-view?courseId=${courseId}`), 250);
     };
 

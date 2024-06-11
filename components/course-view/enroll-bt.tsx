@@ -11,7 +11,7 @@ const FloatingEnrollButton: React.FC<{ courseId: number }> = ({ courseId }) => {
     const btRef = useRef<null | HTMLButtonElement>(null);
 
     const handleClick = () => {
-        showClick(btRef);
+        if (btRef.current) showClick(btRef.current);
         setTimeout(() => setShowEnrollOpt(true), 250);
     };
 

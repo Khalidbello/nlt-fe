@@ -34,18 +34,18 @@ const QuizResult: React.FC<QuizResultProps> = ({ answers, setShowResult, setShow
     const keys = Object.keys(answers); //  to hold answer keys
 
     const hide = () => {
-        showClicked(hideBtRef);
+        if (hideBtRef.current) showClicked(hideBtRef.current);
         setTimeout(() => setShowResult(false), 250);
     };
 
     // function to initiate quiz retry
     const retry = () => {
-        showClicked(retryBtRef);
+        if (retryBtRef.current) showClicked(retryBtRef.current);
         hide();
     }
     // function to send request to server to updatee that user just finished the lesson
     const lessonCompleted = async () => {
-        showClicked(completedBtRef);
+        if (completedBtRef.current) showClicked(completedBtRef.current);
         // send result to server with course id lessonId and chapter id
         try {
             setShowError(false);

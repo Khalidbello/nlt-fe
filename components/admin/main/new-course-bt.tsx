@@ -11,7 +11,7 @@ const CreateCourseBt: React.FC<CreateCourseBt> = ({ show }) => {
     const createCourseBtRef = useRef<null | HTMLButtonElement>(null);
 
     const handleClick = () => {
-        showClicked(createCourseBtRef);
+        if (createCourseBtRef.current) showClicked(createCourseBtRef.current);
         setTimeout(() => show(true), 250);
     };
 

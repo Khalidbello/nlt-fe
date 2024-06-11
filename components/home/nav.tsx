@@ -41,7 +41,7 @@ const Nav: React.FC = () => {
     const logOutBtRef = useRef<null | HTMLButtonElement>(null);
 
     const handleLogout = () => {
-        showClicked(logOutBtRef);
+        if (logOutBtRef.current) showClicked(logOutBtRef.current);
         setTimeout(() => setShowConfirmLogout(true), 210)
     };
 

@@ -12,7 +12,7 @@ const QuizButton: React.FC<QuizButtonProps> = ({ onClick }) => {
         <div className='text-center mt-10'>
             <button
                 onClick={() => {
-                    showClicked(quizBtRef)
+                    if (quizBtRef.current) showClicked(quizBtRef.current)
                     onClick()
                 }}
                 ref={quizBtRef}

@@ -63,7 +63,7 @@ const ContinueLearningCard = () => {
 
     useEffect(() => {
         fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload]);
 
     return (
@@ -105,7 +105,7 @@ const Main: React.FC<MainProps> = ({ course }) => {
 
     // function to push user to class view 
     const toClass = () => {
-        showClicked(continueBtRef);
+        if (continueBtRef.current) showClicked(continueBtRef.current);
         setTimeout(() => router.push(`/course-view?course_id=${course.courseId}`), 250);
     };
 

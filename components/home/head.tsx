@@ -19,7 +19,7 @@ export default function Head() {
 
     // fucntion to redirect user 
     const redirect = (ref: any, url: string) => {
-        showClicked(ref);
+        if (ref.current) showClicked(ref.current);
         setTimeout(() => router.push(url), 210);
     }
     // function to get user first name

@@ -36,7 +36,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
     console.log('options numbr', options);
 
     const handleHide = () => {
-        showClick(cancleBtRef)
+        if (cancleBtRef.current) showClick(cancleBtRef.current);
         setTimeout(() => {
             if (hide) hide(false);
         }, 250);
@@ -44,7 +44,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
 
     const handleEnrollFree = async () => {
         try {
-            showClick(freeBtRef);
+            if (freeBtRef.current) showClick(freeBtRef.current);
             setStartFreeLoading(true);
             const response = await fetch(`${apiHost}/users/enroll-free/${courseId}`, { credentials: 'include' });
 
@@ -60,8 +60,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
     };
 
     const handlePaymentButtonCLicked = (type: 'full' | 'half' | 'completeHalf', btRef: null | HTMLButtonElement) => {
-        showClick(btRef);
-
+        if (btRef) showClick(btRef);
         setTimeout(() => router.push(`payment/?courseId=${courseId}&type=${type}`), 210);
     }
 

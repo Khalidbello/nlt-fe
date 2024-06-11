@@ -11,7 +11,7 @@ const Header: React.FC<{ heading: string }> = ({ heading }) => {
     const backBt = useRef<null | HTMLButtonElement>(null);
 
     const back = () => {
-        showClicked(backBt);
+        if (backBt.current) showClicked(backBt.current);
         setTimeout(() => router.back(), 250);
     };
 

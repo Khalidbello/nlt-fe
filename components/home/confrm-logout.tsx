@@ -18,7 +18,7 @@ const ConfirmLogout: React.FC<ConfirmLogoutProps> = ({ hide }) => {
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 
     const cancle = () => {
-        showClicked(cancleBtRef);
+        if (cancleBtRef.current) showClicked(cancleBtRef.current);
         setTimeout(() => hide(false), 210);
     }
 

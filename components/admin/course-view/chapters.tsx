@@ -1,7 +1,8 @@
 'use client';
 
+import showClicked from "@/app/utils/clicked";
 import Loader from "@/components/multipurpose/loader";
-import { faExclamationCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faExclamationCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ interface chapter {
     chapterNumber: number;
     title: string;
     numberOfLessons: number;
+    chapterId: number;
 }
 
 const Chapters: React.FC<ChapterProps> = ({ courseId }) => {
@@ -23,6 +25,11 @@ const Chapters: React.FC<ChapterProps> = ({ courseId }) => {
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [error, setError] = useState<boolean>(false);
     const [chapters, setChapters] = useState<chapter[]>([]);
+
+    const handleShowChapter = (e: React.MouseEvent<HTMLButtonElement>, chapterId: number) => {
+        if (e.currentTarget) showClicked(e.currentTarget);
+        setTimeout(() => router.push(`/admin/chapter-view?courseId=${courseId}&chapterId=${chapterId}`), 250);
+    };
 
     const fetchChapters = async () => {
         setIsFetching(true);
@@ -87,9 +94,14 @@ const Chapters: React.FC<ChapterProps> = ({ courseId }) => {
         <div>
             <div className="mx-2">
                 {chapters.map((chapter: chapter, index: number) => (
-                    <p key={index} className='mb-3 bg-blue-100 rounded-xl p-3'>
-                        <p>{chapter.chapterNumber}. {chapter.title}</p>
-                        <p className="pl-3 text-sm">{chapter.numberOfLessons} lessons</p>
+                    <p key={index} className='mb-3 bg-blue-100 rounded-xl p-3 flex items-center justify-between'>
+                        <div>
+                            <p>{chapter.chapterNumber}. {chapter.title}</p>
+                            <p className="pl-3 text-sm">{chapter.numberOfLessons} lessons</p>
+                        </div>
+                        <div>
+                            <button onClick={(e) => handleShowChapter(e, chapter.chapterId)}> <FontAwesomeIcon icon={faEdit} className="w-5 h-5 text-blue-500" /></button>
+                        </div>
                     </p>
                 ))}
             </div>

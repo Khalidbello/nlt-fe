@@ -1,7 +1,8 @@
 {
   "/course-view/page": "app/course-view/page.js",
-  "/admin/page": "app/admin/page.js",
   "/admin/course-view/page": "app/admin/course-view/page.js",
-  "/(app)/my-learning/page": "app/(app)/my-learning/page.js",
-  "/(app)/settings/page": "app/(app)/settings/page.js"
+  "/payment/page": "app/payment/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/chapter-view/page": "app/admin/chapter-view/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }

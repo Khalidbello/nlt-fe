@@ -46,7 +46,7 @@ const Lessons: React.FC<LessonsProps> = ({ chapterId, courseId, lessons, setLess
 
     useEffect(() => {
         if (lessons.length === 0) fetchLessons();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -84,12 +84,14 @@ const Lesson: React.FC<LessonProps> = ({ lesson, router, currentChapter, current
     const toLecture = () => {
         console.log(lesson, currentChapter, currentLesson, lesson.lesson_number)
         if (lesson.chapter_number < currentChapter) {
-            showClicked(optionRef);
+            if (optionRef.current) showClicked(optionRef.current);
+
             setTimeout(() => {
                 router.push(`/lecture?courseId=${lesson.course_id}&chapterId=${lesson.chapter_id}&chapterNumber=${lesson.chapter_number}&lessonNumber=${lesson.lesson_number}`);
             }, 250);
         } else if (lesson.chapter_number === currentChapter && lesson.lesson_number <= currentLesson) {
-            showClicked(optionRef);
+            if (optionRef.current) showClicked(optionRef.current);
+            
             setTimeout(() => {
                 router.push(`/lecture?courseId=${lesson.course_id}&chapterId=${lesson.chapter_id}&chapterNumber=${lesson.chapter_number}&lessonNumber=${lesson.lesson_number}`);
             }, 250);
