@@ -96,7 +96,7 @@ const ChapterData: React.FC<ChapterData> = ({ courseId, chapterId }) => {
                 <div className="px-2 py-2 bg-blue-100 rounded-xl flex items-center justify-between">
                     <div>
                         <p className="font-medium">{chapterData.chapterTitle}</p>
-                        <p> number {chapterData.chapterNumber}</p>
+                        <p> Chapter {chapterData.chapterNumber}</p>
                     </div>
                     <div className="text-right">
                         <button ref={editCourseBtRef} onClick={handleShowEditCourse} className="text-white bg-blue-500 rounded-full px-5 py-2">Edit</button>
