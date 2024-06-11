@@ -1,6 +1,7 @@
 'use client';
 
 import ChapterData from "@/components/admin/chapter-view/chapter-data";
+import Lessons from "@/components/admin/chapter-view/lessons";
 import Header from "@/components/multipurpose/header";
 import { useSearchParams } from "next/navigation";
 
@@ -22,7 +23,12 @@ const ChapterView: React.FC = () => {
                 <ChapterData courseId={courseId} chapterId={chapterId} />
             }
 
-            <h2 className="mb-2 px-3">Lessons</h2>
+            <h2 className="mb-2 px-3 font-medium">Lessons</h2>
+            {
+                // @ts-ignore
+                <Lessons courseId={courseId} chapterId={chapterId} />
+
+            }
         </div>
     )
 }
