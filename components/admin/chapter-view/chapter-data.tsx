@@ -4,13 +4,14 @@ import Loader from "@/components/multipurpose/loader";
 import { faExclamationCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AddChapter from "../course-view/add-new-Chapter";
 import showClicked from "@/app/utils/clicked";
 
 interface ChapterData {
     courseId: number;
     chapterId: number;
+    setShowAddLessonBt: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface chapterDataType {
@@ -21,7 +22,7 @@ interface chapterDataType {
     courseName: string;
 }
 
-const ChapterData: React.FC<ChapterData> = ({ courseId, chapterId }) => {
+const ChapterData: React.FC<ChapterData> = ({ courseId, chapterId, setShowAddLessonBt }) => {
     const router = useRouter();
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [error, setError] = useState<string>('');
@@ -54,6 +55,7 @@ const ChapterData: React.FC<ChapterData> = ({ courseId, chapterId }) => {
 
             const data = await response.json();
             setChapterData(data);
+            setShowAddLessonBt(true);
         } catch (err) {
             console.log('error in fetch course data', err);
             setError('Something went wron. please try again.');
@@ -93,7 +95,7 @@ const ChapterData: React.FC<ChapterData> = ({ courseId, chapterId }) => {
         <>
             <div className="px-2 mb-6">
                 <p className="text-lg font-medium px-2 mb-2">{chapterData.courseName}</p>
-                <div className="px-2 py-2 bg-blue-100 rounded-xl flex items-center justify-between">
+                <div className="p-4 bg-blue-100 rounded-xl flex items-center justify-between">
                     <div>
                         <p> Chapter {chapterData.chapterNumber}</p>
                         <p className="font-medium">{chapterData.chapterTitle}</p>

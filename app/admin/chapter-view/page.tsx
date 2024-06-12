@@ -1,9 +1,12 @@
 'use client';
 
+import AddLectureBt from "@/components/admin/chapter-view/add-lectrue-bt";
+import AddLesson from "@/components/admin/chapter-view/add-lesson-form";
 import ChapterData from "@/components/admin/chapter-view/chapter-data";
 import Lessons from "@/components/admin/chapter-view/lessons";
 import Header from "@/components/multipurpose/header";
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 interface ChapterView {
     courseId: number;
@@ -14,13 +17,15 @@ const ChapterView: React.FC = () => {
     const searchPrams = useSearchParams();
     const courseId = searchPrams.get('courseId');
     const chapterId = searchPrams.get('chapterId');
+    const [showAddLesson, setShowAddLesson] = useState<boolean>(false);
+    const [showAddLessonBt, setShowAddLessonBt] = useState<boolean>(false);
 
     return (
         <div className="w-ful h-full relative pt-20">
             <Header heading="Chapter view" />
             {
                 // @ts-ignore
-                <ChapterData courseId={courseId} chapterId={chapterId} />
+                <ChapterData courseId={courseId} chapterId={chapterId} setShowAddLessonBt={setShowAddLessonBt} />
             }
 
             <h2 className="mb-2 px-3 font-medium">Lessons</h2>
@@ -29,6 +34,14 @@ const ChapterView: React.FC = () => {
                 <Lessons courseId={courseId} chapterId={chapterId} />
 
             }
+            {
+                // @ts-ignore
+                showAddLesson && <AddLesson courseId={courseId} chapterId={chapterId} show={setShowAddLesson} />
+            }
+
+            {showAddLessonBt && <AddLectureBt show={setShowAddLesson} />}
+
+            <div className="h-20"></div>
         </div>
     )
 }

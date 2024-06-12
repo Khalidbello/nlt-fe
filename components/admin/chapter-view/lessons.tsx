@@ -10,9 +10,18 @@ interface LessonsProps {
     chapterId: number;
 };
 
+interface lessonsType {
+    lesson_id: number;
+    lesson_number: number;
+    lesson_title: string;
+    chapter_number: number;
+    course_id: number;
+    chapter_id: number;
+};
+
 const Lessons: React.FC<LessonsProps> = ({ courseId, chapterId }) => {
     const router = useRouter();
-    const [lessons, setLessons] = useState<any[]>([]);
+    const [lessons, setLessons] = useState<lessonsType[]>([]);
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [error, setError] = useState<string>('');
     const [reload, setReload] = useState<boolean>(false);
@@ -34,7 +43,7 @@ const Lessons: React.FC<LessonsProps> = ({ courseId, chapterId }) => {
             if (response.status !== 200) throw 'something went wrong';
 
             const data = await response.json();
-            setLessons(data);
+            setLessons(data.lessons);
         } catch (err) {
             console.log('error in etching lessons ', err);
             setError('An error occured please try again');
@@ -68,29 +77,29 @@ const Lessons: React.FC<LessonsProps> = ({ courseId, chapterId }) => {
         )
     };
 
-    if (lessons.length < 1) {
+    if (!lessons || lessons.length < 1) {
         return (
             <div className="flex flex-col items-center gap-6 bg-blue-500 px-5 py-5 mx-6 text-white rounded-md">
                 <FontAwesomeIcon icon={faExclamationCircle} className="mr-2 h-10" />
-                <p className="text-sm font-medium">{`No lessons. Add a lessonF`}</p>
+                <p className="text-sm font-medium">{`No lessons. Add a lesson`}</p>
             </div>
         )
     }
     return (
-        <div>
-            <div className="mx-2">
-                {lessons.map((lesson: any, index: number) => (
-                    <p key={index} className='mb-3 bg-blue-100 rounded-xl p-3 flex items-center justify-between'>
-                        <div>
-                            <p className="pl-3 text-sm">lesson {lesson.number}</p>
-                            <p className="font-medium"> {lesson.title}</p>
-                        </div>
-                        <div>
-                            <button onClick={(e) => handleShowLesson(e, lesson.lessonId)}> <FontAwesomeIcon icon={faEdit} className="w-5 h-5 text-blue-500" /></button>
-                        </div>
-                    </p>
-                ))}
-            </div>
+
+        <div className="mx-2">
+            {lessons.map((lesson: lessonsType, index: number) => (
+                <p key={index} className='mb-3 bg-blue-100 rounded-xl p-3 flex items-center justify-between'>
+                    <div>
+                        <p className="pl-3 text-sm">lesson {lesson.lesson_number}</p>
+                        <p className="font-medium"> {lesson.lesson_title}</p>
+                    </div>
+                    <div>
+                        <button onClick={(e) => handleShowLesson(e, lesson.lesson_id)}> <FontAwesomeIcon icon={faEdit} className="w-5 h-5 text-blue-500" /></button>
+                    </div>
+                </p>
+            ))
+            }
         </div>
     )
 };
