@@ -65,14 +65,14 @@ const AudioComponent: React.FC<AudioProps> = ({ src }) => {
   const progress = (currentTime / duration) * 100;
 
   return (
-    <div className="max-w-md mx-4 mt-6 mb-10 bg-blue-100 p-3 shadow-md rounded-lg overflow-hidden">
+    <div className="max-w-md mx-4 mt-6 mb-10 bg-blue-100 p-4 shadow-md rounded-lg overflow-hidden">
       <audio
         controls={false} // Hide default controls
         ref={audioRef}
         onTimeUpdate={handleTimeUpdate}
         className="w-full pointer-events-none"
       >
-        <source src={src} />
+        <source src={`data:audio/mpeg;base64,${src}`} />
         Your browser does not support the audio element.
       </audio>
       <div className="flex justify-between items-center px-4 py-2">

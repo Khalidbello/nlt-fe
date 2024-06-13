@@ -66,6 +66,7 @@ const ChapterData: React.FC<ChapterData> = ({ courseId, chapterId, setShowAddLes
 
     useEffect(() => {
         fetchChapterData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload]);
 
     if (isFetching) return <Loader h='h-[6rem]' />;

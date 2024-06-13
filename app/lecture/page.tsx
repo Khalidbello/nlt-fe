@@ -20,8 +20,8 @@ interface datainterface {
     course_id: number;
     course_name: string;
     chapter_id: number;
-    open_note: string;
-    close_note: string;
+    opening_note: string;
+    closing_note: string;
     chapter_number: number;
     lesson_number: number;
     lesson_title: string;
@@ -35,8 +35,8 @@ const Lecture: React.FC = () => {
         course_id: 0,
         course_name: '',
         chapter_id: 0,
-        open_note: '',
-        close_note: '',
+        opening_note: '',
+        closing_note: '',
         chapter_number: 0,
         lesson_number: 0,
         lesson_title: '',
@@ -130,9 +130,9 @@ const Lecture: React.FC = () => {
                             <Link href={`course-view?course_id=${data.course_id}`}>
                                 <div className='text-xl font-medium mx-4 mb-4'>{data.course_name}</div>
                             </Link>
-                            <Note text={data.open_note} />
-                            <Audio src={'/audio/test.m4a'} />
-                            <Note text={data.close_note} />
+                            <Note text={data.opening_note} />
+                            <Audio src={data.audio} />
+                            <Note text={data.closing_note} />
 
                             <div className='h-10'></div>
 
