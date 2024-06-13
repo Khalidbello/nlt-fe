@@ -14,8 +14,10 @@ interface AddLessonProps {
 
 const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show }) => {
     const [isSUbmitting, setIsSubmitting] = useState<boolean>(false);
+    const [lessonTitle, setLessonTitle] = useState<string>('');
     const [openingNote, setOpeningNote] = useState<string>('');
     const [closingNote, setClosingNote] = useState<string>('');
+    const [lessonNumber, setLessonNumber] = useState<number | null>(null);
     const [error, setError] = useState<string>('');
     const [lecture, setLecture] = useState<File | null>(null);
     const [lectureUrl, setLectureUrl] = useState<string>('');
@@ -25,12 +27,20 @@ const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show }) => {
     const cancleBtRef = useRef<HTMLButtonElement | null>(null);
 
     const inputChange = (name: string, data: string) => {
+        setError('');
+
         switch (name) {
             case 'openingNote':
                 setOpeningNote(data);
                 break;
             case 'closingNote':
                 setClosingNote(data);
+                break;
+            case 'lessonNumber':
+                setLessonNumber(parseInt(data));
+                break;
+            case 'lessonTitle':
+                setLessonTitle(data);
         };
     };
 
@@ -51,14 +61,17 @@ const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show }) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log(openingNote, closingNote, lessonNumber, lecture);
 
         if (!lecture) return setError('please select a lecture');
-        if (!openingNote || !closingNote) return setError('please enter all fields');
+        if (!openingNote || !closingNote || !lessonNumber) return setError('please enter all fields');
 
         const formData = new FormData();
 
         formData.append('openingNote', openingNote);
         formData.append('closingNote', closingNote);
+        formData.append('lessonNumber', lessonNumber.toString());
+        formData.append('lessonTitle', lessonTitle);
         formData.append('lecture', lecture);
 
         setIsSubmitting(true);
@@ -96,7 +109,24 @@ const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show }) => {
                 </button>
 
                 <h2 className="text-lg font-medium mb-5">Create lesson</h2>
+
                 <form onSubmit={handleSubmit} >
+                    <label htmlFor="lecture font-medium">Lesson title</label>
+                    <input type="text"
+                        value={lessonTitle}
+                        onChange={(e) => inputChange('lessonTitle', e.target.value)}
+                        className="border-[1px] border-gray-200 rounded-lg p-2 w-full block mb-3"
+                    />
+
+                    <label htmlFor="lecture font-medium">Lesson number</label>
+                    {
+                        <input type="number"
+                            // @ts-ignore
+                            value={lessonNumber}
+                            onChange={(e) => inputChange('lessonNumber', e.target.value)}
+                            className="border-[1px] border-gray-200 rounded-lg p-2 w-full block mb-3"
+                        />
+                    }
                     <label htmlFor="open-note font-medium">Opening note</label>
                     <textarea name="open-note"
                         value={openingNote}
