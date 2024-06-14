@@ -73,12 +73,12 @@ const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, le
 
         try {
             const bodyData = {
-                question,
-                option1,
-                option2,
-                option3,
-                option4,
-                ans
+                question: question.trim(),
+                option1: option1.trim(),
+                option2: option2.trim(),
+                option3: option3.trim(),
+                option4: option4.trim(),
+                answer: ans.trim()
             };
 
             const response = await fetch(url, {
@@ -129,41 +129,45 @@ const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, le
 
                     <label htmlFor="option-1" className="">Option 1</label>
                     <input type="text" name="option-1"
-                        className="border-[1px] border-gray-200 rounded-full p-2 w-full block mb-3"
+                        className="border-[1px] border-gray-200 rounded-full p-3 w-full block mb-3"
                         onChange={(e) => inputChange('option1', e.target.value)}
                         value={option1}
                     />
 
                     <label htmlFor="option-2" className="">Option 2</label>
                     <input type="text" name="option-2"
-                        className="border-[1px] border-gray-200 rounded-full p-2 w-full block mb-3"
+                        className="border-[1px] border-gray-200 rounded-full p-3 w-full block mb-3"
                         onChange={(e) => inputChange('option2', e.target.value)}
                         value={option2}
                     />
 
                     <label htmlFor="option-3" className="">Option 3</label>
                     <input type="text" name="option-3"
-                        className="border-[1px] border-gray-200 rounded-full p-2 w-full block mb-3"
+                        className="border-[1px] border-gray-200 rounded-full p-3 w-full block mb-3"
                         onChange={(e) => inputChange('option3', e.target.value)}
                         value={option3}
                     />
 
                     <label htmlFor="option-4" className="">Option 4</label>
                     <input type="text" name="option-4"
-                        className="border-[1px] border-gray-200 rounded-full p-2 w-full block mb-3"
+                        className="border-[1px] border-gray-200 rounded-full p-3 w-full block mb-3"
                         onChange={(e) => inputChange('option4', e.target.value)}
                         value={option4}
                     />
 
                     <label htmlFor="option-1" className="">Answer</label>
                     <input type="text"
-                        className="border-[1px] border-gray-200 rounded-full p-2 w-full block mb-6"
+                        className="border-[1px] border-gray-200 rounded-full p-3 w-full block mb-6"
                         onChange={(e) => inputChange('ans', e.target.value)}
                         value={ans}
                     />
 
                     {error && <p className="text-sm text-center text-red-500">{error}</p>}
-                    {success && <p className="text-sm text-center text-green-600">{error}</p>}
+                    {success && (
+                        <p className="text-sm text-center text-green-600">
+                            question successfuly created
+                        </p>
+                    )}
 
                     <div className="text-right mt-3">
                         <button className="px-4 py-2 bg-blue-500 text-white rounded-full">

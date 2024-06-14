@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import AddQuizBt from "@/components/admin/lesson-view/add-quiz-bt";
 import { useState } from "react";
 import AddQuizForm from "@/components/admin/lesson-view/add-quiz-form";
+import QuizView from "@/components/admin/lesson-view/quiz-view";
 
 const LessonView = () => {
     const searchPrams = useSearchParams();
@@ -33,6 +34,10 @@ const LessonView = () => {
                 showAddQuiz && <AddQuizForm courseId={courseId} lessonId={lessonId} chapterId={chapterId} hide={setShowAddQuiz} reload={quizReloader} setReload={setQuizReloader} />
             }
 
+            {
+                // @ts-ignore
+                <QuizView courseId={courseId} chapterId={chapterId} lessonId={lessonId} reloader={quizReloader} />
+            }
             <AddQuizBt show={setShowAddQuiz} />
         </div>
     );
