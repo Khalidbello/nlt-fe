@@ -14,6 +14,7 @@ const LessonView = () => {
     const chapterId = searchPrams.get('chapterId');
     const lessonId = searchPrams.get('lessonId');
     const [showAddQuiz, setShowAddQuiz] = useState<boolean>(false);
+    const [quizReloader, setQuizReloader] = useState<boolean>(false);
 
     return (
         <div className="w-full h-full pt-20 relative">
@@ -27,7 +28,10 @@ const LessonView = () => {
                 <LessonContent courseId={courseId} chapterId={chapterId} lessonId={lessonId} />
             }
 
-            {showAddQuiz && <AddQuizForm hide={setShowAddQuiz} />}
+            {
+                // @ts-ignore
+                showAddQuiz && <AddQuizForm courseId={courseId} lessonId={lessonId} chapterId={chapterId} hide={setShowAddQuiz} reload={quizReloader} setReload={setQuizReloader} />
+            }
 
             <AddQuizBt show={setShowAddQuiz} />
         </div>
