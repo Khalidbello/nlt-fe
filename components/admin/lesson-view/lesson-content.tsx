@@ -99,7 +99,7 @@ const LessonContent: React.FC<LessonContentProps> = ({ courseId, chapterId, less
         <>
             <div className="bg-white shadow-md mx-3 rounded-xl p-3 border-[2px] border-gray-100">
                 <p className="mb-3">
-                    <span className="font-medium"> Lesson {info.lessonNumber}</span>
+                    <div className="font-medium"> Lesson {info.lessonNumber}</div>
                     <span>{info.lessonTitle}</span>
                 </p>
                 <p className="mb-3">

@@ -93,6 +93,8 @@ const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show, editDa
         formData.append('lessonNumber', lessonNumber.toString());
         formData.append('lessonTitle', lessonTitle);
         formData.append('lecture', lecture);
+        // @ts-ignore
+        formData.append('lessonId', editData?.lessonId);
 
         setIsSubmitting(true);
         setError('');
