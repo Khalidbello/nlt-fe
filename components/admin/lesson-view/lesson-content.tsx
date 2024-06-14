@@ -1,8 +1,10 @@
+import showClicked from "@/app/utils/clicked";
 import Loader from "@/components/multipurpose/loader";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import AddLesson from "../chapter-view/add-lesson-form";
 
 interface LessonContentProps {
     courseId: number;
@@ -10,13 +12,37 @@ interface LessonContentProps {
     lessonId: number;
 };
 
+interface infoType {
+    lessonTitle: string;
+    openingNote: string;
+    closingNote: string;
+    audio: string;
+    lessonId: number;
+    lessonNumber: number;
+};
+
 const LessonContent: React.FC<LessonContentProps> = ({ courseId, chapterId, lessonId }) => {
     const router = useRouter();
     const [error, setError] = useState<string>('');
     const [isFetching, setIsFetching] = useState<boolean>(false);
     const [reload, setReload] = useState<boolean>(false);
-    const [info, setInfo] = useState<any>('');
+    const [info, setInfo] = useState<infoType>({
+        openingNote: '',
+        closingNote: '',
+        lessonTitle: '',
+        audio: '',
+        lessonId: 0,
+        lessonNumber: 0,
+    });
+    const editLessonBtRef = useRef<HTMLButtonElement | null>(null);
+    const [showEditLesson, setShowEditLesson] = useState<boolean>(false);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
+
+
+    const showEditLessonFunc = () => {
+        if (editLessonBtRef.current) showClicked(editLessonBtRef.current);
+        setTimeout(() => setShowEditLesson(true), 250);
+    };
 
     const fetchChapterData = async () => {
         setIsFetching(true);
@@ -63,31 +89,44 @@ const LessonContent: React.FC<LessonContentProps> = ({ courseId, chapterId, less
         )
     };
 
-    if (!info) {
+    if (!info.lessonId) {
         return (
             <div></div>
         );
     };
 
     return (
-        <div className="bg-white shadow-md mx-3 rounded-xl p-3 border-[2px] border-gray-100">
-            <p className="mb-3">
-                <span className="font-medium"> Lesson {info.lessonNumber}</span>
-                <span>{info.lessonTitle}</span>
-            </p>
-            <p className="mb-3">
-                <h3 className="font-medium">Opening note</h3>
-                <span>{info.openingNote}</span>
-            </p>
-            <p className="mb-3">
-                <h3 className="font-medium">Lecture</h3>
-                <audio src={`data:audio/mpeg;base64,${info.audio}`} controls></audio>
-            </p>
-            <p>
-                <h3 className="font-medium">Closing note</h3>
-                <span>{info.closingNote}</span>
-            </p>
-        </div>
+        <>
+            <div className="bg-white shadow-md mx-3 rounded-xl p-3 border-[2px] border-gray-100">
+                <p className="mb-3">
+                    <span className="font-medium"> Lesson {info.lessonNumber}</span>
+                    <span>{info.lessonTitle}</span>
+                </p>
+                <p className="mb-3">
+                    <h3 className="font-medium">Opening note</h3>
+                    <span>{info.openingNote}</span>
+                </p>
+                <p className="mb-3">
+                    <h3 className="font-medium">Lecture</h3>
+                    <audio src={`data:audio/mpeg;base64,${info.audio}`} controls></audio>
+                </p>
+                <p className="mb-4">
+                    <h3 className="font-medium">Closing note</h3>
+                    <span>{info.closingNote}</span>
+                </p>
+
+                <div className="text-right">
+                    <button
+                        ref={editLessonBtRef}
+                        onClick={showEditLessonFunc}
+                        className="text-white bg-blue-500 px-5 py-2 rounded-full">
+                        Edit
+                    </button>
+                </div>
+            </div>
+
+            {showEditLesson && <AddLesson courseId={courseId} chapterId={chapterId} show={setShowEditLesson} editData={info} />}
+        </>
     );
 };
 

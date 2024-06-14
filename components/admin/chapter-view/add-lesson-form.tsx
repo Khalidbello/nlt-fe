@@ -4,15 +4,23 @@ import showClicked from "@/app/utils/clicked";
 import RollerAnimation from "@/components/multipurpose/roller-white";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface AddLessonProps {
     courseId: number;
     chapterId: number;
     show: React.Dispatch<React.SetStateAction<boolean>>;
+    editData: {
+        lessonTitle: string;
+        openingNote: string;
+        closingNote: string;
+        audio: string;
+        lessonId: number;
+        lessonNumber: number;
+    }
 };
 
-const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show }) => {
+const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show, editData }) => {
     const [isSUbmitting, setIsSubmitting] = useState<boolean>(false);
     const [lessonTitle, setLessonTitle] = useState<string>('');
     const [openingNote, setOpeningNote] = useState<string>('');
@@ -23,8 +31,20 @@ const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show }) => {
     const [lectureUrl, setLectureUrl] = useState<string>('');
     const [success, setSuccess] = useState<boolean>(false);
     let apiHost = process.env.NEXT_PUBLIC_API_HOST;
-    const url = `${apiHost}/admin/create-lecture/${courseId}/${chapterId}`;
+    const [url, setUrl] = useState<string>(`${apiHost}/admin/create-lecture/${courseId}/${chapterId}`);
     const cancleBtRef = useRef<HTMLButtonElement | null>(null);
+
+    // function to configure for edit mode
+    const configure = () => {
+        if (!editData) return;
+
+        setUrl(`${apiHost}/admin/edit-lecture/${courseId}/${chapterId}/${editData.lessonId}`);
+        setLessonTitle(editData.lessonTitle);
+        setOpeningNote(editData.openingNote);
+        setClosingNote(editData.closingNote);
+        setLessonNumber(editData.lessonNumber);
+        setLectureUrl(`data:audio/mpeg;base64,${editData.audio}`);
+    };
 
     const inputChange = (name: string, data: string) => {
         setError('');
@@ -98,6 +118,11 @@ const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show }) => {
         };
     };
 
+    useEffect(() => {
+        configure();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <div className="fixed top-0 right-0 w-full h-full flex items-center justify-center px-4 py-6 bg-blue-600 bg-opacity-85 overflow-auto z-50">
             <div className="p-5 w-full relative bg-white rounded-xl overflow-auto pt-4">
@@ -109,7 +134,9 @@ const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show }) => {
                     <FontAwesomeIcon icon={faX} className="text-red-500" />
                 </button>
 
-                <h2 className="text-lg font-medium mb-5">Create lesson</h2>
+                <h2 className="text-lg font-medium mb-5">
+                    {editData ? 'Edit Lesson' : 'Create lesson'}
+                </h2>
 
                 <form onSubmit={handleSubmit} >
                     <label htmlFor="lecture font-medium">Lesson title</label>
@@ -154,7 +181,7 @@ const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show }) => {
                     {error && <p className="text-sm text-center text-red-500 mb-4">{error}</p>}
                     {success && (
                         <p className="text-sm text-center text-green-600 mb-4">
-                            lesson created successfully
+                            {editData ? 'lesson edited successfully' : 'lesson created successfully'}
                         </p>)
                     }
 
@@ -164,7 +191,7 @@ const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show }) => {
                             {isSUbmitting ? (
                                 <RollerAnimation h='h-[1.5rem]' />
                             ) : (
-                                'Create'
+                                editData ? 'Edit' : 'Create'
                             )}
                         </button>
                     </div>

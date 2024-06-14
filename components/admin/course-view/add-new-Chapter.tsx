@@ -98,37 +98,39 @@ const AddChapter: React.FC<AddChapterProps> = ({ show, courseId, data }) => {
 
     return (
         <div className="bg-blue-600 flex justify-center items-center fixed top-0 left-0 w-full h-full px-6 bg-opacity-95">
-            <form onSubmit={handleSubmit} className="-mt-10 bg-white rounded-xl p-3 pt-8 relative w-full">
+            <div className="-mt-10 bg-white rounded-xl p-3 pt-8 relative w-full">
                 <button ref={hideBtRef} onClick={hide} className="w-6 h-6 bg-red-200 rounded-full absolute top-3 right-3">
                     <FontAwesomeIcon icon={faX} className="text-red-500" />
                 </button>
 
-                <h3 className="mb-4 font-medium text-lg">{data ? 'Edit' : 'Create'} Chapter</h3>
+                <form onSubmit={handleSubmit} >
+                    <h3 className="mb-4 font-medium text-lg">{data ? 'Edit' : 'Create'} Chapter</h3>
 
-                <label htmlFor="chapter-title" className="block">Chapter title</label>
-                <input type="text" name="chapter-title" className="w-full rounded-full py-2 px-4 border-[1px] border-gray-200"
-                    value={chapterTitle} onChange={(e) => onChange('title', e.target.value)}
-                />
+                    <label htmlFor="chapter-title" className="block">Chapter title</label>
+                    <input type="text" name="chapter-title" className="w-full rounded-full py-2 px-4 border-[1px] border-gray-200"
+                        value={chapterTitle} onChange={(e) => onChange('title', e.target.value)}
+                    />
 
-                <label htmlFor="chapter-number" className="block mt-4">Chapter number</label>
-                <input type="number" name="chapter-number" className="w-full rounded-full py-2 px-4 border-[1px] border-gray-200"
-                    value={chapterNum} onChange={(e) => onChange('num', e.target.value)}
-                />
+                    <label htmlFor="chapter-number" className="block mt-4">Chapter number</label>
+                    <input type="number" name="chapter-number" className="w-full rounded-full py-2 px-4 border-[1px] border-gray-200"
+                        value={chapterNum} onChange={(e) => onChange('num', e.target.value)}
+                    />
 
-                {error && <p className="text-red-500 text-sm text-center mt-3">{error}</p>}
-                {success && <p className="text-center text-green-500 text-sm mt-3">Chapter {data ? 'edited' : 'created'} successfully</p>}
+                    {error && <p className="text-red-500 text-sm text-center mt-3">{error}</p>}
+                    {success && <p className="text-center text-green-500 text-sm mt-3">Chapter {data ? 'edited' : 'created'} successfully</p>}
 
-                <div className="mt-4 text-right">
-                    <button
-                        className="px-4 py-2 bg-blue-500 text-white rounded-full"
-                        disabled={submitting}
-                    >
-                        {
-                            submitting ? <RollerAnimation h='h-[1.5rem]' /> : ' Submit'
-                        }
-                    </button>
-                </div>
-            </form>
+                    <div className="mt-4 text-right">
+                        <button
+                            className="px-4 py-2 bg-blue-500 text-white rounded-full"
+                            disabled={submitting}
+                        >
+                            {
+                                submitting ? <RollerAnimation h='h-[1.5rem]' /> : ' Submit'
+                            }
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }
