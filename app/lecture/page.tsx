@@ -131,7 +131,10 @@ const Lecture: React.FC = () => {
                                 <div className='text-xl font-medium mx-4 mb-4'>{data.course_name}</div>
                             </Link>
                             <Note text={data.opening_note} />
-                            <Audio src={data.audio} />
+                            {
+                                //@ts-ignore
+                                <Audio src={data.audio} />
+                            }
                             <Note text={data.closing_note} />
 
                             <div className='h-10'></div>
@@ -160,18 +163,18 @@ const Lecture: React.FC = () => {
 };
 
 
-const mockdata: datainterface = {
-    course_id: 123,
-    chapter_id: 23,
-    course_name: 'Cash flow 101',
-    open_note: " This lesson focuses on measurement in quantum computing and how observing a quantum state affects it.",
-    close_note: "Understanding measurement is crucial, as it collapses a quantum state to a definite value, impacting quantum computation outcomes.",
-    chapter_number: 2,
-    lesson_number: 2,
-    lesson_title: " Quantum Gates and Circuits",
-    lesson_id: 5,
-    audio: null
-}
+// const mockdata: datainterface = {
+//     course_id: 123,
+//     chapter_id: 23,
+//     course_name: 'Cash flow 101',
+//     opening_note: " This lesson focuses on measurement in quantum computing and how observing a quantum state affects it.",
+//     closing_note: "Understanding measurement is crucial, as it collapses a quantum state to a definite value, impacting quantum computation outcomes.",
+//     chapter_number: 2,
+//     lesson_number: 2,
+//     lesson_title: " Quantum Gates and Circuits",
+//     lesson_id: 5,
+//     audio: null
+// }
 
 
 

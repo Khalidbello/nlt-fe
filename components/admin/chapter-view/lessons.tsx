@@ -29,7 +29,7 @@ const Lessons: React.FC<LessonsProps> = ({ courseId, chapterId }) => {
 
     const handleShowLesson = (e: React.MouseEvent<HTMLButtonElement>, lessonId: number) => {
         if (e.currentTarget) showClicked(e.currentTarget);
-        setTimeout(() => router.push(`/admin/lesson?lessonId=${lessonId}&chapterid=${chapterId}&courseId=${courseId}`), 250);
+        setTimeout(() => router.push(`/admin/lesson-view?lessonId=${lessonId}&chapterId=${chapterId}&courseId=${courseId}`), 250);
     };
 
     const fetchLessons = async () => {

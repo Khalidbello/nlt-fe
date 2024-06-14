@@ -86,10 +86,11 @@ const AddLesson: React.FC<AddLessonProps> = ({ courseId, chapterId, show }) => {
                 body: formData
             });
 
+            if (response.status === 401) return setError('Lesson with numbr already exists in this chapter');
             if (response.status !== 200) throw 'soemthing went wrong';
 
             setSuccess(true);
-            setTimeout(() => window.location.reload, 250);
+            setTimeout(() => window.location.reload(), 250);
         } catch (err) {
             setError('Something went wrong. Try again.')
         } finally {
