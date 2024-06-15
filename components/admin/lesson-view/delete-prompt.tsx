@@ -32,8 +32,10 @@ const DeletePrompt: React.FC<DeletePromptProps> = ({ show, questionId, reloader,
             console.log('an error ocured in dekte quiz', err);
             setError(true);
         } finally {
-            setReloader(!reloader);
-            setTimeout(() => show(false), 2000);
+            setTimeout(() => {
+                setReloader(!reloader);
+                show(false)
+            }, 2000);
         };
     };
 
