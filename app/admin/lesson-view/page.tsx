@@ -36,9 +36,10 @@ const LessonView = () => {
 
             {
                 // @ts-ignore
-                <QuizView courseId={courseId} chapterId={chapterId} lessonId={lessonId} reloader={quizReloader} />
+                <QuizView courseId={courseId} chapterId={chapterId} lessonId={lessonId} reloader={quizReloader} setReloader={setQuizReloader} />
             }
             <AddQuizBt show={setShowAddQuiz} />
+            <div className="h-20"></div>
         </div>
     );
 };

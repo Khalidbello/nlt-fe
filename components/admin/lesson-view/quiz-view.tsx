@@ -7,20 +7,34 @@ import { error } from "console";
 import { useRouter } from "next/navigation";
 import { SetStateAction, useEffect, useState } from "react";
 import Question from "./unit-question";
+import AddQuizForm from "./add-quiz-form";
 
 interface QuizViewProps {
     courseId: number;
     chapterId: number;
     lessonId: number;
     reloader: boolean;
+    setReloader: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const QuizView: React.FC<QuizViewProps> = ({ courseId, chapterId, lessonId, reloader }) => {
+interface quizType {
+    question_id: string;
+    question: string;
+    option_a: string;
+    option_b: string;
+    option_c: string;
+    option_d: string;
+    correct_option: string;
+}
+const QuizView: React.FC<QuizViewProps> = ({ courseId, chapterId, lessonId, reloader, setReloader }) => {
     const router = useRouter();
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [error, setError] = useState<string>('');
-    const [quiz, setQuiz] = useState<any>([]);
+    const [quiz, setQuiz] = useState<quizType[]>([]);
     const [reload, setReload] = useState<boolean>(false);
+    const [editQuestion, setEditQuestion] = useState<boolean>(false);
+    const [deleteQuestionPrompt, setDeleteQuestionPrompt] = useState<boolean>(false);
+    const [actionData, setActionData] = useState<quizType | null>(null);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 
     const fetchQuiz = async () => {
@@ -77,21 +91,31 @@ const QuizView: React.FC<QuizViewProps> = ({ courseId, chapterId, lessonId, relo
 
 
     return (
-        <div>
-            <h2 className="font-medium ml-4 mb-4">Quiz</h2>
+        <>
+            <div className="mt-8">
+                <h2 className="font-medium ml-4 mb-4">Quiz</h2>
+                {
+                    quiz.map((ele: any, index: number) => <Question
+                        key={index} data={ele}
+                        courseId={courseId}
+                        chapterId={chapterId}
+                        lessonId={lessonId}
+                        setActionData={setActionData}
+                        showEdit={setEditQuestion}
+                        showDelete={setDeleteQuestionPrompt}
+                    />)
+                }
+            </div>
+
             {
-                quiz.map((ele: any, index: number) => <Question
-                    key={index} data={ele}
-                    courseId={courseId}
-                    chapterId={chapterId}
-                    lessonId={lessonId}
-                    setToDeleteData={null}
-                    setToEditData={null}
-                />)
+                editQuestion &&
+                //@ts-ignores
+                <AddQuizForm hide={setEditQuestion} courseId={courseId} chapterId={chapterId} lessonId={lessonId} reload={reloader} setReload={setReloader} editdata={actionData} />
             }
-        </div>
+        </>
     );
 };
 
 
 export default QuizView;
+export type { quizType }

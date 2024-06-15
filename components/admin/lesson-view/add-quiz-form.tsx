@@ -3,7 +3,8 @@ import RollerAnimation from "@/components/multipurpose/roller-white";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { quizType } from "./quiz-view";
 
 interface AddQuizFormProps {
     hide: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,9 +13,10 @@ interface AddQuizFormProps {
     lessonId: number;
     reload: boolean;
     setReload: React.Dispatch<React.SetStateAction<boolean>>;
-}
+    editdata: quizType;
+};
 
-const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, lessonId, reload, setReload }) => {
+const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, lessonId, reload, setReload, editdata }) => {
     const router = useRouter();
     const hideBtRef = useRef<HTMLButtonElement | null>(null);
     const [iSubmiting, setIsSubmiting] = useState<boolean>(false);
@@ -26,11 +28,20 @@ const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, le
     const [option4, setOption4] = useState<string>('');
     const [ans, setAns] = useState<string>('');
     const [error, setError] = useState<string>('');
+    const [submit, setSubmit] = useState<boolean>(false);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
     const [url, setUrl] = useState<string>(`${apiHost}/admin/create-quiz/${courseId}/${chapterId}/${lessonId}`);
 
     const configure = () => {
+        if (!editdata) return;
 
+        setUrl(`${apiHost}/admin/edit-quiz/${courseId}/${chapterId}/${lessonId}/${editdata.question_id}`)
+        setQuestion(editdata.question);
+        setOption1(editdata.option_a);
+        setOption2(editdata.option_b);
+        setOption3(editdata.option_c);
+        setOption4(editdata.option_d);
+        setAns(editdata.correct_option);
     };
 
     const hideForm = () => {
@@ -40,6 +51,7 @@ const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, le
 
     const inputChange = (name: string, data: string) => {
         setError('');
+        setSubmit(true);
 
         switch (name) {
             case 'question':
@@ -78,7 +90,7 @@ const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, le
                 option2: option2.trim(),
                 option3: option3.trim(),
                 option4: option4.trim(),
-                answer: ans.trim()
+                answer: ans.trim(),
             };
 
             const response = await fetch(url, {
@@ -105,6 +117,10 @@ const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, le
             setIsSubmiting(false);
         };
     };
+    useEffect(() => {
+        configure();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className="fixed top-0 right-0 w-full h-full flex justify-center items-center bg-blue-600 bg-opacity-85 z-50 p-4">
@@ -117,7 +133,9 @@ const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, le
                     <FontAwesomeIcon icon={faX} className="text-red-500" />
                 </button>
 
-                <h2 className="font-medium">Add quiz</h2>
+                <h2 className="font-medium">
+                    {editdata ? 'Edit Question' : 'Add quiz'}
+                </h2>
 
                 <form onSubmit={handleSubmit} className="w-full">
                     <label htmlFor="question" className="">Question</label>
@@ -165,16 +183,19 @@ const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, le
                     {error && <p className="text-sm text-center text-red-500">{error}</p>}
                     {success && (
                         <p className="text-sm text-center text-green-600">
-                            question successfuly created
+                            {editdata ? 'question edited successfully' : 'question successfuly created'}
                         </p>
                     )}
 
-                    <div className="text-right mt-3">
-                        <button className="px-4 py-2 bg-blue-500 text-white rounded-full">
+                    <div className='text-right mt-3'>
+                        <button
+                            disabled={iSubmiting || !submit}
+                            className={`${!submit || iSubmiting ? 'bg-opacity-50' : ''} px-4 py-2 bg-blue-500 text-white rounded-full`}
+                        >
                             {iSubmiting ? (
                                 <RollerAnimation h='h-[1.5rem]' />
                             ) : (
-                                'Create'
+                                editdata ? 'Edit' : 'Create'
                             )}
                         </button>
                     </div>
