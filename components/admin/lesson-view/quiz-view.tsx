@@ -83,7 +83,7 @@ const QuizView: React.FC<QuizViewProps> = ({ courseId, chapterId, lessonId, relo
 
     if (quiz.length < 1 || !quiz) {
         return (
-            <div className="flex flex-col items-center gap-6 bg-blue-500 px-5 py-5 mx-6 text-white rounded-md">
+            <div className="flex flex-col items-center gap-6 bg-blue-500 px-5 py-5 mx-6 text-white rounded-md mt-10">
                 <FontAwesomeIcon icon={faExclamationCircle} className="mr-2 h-10" />
                 <p className="text-sm font-medium">{`No queston found. Add question`}</p>
             </div>
