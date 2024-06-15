@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { SetStateAction, useEffect, useState } from "react";
 import Question from "./unit-question";
 import AddQuizForm from "./add-quiz-form";
+import DeletePrompt from "./delete-prompt";
 
 interface QuizViewProps {
     courseId: number;
@@ -111,6 +112,12 @@ const QuizView: React.FC<QuizViewProps> = ({ courseId, chapterId, lessonId, relo
                 editQuestion &&
                 //@ts-ignores
                 <AddQuizForm hide={setEditQuestion} courseId={courseId} chapterId={chapterId} lessonId={lessonId} reload={reloader} setReload={setReloader} editdata={actionData} />
+            }
+
+            {
+                deleteQuestionPrompt &&
+                //@ts-ignores
+                <DeletePrompt show={setDeleteQuestionPrompt} questionId={actionData?.question_id} reloader={reloader} setReloader={setReloader} />
             }
         </>
     );

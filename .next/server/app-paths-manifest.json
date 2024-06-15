@@ -2,5 +2,6 @@
   "/admin/page": "app/admin/page.js",
   "/admin/course-view/page": "app/admin/course-view/page.js",
   "/admin/chapter-view/page": "app/admin/chapter-view/page.js",
-  "/admin/lesson-view/page": "app/admin/lesson-view/page.js"
+  "/admin/lesson-view/page": "app/admin/lesson-view/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }

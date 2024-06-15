@@ -25,14 +25,20 @@ const Question: React.FC<QuestionProps> = ({ data, courseId, chapterId, lessonId
         setTimeout(() => showEdit(true), 250);
     };
 
+    const deleteClicked = () => {
+        if (deleteBtRef.current) showClicked(deleteBtRef.current);
+        setActionData(data);
+        setTimeout(() => showDelete(true), 250);
+    };
+
     return (
         <div className="shadow-lg p-2 mx-2 rounded-xl mb-4 border-[2px] border-gray-200">
             <div className="text-right mb-2">
-                <button ref={editBtRef} onClick={editClicked} className="w-10 h-10 bg-blue-100 mr-6 rounded-lg">
-                    <FontAwesomeIcon icon={faEdit} className="w-5 h-5 text-blue-500" />
+                <button ref={editBtRef} onClick={editClicked} className="w-8 h-8 bg-blue-100 mr-6 rounded-xl">
+                    <FontAwesomeIcon icon={faEdit} className="w-4 h-4 text-blue-500" />
                 </button>
-                <button className="w-10 h-10 bg-red-100 rounded-lg">
-                    <FontAwesomeIcon icon={faTrashCan} className="w-5 h-5 text-red-500" />
+                <button ref={deleteBtRef} onClick={deleteClicked} className="w-8 h-8 bg-red-100 rounded-xl">
+                    <FontAwesomeIcon icon={faTrashCan} className="w-4 h-4 text-red-500" />
                 </button>
             </div>
 
