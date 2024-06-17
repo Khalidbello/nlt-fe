@@ -25,7 +25,7 @@ const LessonData: React.FC<LessonDataProps> = ({ courseId, ChapterId, lessonId }
         try {
             const response = await fetch(`${apiHost}/admin/lesson-data/${courseId}/${ChapterId}/${lessonId}`, { credentials: 'include' });
 
-            if (response.status === 403) return router.push('/sign-in?redirected=true');
+            if (response.status === 403) return router.push('/admin-sign-in?redirected=true');
             if (response.status !== 200) throw 'something went wrong.';
 
             const data = await response.json();

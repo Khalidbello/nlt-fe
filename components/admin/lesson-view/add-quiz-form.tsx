@@ -102,7 +102,7 @@ const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, le
                 body: JSON.stringify(bodyData)
             });
 
-            if (response.status === 403) return router.push('/sign-in?redirected=true');
+            if (response.status === 403) return router.push('/admin-sign-in?redirected=true');
             if (response.status !== 200) throw 'something went wrong';
 
             setSuccess(true);
@@ -133,7 +133,7 @@ const AddQuizForm: React.FC<AddQuizFormProps> = ({ hide, courseId, chapterId, le
                     <FontAwesomeIcon icon={faX} className="text-red-500" />
                 </button>
 
-                <h2 className="font-medium">
+                <h2 className="font-medium mb-4">
                     {editdata ? 'Edit Question' : 'Add quiz'}
                 </h2>
 

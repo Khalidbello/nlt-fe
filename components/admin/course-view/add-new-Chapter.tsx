@@ -75,7 +75,7 @@ const AddChapter: React.FC<AddChapterProps> = ({ show, courseId, data }) => {
                 })
             });
 
-            if (response.status === 403) router.push('/sign-in?redirected=true');
+            if (response.status === 403) router.push('/admin-sign-in?redirected=true');
             if (response.status === 401) return setError('Chapter with number alredy exist');
             if (response.status !== 200) throw 'something went wronrg';
 

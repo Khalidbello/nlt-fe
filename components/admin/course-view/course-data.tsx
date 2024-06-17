@@ -5,10 +5,11 @@ import Image from 'next/image';
 import Loader from '@/components/multipurpose/loader';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationCircle, faExclamationTriangle, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, faExclamationTriangle, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import showClicked from '@/app/utils/clicked';
 import NewCourseForm from '../main/new-course-form';
 import About from '@/components/course-view/about';
+import DeletePrompt from './delete-course-propmp';
 
 interface CourseData {
     courseName: string;
@@ -32,13 +33,21 @@ const DisplayCourseData: React.FC<DisplayCourseDataProps> = ({ courseId, setShow
     const [error, setError] = useState<string | null>(null);
     const [reload, setReload] = useState<boolean>(false);
     const [showEditCourse, setShowEditCourse] = useState<boolean>(false);
+    const [showDeleteCoursePrompt, setShowDeleteCoursePrompt] = useState<boolean>(false);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
     const editCourseDataBtRef = useRef<HTMLButtonElement | null>(null);
+    const courseDeleteBtRef = useRef<HTMLButtonElement | null>(null);
 
     // function to handle click of edit course bt 
     const hadleClick = (): void => {
         if (editCourseDataBtRef.current) showClicked(editCourseDataBtRef.current);
         setTimeout(() => setShowEditCourse(true), 250);
+    };
+
+    // function to handle delete bt click
+    const deleteBtClicked = () => {
+        if (courseDeleteBtRef.current) showClicked(courseDeleteBtRef.current);
+        setTimeout(() => setShowDeleteCoursePrompt(true), 250);
     };
 
     const fetchCourseData = async () => {
@@ -48,7 +57,7 @@ const DisplayCourseData: React.FC<DisplayCourseDataProps> = ({ courseId, setShow
         try {
             const response = await fetch(`${apiHost}/admin/course/${courseId}`, { credentials: 'include' });
 
-            if (response.status === 403) router.push('/sign-in?redirect=true');
+            if (response.status === 403) router.push('/admin-sign-in?redirect=true');
 
             if (response.status !== 200) throw 'Something went wrong';
 
@@ -121,10 +130,17 @@ const DisplayCourseData: React.FC<DisplayCourseDataProps> = ({ courseId, setShow
                     )}
                 </div>
             </div>
-            <div className='text-right px-4'>
+            <div className='flex items-center justify-end gap-3 pr-3'>
                 <button ref={editCourseDataBtRef} onClick={hadleClick} className='text-white bg-blue-500 rouded-full px-6 py-2 rounded-full'>Edit</button>
+                <button ref={courseDeleteBtRef} onClick={deleteBtClicked} className="bg-red-100 p-1 rounded-xl">
+                    <FontAwesomeIcon icon={faTrashCan} className='text-red-500 w-5 h-5' />
+                </button>
             </div>
             {showEditCourse && <NewCourseForm show={setShowEditCourse} data={courseData} />}
+            {
+                // @ts-ignore
+                showDeleteCoursePrompt && <DeletePrompt show={setShowDeleteCoursePrompt} courseId={courseId} />
+            }
         </>
     );
 };

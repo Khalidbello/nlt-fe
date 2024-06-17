@@ -45,7 +45,7 @@ const QuizView: React.FC<QuizViewProps> = ({ courseId, chapterId, lessonId, relo
         try {
             const response = await fetch(`${apiHost}/admin/quiz/${courseId}/${chapterId}/${lessonId}`, { credentials: 'include' });
 
-            if (response.status === 403) return router.push('/sign-in?redirected=true');
+            if (response.status === 403) return router.push('/admin-sign-in?redirected=true');
             if (response.status !== 200) throw 'something went wrong';
 
             const data = await response.json();

@@ -41,7 +41,7 @@ const Chapters: React.FC<ChapterProps> = ({ courseId }) => {
                 credentials: 'include'
             });
 
-            if (response.status === 403) return router.push('/sign-in?redirect=true');
+            if (response.status === 403) return router.push('/admin-sign-in?redirect=true');
 
             if (response.status !== 200) throw 'something went wrong';
 

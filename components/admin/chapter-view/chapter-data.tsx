@@ -50,7 +50,7 @@ const ChapterData: React.FC<ChapterData> = ({ courseId, chapterId, setShowAddLes
         try {
             const response = await fetch(`${apiHost}/admin/chapter/${courseId}/${chapterId}`, { credentials: 'include' })
 
-            if (response.status === 403) return router.push('/sign-in?redirected=true');
+            if (response.status === 403) return router.push('/admin-sign-in?redirected=true');
             if (response.status !== 200) throw 'Something went wrong fetching chapter data';
 
             const data = await response.json();
