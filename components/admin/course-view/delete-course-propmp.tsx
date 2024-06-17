@@ -30,7 +30,8 @@ const DeletePrompt: React.FC<DeletePromptProps> = ({ show, courseId }) => {
         try {
             const response = await fetch(`${apiHost}/admin/request-course-del-otp`, { credentials: 'include' });
 
-            //if (response.status !== 200) throw 'something went wrong.';
+            if (response.status === 403) return router.push('/admin-sign-in');
+            if (response.status !== 200) throw 'something went wrong.';
 
             setOtpSent(true);
         } catch (err) {
@@ -54,11 +55,14 @@ const DeletePrompt: React.FC<DeletePromptProps> = ({ show, courseId }) => {
                 credentials: 'include',
             });
 
+            if (response.status === 403) return router.push('/admin-sign-in');
+            if (response.status === 401) return setEnterOtp('invalid OTP entered.');
             if (response.status !== 200) throw 'something went wrong';
+
             setSuccess(true);
             setTimeout(() => router.push('/admin'));
         } catch (err) {
-            console.log('an error ocured in dekte quiz', err);
+            console.log('an error ocured in delete course.', err);
             setError(true);
             setTimeout(() => show(false), 2000);
         } finally {

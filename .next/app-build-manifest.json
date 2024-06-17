@@ -50,6 +50,16 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/admin/course-view/page.js"
+    ],
+    "/(app)/settings/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(app)/settings/page.js"
+    ],
+    "/admin/chapter-view/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/chapter-view/page.js"
     ]
   }
 }

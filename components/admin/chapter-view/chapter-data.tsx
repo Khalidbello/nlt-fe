@@ -1,12 +1,13 @@
 'use client';
 
 import Loader from "@/components/multipurpose/loader";
-import { faExclamationCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { faExclamationCircle, faExclamationTriangle, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import AddChapter from "../course-view/add-new-Chapter";
 import showClicked from "@/app/utils/clicked";
+import DeletePrompt from "./delete-prompt";
 
 interface ChapterData {
     courseId: number;
@@ -37,10 +38,18 @@ const ChapterData: React.FC<ChapterData> = ({ courseId, chapterId, setShowAddLes
     });
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
     const editCourseBtRef = useRef<HTMLButtonElement | null>(null);
+    const deleteBtRef = useRef<HTMLButtonElement | null>(null);
+    const [showDelPrompt, setShowDelPrompt] = useState<boolean>(false);
 
     const handleShowEditCourse = () => {
         if (editCourseBtRef.current) showClicked(editCourseBtRef.current);
         setTimeout(() => setShowEditChapter(true), 250);
+    };
+
+    // funciton to show delete chapter prompt
+    const handleShowDelPrompt = () => {
+        if (deleteBtRef.current) showClicked(deleteBtRef.current);
+        setTimeout(() => setShowDelPrompt(true), 250);
     };
 
     const fetchChapterData = async () => {
@@ -66,7 +75,7 @@ const ChapterData: React.FC<ChapterData> = ({ courseId, chapterId, setShowAddLes
 
     useEffect(() => {
         fetchChapterData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload]);
 
     if (isFetching) return <Loader h='h-[6rem]' />;
@@ -94,20 +103,22 @@ const ChapterData: React.FC<ChapterData> = ({ courseId, chapterId, setShowAddLes
 
     return (
         <>
-            <div className="px-2 mb-6">
-                <p className="text-lg font-medium px-2 mb-2">{chapterData.courseName}</p>
-                <div className="p-4 bg-blue-100 rounded-xl flex items-center justify-between">
-                    <div>
-                        <p> Chapter {chapterData.chapterNumber}</p>
-                        <p className="font-medium">{chapterData.chapterTitle}</p>
-                    </div>
-                    <div className="text-right">
-                        <button ref={editCourseBtRef} onClick={handleShowEditCourse} className="text-white bg-blue-500 rounded-full px-5 py-2">Edit</button>
-                    </div>
+            <div className="px-3 mb-6">
+                <p className="text-lg font-medium mb-2">{chapterData.courseName}</p>
+
+                <p> Chapter {chapterData.chapterNumber}</p>
+                <p className="font-medium">{chapterData.chapterTitle}</p>
+
+                <div className="text-right space-x-3">
+                    <button ref={editCourseBtRef} onClick={handleShowEditCourse} className="text-white bg-blue-500 rounded-full px-5 py-2">Edit</button>
+                    <button ref={deleteBtRef} onClick={handleShowDelPrompt} className="rounded-xl bg-red-100 p-1">
+                        <FontAwesomeIcon icon={faTrashCan} className="text-red-500 h-4 w-4" />
+                    </button>
                 </div>
-            </div>
+            </div >
 
             {showEditChapter && <AddChapter show={setShowEditChapter} courseId={courseId} data={chapterData} />}
+            {showDelPrompt && <DeletePrompt show={setShowDelPrompt} chapterId={chapterId} courseId={courseId} />}
         </>
     )
 };
