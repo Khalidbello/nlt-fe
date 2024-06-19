@@ -1,7 +1,3 @@
 {
-  "/(auth)/admin-sign-in/page": "app/(auth)/admin-sign-in/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/admin/course-view/page": "app/admin/course-view/page.js",
-  "/admin/chapter-view/page": "app/admin/chapter-view/page.js",
-  "/(app)/my-learning/page": "app/(app)/my-learning/page.js"
+  "/(auth)/sign-in/page": "app/(auth)/sign-in/page.js"
 }

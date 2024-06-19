@@ -5,6 +5,8 @@ import React, { useState, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/components/multipurpose/roller-white';
 import { validateEmail, validatePassword } from './../validators';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const LoginForm: React.FC = () => {
     const router = useRouter();
@@ -17,10 +19,19 @@ const LoginForm: React.FC = () => {
     const submitBt = useRef<HTMLButtonElement | null>(null);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
     const redirect = searchParams.get('redirect');
+    const passwordVisibilityRef = useRef<HTMLButtonElement | null>(null);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    const handleLogin = async (e: React.FormEvent) => {
+    // function to handle password visibility 
+    const handlePasswordVisiblity = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+    };
 
+    const handleLogin = async () => {
         // Perform form validation
         if (!validateEmail(email)) return setErrorMessage('Please enter a valid email.');
         if (!validatePassword(password)) return setErrorMessage('password should be atleast 8.');
@@ -77,7 +88,7 @@ const LoginForm: React.FC = () => {
 
                 <h2 className="text-2xl mb-12 text-center font-bold">Welcome Back to brandName</h2>
 
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-10">
                         <input
                             type="email"
@@ -88,14 +99,17 @@ const LoginForm: React.FC = () => {
                             className="w-full border-gray-300 border-[1px] rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                         />
                     </div>
-                    <div className="mb-6">
+                    <div className="flex items-center justify-between mb-6 w-full border-gray-300 border-[1px] rounded-md">
                         <input
-                            type="password"
+                            type={showPassword ? 'password' : 'text'}
                             placeholder="Password"
                             value={password}
                             onChange={(e) => { setErrorMessage(''); setPassword(e.target.value) }}
-                            className="w-full border-gray-300 border-[1px] rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                            className="w-full focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 border-[1px] rounded-md py-2 px-3"
                         />
+                        <button ref={passwordVisibilityRef} onClick={(e) => { e.stopPropagation(); handlePasswordVisiblity(); }} className='w-10 h-full'>
+                            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} className="w-4 h-5" />
+                        </button>
                     </div>
 
                     {loggedIn && <div className='text-green-500 text-sm text-center'>{loggedIn}</div>}
@@ -103,6 +117,7 @@ const LoginForm: React.FC = () => {
 
                     <div className="mb-4 mt-10">
                         <button
+                            onClick={handleLogin}
                             ref={submitBt}
                             type="submit"
                             className="w-full bg-blue-500 text-white rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
@@ -111,6 +126,7 @@ const LoginForm: React.FC = () => {
                         </button>
                     </div>
                 </form>
+
                 <p className="text-center text-gray-500 mt-6">
                     {`Don't have an account ? `}
                     <Link href="/sign-up" className="text-blue-500">Sign Up</Link>
@@ -118,8 +134,8 @@ const LoginForm: React.FC = () => {
                 <p className="text-center text-gray-500 mt-3">
                     <Link href="/forgot-password" className="text-blue-500">Forgot Password ?</Link>
                 </p>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

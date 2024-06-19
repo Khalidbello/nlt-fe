@@ -27,6 +27,7 @@ const DeletePrompt: React.FC<DeletePromptProps> = ({ show, chapterId, courseId }
                 credentials: 'include',
             });
 
+            if (response.status === 403) router.push('/admin-sign-in?redirected=true');
             if (response.status !== 200) throw 'something went wrong';
             setSuccess(true);
             setTimeout(() => router.push(`/admin/course-view?courseId=${courseId}`), 2000);
