@@ -136,6 +136,10 @@ const QuizResult: React.FC<QuizResultProps> = ({ answers, setShowResult, setShow
                         </div>
                     ) : (
                         <div className="text-right">
+                            <p className="mb-2">
+                                You did great!!!. <b />
+                                proceed to next lesson to gain more insightfull knowledge.
+                            </p>
                             <button
                                 ref={completedBtRef}
                                 onClick={lessonCompleted}

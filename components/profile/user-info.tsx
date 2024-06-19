@@ -1,4 +1,4 @@
-import { faEdit, faMailBulk } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faMailBulk, faMale, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
@@ -29,7 +29,7 @@ const userInfo: React.FC<userInfoProps> = ({ email, phoneNumber, gender }) => {
                 <div>Phone number</div>
                 <div className="flex justify-between items-center pt-3 w-full">
                     <div className="flex gap-x-3 items-center justify-around w-[80%]">
-                        <FontAwesomeIcon icon={faMailBulk} className={`h-5 p-2 rounded-xl bg-cyan-100`} />
+                        <FontAwesomeIcon icon={faPhone} className={`h-5 p-2 rounded-xl bg-cyan-100`} />
                         <div className="flex items-center bg-gray-500 w-[90%] rounded-xl bg-transparent">
                             {phoneNumber}
                         </div>
@@ -43,7 +43,7 @@ const userInfo: React.FC<userInfoProps> = ({ email, phoneNumber, gender }) => {
                 <div>Gender</div>
                 <div className="flex justify-between items-center pt-3 w-full">
                     <div className="flex gap-x-3 items-center justify-around w-[80%]">
-                        <FontAwesomeIcon icon={faMailBulk} className={`h-5 p-2 rounded-xl bg-orange-100`} />
+                        <FontAwesomeIcon icon={faMale} className={`h-5 p-2 rounded-xl bg-orange-100`} />
                         <div className="flex items-center bg-gray-500 w-[90%] rounded-xl bg-transparent">
                             {gender}
                         </div>
