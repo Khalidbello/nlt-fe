@@ -5,6 +5,8 @@ import React, { useState, useRef } from 'react';
 import Loader from '@/components/multipurpose/roller-white';
 import { validateEmail, validatePassword, verifyPhoneNumber } from './../validators';
 import { useRouter } from 'next/navigation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const SignUpForm: React.FC = () => {
     const router = useRouter();
@@ -18,12 +20,25 @@ const SignUpForm: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [succesfull, setSuccesfull] = useState<string>('');
     const [showBtLoader, setshowBtLoader] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
     const submitBt = useRef<HTMLButtonElement | null>(null);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 
-    const handleSignUp = async (e: React.FormEvent) => {
-        e.preventDefault();
 
+    const handlePasswordVisiblity = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleConfirmPasswordVisiblity = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+    };
+
+    const handleSignUp = async () => {
         // Perform form validation
         if (!firstName) return setErrorMessage('Please enter you first name');
         if (!lastName) return setErrorMessage('Please enter you last name');
@@ -60,7 +75,7 @@ const SignUpForm: React.FC = () => {
                 setshowBtLoader(false);
                 setSuccesfull('account succesfully created');
                 setTimeout(() => router.push('/home'), 1000);
-            } else if (response.status ===  409) {
+            } else if (response.status === 409) {
                 setErrorMessage('User with email alredy exist login instead.')
             } else {
                 throw 'somehing went wrong please try again';
@@ -83,7 +98,7 @@ const SignUpForm: React.FC = () => {
 
                 <h2 className="text-2xl mb-4 text-center font-bold">Sign Up</h2>
 
-                <form onSubmit={handleSignUp}>
+                <form onSubmit={onSubmit}>
                     <div className="mb-10 mt-10">
                         <input
                             type="text"
@@ -120,15 +135,6 @@ const SignUpForm: React.FC = () => {
                             className="w-full border-gray-300 border-[1px] rounded-md py-2 px-3 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-500"
                         />
                     </div>
-                    {/* <div className="mb-10">
-                        <input
-                            type="text"
-                            placeholder="Address"
-                            value={adress}
-                            onChange={(e) => setAddress(e.target.value)}
-                            className="w-full border-gray-300 border-[1px] rounded-md py-2 px-3 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-500"
-                        />
-                    </div> */}
                     <div className="mb-10">
                         <select
                             value={gender}
@@ -141,23 +147,29 @@ const SignUpForm: React.FC = () => {
                             <option value="other">Other</option>
                         </select>
                     </div>
-                    <div className="mb-6">
+                    <div className="flex items-center justify-between mb-6 w-full border-gray-300 border-[1px] rounded-md">
                         <input
-                            type="password"
+                            type={showPassword ? 'password' : 'text'}
                             placeholder="Password"
                             value={password}
                             onChange={(e) => { setErrorMessage(''); setPassword(e.target.value) }}
-                            className="w-full border-gray-300 border-[1px] rounded-md py-2 px-3 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-500"
+                            className="w-full focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 border-[1px] rounded-md py-2 px-3"
                         />
+                        <button onClick={handlePasswordVisiblity} className='w-10 h-full'>
+                            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} className="w-4 h-5" />
+                        </button>
                     </div>
-                    <div className="mb-10">
+                    <div className="flex items-center justify-between mb-6 w-full border-gray-300 border-[1px] rounded-md">
                         <input
-                            type="password"
+                            type={showConfirmPassword ? 'password' : 'text'}
                             placeholder="Confirm Password"
                             value={confirmPassword}
                             onChange={(e) => { setErrorMessage(''); setConfirmPassword(e.target.value) }}
-                            className="w-full border-gray-300 border-[1px] rounded-md py-2 px-3 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-500"
+                            className="w-full focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 border-[1px] rounded-md py-2 px-3"
                         />
+                        <button onClick={handleConfirmPasswordVisiblity} className='w-10 h-full'>
+                            <FontAwesomeIcon icon={showConfirmPassword ? faEye : faEyeSlash} className="w-4 h-5" />
+                        </button>
                     </div>
 
                     {succesfull && <div className='text-green-500 text-center texx-sm'>{succesfull}</div>}
@@ -165,6 +177,7 @@ const SignUpForm: React.FC = () => {
 
                     <div className="mb-10 mt-16">
                         <button
+                            onClick={handleSignUp}
                             ref={submitBt}
                             type="submit"
                             className="w-full bg-blue-600 text-white rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
