@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState } from "react";
 import RollerAnimation from "../multipurpose/roller-white";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface SelectImageFormProps {
     show: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,6 +15,7 @@ interface SelectImageFormProps {
 };
 
 const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setReload }) => {
+    const router = useRouter();
     const [image, setImage] = useState<any>(null);
     const [imageUrl, setImageUrl] = useState<string>('');
     const hideBtRef = useRef<HTMLButtonElement | null>(null);
@@ -54,6 +56,7 @@ const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setRelo
                 body: formData
             });
 
+            if (response.status === 403) return router.push('/sign-in?redirected=true')
             if (response.status !== 200) throw 'something went wrong';
 
             setSuccess(true);
@@ -78,8 +81,8 @@ const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setRelo
     };
 
     return (
-        <div className="fixed top-0 right-0 w-full h-full flex justify-center items-center bg-blue-600 bg-opacity-90 px-10">
-            <div className="bg-white p-4 rounded-xl relative">
+        <div className="fixed top-0 right-0 w-full h-full flex justify-center items-center bg-blue-600 bg-opacity-90">
+            <div className="bg-white p-4 rounded-xl relative mx-20">
                 <button
                     ref={hideBtRef}
                     onClick={hide}
@@ -107,7 +110,7 @@ const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setRelo
                             className="bg-blue-500 text-white px-4 py-2 rounded-full"
                         >
                             {submitting ? (
-                                <RollerAnimation h="h-[1.rem]" />
+                                <RollerAnimation h="h-[1.5rem]" />
                             ) : (
                                 'Submit'
                             )}

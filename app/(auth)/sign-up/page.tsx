@@ -20,8 +20,8 @@ const SignUpForm: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [succesfull, setSuccesfull] = useState<string>('');
     const [showBtLoader, setshowBtLoader] = useState<boolean>(false);
-    const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(true);
+    const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(true);
     const submitBt = useRef<HTMLButtonElement | null>(null);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 

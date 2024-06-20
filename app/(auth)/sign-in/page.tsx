@@ -20,7 +20,7 @@ const LoginForm: React.FC = () => {
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
     const redirect = searchParams.get('redirect');
     const passwordVisibilityRef = useRef<HTMLButtonElement | null>(null);
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(true);
 
     // function to handle password visibility 
     const handlePasswordVisiblity = () => {

@@ -24,13 +24,15 @@ const ProfilePic: React.FC<ProfilePicProps> = ({ firstName, lastName }) => {
 
     const fetchUserImage = async () => {
         try {
-            const response = await fetch(`${apiHost}/user/dp`, {
+            const response = await fetch(`${apiHost}/users/user-dp`, {
                 credentials: 'include',
             });
 
             if (response.status !== 200) throw 'somthing went wrong';
             const data = await response.json();
-            setDp(data.image);
+
+            console.log('in user dp', data);
+            setDp(data.dp);
         } catch (err) {
             console.log(err);
         };
