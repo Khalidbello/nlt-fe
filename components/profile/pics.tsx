@@ -68,7 +68,7 @@ const ProfilePic: React.FC<ProfilePicProps> = ({ firstName, lastName }) => {
                 <span>Joined</span>
                 <span className="font-semibold">20-11-2023</span>
             </div>
-            {showEditImage && <SelectImageForm show={setShowEditImage} reload={reload} setReload={setReload} />}
+            {showEditImage && <SelectImageForm show={setShowEditImage} reload={reload} setReload={setReload} currentImg={dp} />}
         </div>
     )
 }

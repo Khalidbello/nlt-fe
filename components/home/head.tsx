@@ -5,6 +5,7 @@ import { faBell, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import showClicked from "@/app/utils/clicked";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 type childprops = {
     name: string
@@ -15,6 +16,7 @@ export default function Head() {
     const [userName, setUserName] = useState<string>('');
     const profileBtRef = useRef<null | HTMLButtonElement>(null);
     const notBtRef = useRef<null | HTMLButtonElement>(null);
+    const [dp, setDp] = useState<any>(null);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 
     // fucntion to redirect user 
@@ -35,16 +37,37 @@ export default function Head() {
         };
     };
 
+    const fetchUserImage = async () => {
+        try {
+            const response = await fetch(`${apiHost}/users/user-dp`, {
+                credentials: 'include',
+            });
+
+            if (response.status !== 200) throw 'somthing went wrong';
+            const data = await response.json();
+
+            console.log('in user dp', data);
+            setDp(data.dp);
+        } catch (err) {
+            console.log(err);
+        };
+    };
+
     useEffect(() => {
         getFistName();
+        fetchUserImage();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <div className="flex justify-between items-center border-b-[1px] border-b-blue-100 px-5 py-2 fixed bg-white w-full top-0 left-0 z-40">
+        <div className="flex justify-between items-center border-b-[1px] border-b-blue-100 px-5 py-1 fixed bg-white w-full top-0 left-0 z-40">
             <div className="inline-flex gap-2 items-center">
                 <button onClick={() => redirect(profileBtRef, 'profile')} ref={profileBtRef}>
-                    <FontAwesomeIcon icon={faUser} className="h-5 w-5 p-2 text-blue-600 rounded-xl" />
+                    {dp ? (
+                        <Image alt='profile picture' height={500} width={500} src={`data:image/jpeg;base64,${dp}`} className="h-9 w-9 rounded-full border-[1px] border-blue-500" />
+                    ) : (
+                        <FontAwesomeIcon icon={faUser} className="h-5 w-5 p-2 text-blue-600 rounded-xl" />
+                    )}
                 </button>
                 <span className="text-sm font-medium">Welcome, {userName}</span>
             </div>

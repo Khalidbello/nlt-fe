@@ -8,6 +8,7 @@ import ChangeEmail from "@/components/settings/change-email";
 import ChangePassword from '@/components/settings/change-password';
 import ChangeName from '@/components/settings/change-name';
 import ContactUs from '@/components/settings/contact-us';
+import ReportIssue from "@/components/settings/report-issue";
 import { useState } from "react";
 import { faListSquares } from "@fortawesome/free-solid-svg-icons/faListSquares";
 import { faFileText } from "@fortawesome/free-solid-svg-icons/faFileText";
@@ -18,6 +19,7 @@ export default function Page() {
     const [showChangePasword, setShowChangePasword] = useState<boolean>(false);
     const [showChangeName, setShowChangeName] = useState<boolean>(false);
     const [showContactUs, setShowContactUs] = useState<boolean>(false);
+    const [showReportIssue, setShowReportIssue] = useState<boolean>(false);
 
     const account: accountType = {
         name: 'Profile',
@@ -61,7 +63,7 @@ export default function Page() {
                 text: 'Report an Issue',
                 icon2: faGreaterThan,
                 color: 'text-red-400',
-                action: setShowChangeEmail,
+                action: setShowReportIssue,
             }
         ]
     };
@@ -76,6 +78,7 @@ export default function Page() {
             {showChangePasword && <ChangePassword hide={setShowChangePasword} />}
             {showChangeName && <ChangeName hide={setShowChangeName} />}
             {showContactUs && <ContactUs hide={setShowContactUs} />}
+            {showReportIssue && <ReportIssue hide={setShowReportIssue} />}
             <div className="h-20"></div>
 
             <CheckEmailVerify />

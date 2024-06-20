@@ -3,7 +3,7 @@
 import showClicked from "@/app/utils/clicked";
 import { faPlus, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import RollerAnimation from "../multipurpose/roller-white";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -12,9 +12,10 @@ interface SelectImageFormProps {
     show: React.Dispatch<React.SetStateAction<boolean>>;
     reload: boolean;
     setReload: React.Dispatch<React.SetStateAction<boolean>>;
+    currentImg: any
 };
 
-const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setReload }) => {
+const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setReload, currentImg }) => {
     const router = useRouter();
     const [image, setImage] = useState<any>(null);
     const [imageUrl, setImageUrl] = useState<string>('');
@@ -23,6 +24,10 @@ const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setRelo
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
     let apiHost = process.env.NEXT_PUBLIC_API_HOST;
+
+    const config = () => {
+        if (currentImg) setImageUrl(`data:image/jpeg;base64,${currentImg}`);
+    };
 
     const inputChanged = (data: React.ChangeEvent<HTMLInputElement>) => {
         const file = data.target.files?.[0];
@@ -70,6 +75,11 @@ const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setRelo
         };
     };
 
+    useEffect(() => {
+        config();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     if (success) {
         return (
             <div className="fixed top-0 right-0 w-full h-full flex justify-center items-center bg-blue-600 bg-opacity-90 px-10">
@@ -81,8 +91,8 @@ const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setRelo
     };
 
     return (
-        <div className="fixed top-0 right-0 w-full h-full flex justify-center items-center bg-blue-600 bg-opacity-90">
-            <div className="bg-white p-4 rounded-xl relative mx-20">
+        <div className="fixed top-0 right-0 w-full h-full flex justify-center items-center bg-blue-600 bg-opacity-90 z-50">
+            <div className="bg-white p-4 w-[90%] rounded-xl relative">
                 <button
                     ref={hideBtRef}
                     onClick={hide}
@@ -90,12 +100,12 @@ const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setRelo
                     <FontAwesomeIcon icon={faX} className="w-4 h-4 text-red-500" />
                 </button>
 
-                <h2 className="font-medium">Select image</h2>
+                <h2 className="font-medium">Change profile picture</h2>
 
                 <form onSubmit={handleSubmit}>
-                    <div className="mx-auto h-40 w-40 rounded-full bg-gray-100 flex items-center justify-center">
+                    <div className="mx-auto h-50 w-50 rounded-xl bg-gray-100 flex items-center justify-center mt-10 mb-4">
                         {imageUrl ? (
-                            <Image alt="dp" height={500} width={500} src={imageUrl} className="h-36 w-36 rounded-full" />
+                            <Image alt="dp" height={500} width={500} src={imageUrl} className="h-50 w-50 rounded-xl" />
                         ) : (
                             <label htmlFor="image"> <FontAwesomeIcon icon={faPlus} className="text-gray-400 w-24 h-24" /> </label>
                         )}

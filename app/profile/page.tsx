@@ -64,7 +64,7 @@ const Profile: React.FC = () => {
 
     useEffect(() => {
         fetchInfo();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -90,6 +90,7 @@ const Profile: React.FC = () => {
                 </>
             )
             )}
+            <div className="h-20"></div>
         </div >
     )
 }
