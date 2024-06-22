@@ -163,7 +163,7 @@ const QuizResult: React.FC<QuizResultProps> = ({ answers, setShowResult, setShow
                 </>
             </div>
 
-            {showCongrats && <CongratulationsUI courseName={completionData.courseName} userName={completionData.userName} />}
+            {showCongrats && <CongratulationsUI courseName={completionData.courseName} userName={completionData.userName} courseId={courseId} />}
         </div >
     )
 };

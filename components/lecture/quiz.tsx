@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import QuizResult from '@/components/lecture/quiz-result';
 import { useRouter } from "next/navigation";
+import CongratulationsUI from "./course-completion";
 
 interface QuizProps {
     courseId: number;
@@ -32,6 +33,8 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
     const [reload, setReload] = useState<boolean>(false);
     const [showResult, setShowResult] = useState<boolean>(false);
     const submitBtRef = useRef<null | HTMLButtonElement>(null);
+    const [completionData, setCompletionData] = useState<any>(null);
+    const [showCongrats, setShowCongrats] = useState<boolean>(false);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
     const router = useRouter();
 
@@ -54,6 +57,14 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
 
         if (response.status === 200) {
             const data = await response.json();
+
+            if (data.status === 'completed') {
+                // display course completion ui
+                setCompletionData(data);
+                setShowCongrats(true);
+                return;
+            };
+
             router.push(`/lecture?courseId=${data.courseId}&chapterId=${data.chapterId}&chapterNumber=${data.chapterNumber}&lessonNumber=${data.lessonNumber}`);
             setTimeout(() => setShowQuiz(false), 250);
         }
@@ -81,7 +92,7 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
                 };
 
                 // check if quiz is empty just push user to next lesson
-                if (questions.quiz.length === 0) handleNoQuiz()
+                if (questions.quiz.length === 0) setTimeout(() => handleNoQuiz(), 2000);
             } else {
                 throw 'somthing went wrong';
             }
@@ -113,16 +124,17 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
                     ) : (
                         <div>
                             {questions.map((ele, index) => <Question key={index} question={ele} setAnswers={setAnswers} answers={answers} index={index} />)}
-
-                            <div className='mt-5 text-center'>
+                            {questions.length < 1 && <p className="text-center text-sm my-3">No quiz for this lesson</p>}
+                            {questions.length > 0 && <div className='mt-5 text-center'>
                                 <button ref={submitBtRef} onClick={handleSubmit} className='bg-blue-500 text-white px-4 py-2 rounded-full '>Submiit</button>
-                            </div>
+                            </div>}
 
                             {showResult && <QuizResult answers={answers} setShowResult={setShowResult} setShowQuiz={setShowQuiz} courseId={courseId} chapterId={chapterId} lessonId={lessonId} />}
                         </div>
                     )}
                 </>
             )}
+            {showCongrats && <CongratulationsUI courseName={completionData.courseName} userName={completionData.userName} courseId={courseId} />}
         </>
     )
 }

@@ -25,7 +25,8 @@ interface courseDataType {
     currentChapterId: number;
     currentLesson: number;
     image: string;
-    lessonNumbers: { [key: number]: number }
+    lessonNumbers: { [key: number]: number };
+    completed: boolean;
 }
 
 const CourseView = () => {
@@ -43,6 +44,7 @@ const CourseView = () => {
         currentLesson: 0,
         lessonNumbers: { 0: 0 },
         image: '',
+        completed: false,
     });
     const [showLoader, setShowLoader] = useState<boolean>(true);
     const [showError, setShowError] = useState<boolean>(false);
@@ -134,10 +136,10 @@ const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ cour
                         <div className="w-full h-2 rounded-full bg-gray-100">
                             <div
                                 className="h-full rounded-full bg-blue-500"
-                                style={{ width: `${courseData.progress.toFixed(2)}%` }}
+                                style={{ width: `${courseData.completed ? 100 : courseData.progress.toFixed(2)}%` }}
                             />
                         </div>
-                        <p className="text-gray-600 ml-2 font-medium">{courseData.progress.toFixed(2)}%</p>
+                        <p className="text-gray-600 ml-2 font-medium">{courseData.completed ? 100 : courseData.progress.toFixed(2)}%</p>
                     </div>
                 </>
             )}
@@ -158,12 +160,14 @@ const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ cour
             })}
 
             {courseData.enrolled ? (
-                <ContinueLearningBT
+                courseData.completed ? (
+                    <p className='fixed bottom-0 left-0 w-full bg-blue-500 text-white py-2 text-center'>Completed</p>
+                ) : (<ContinueLearningBT
                     courseId={courseId}
                     chapterId={courseData.currentChapterId}
                     chapterNUmber={courseData.currentChapter}
                     lessonNumber={courseData.currentLesson}
-                />
+                />)
             ) : (
                 <FloatingEnrollButton courseId={courseId} />
             )}

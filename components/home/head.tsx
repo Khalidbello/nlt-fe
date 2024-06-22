@@ -17,6 +17,7 @@ export default function Head() {
     const profileBtRef = useRef<null | HTMLButtonElement>(null);
     const notBtRef = useRef<null | HTMLButtonElement>(null);
     const [dp, setDp] = useState<any>(null);
+    const [showDot, setShowDot] = useState<boolean>(false);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
 
     // fucntion to redirect user 
@@ -34,6 +35,19 @@ export default function Head() {
             };
         } catch (err) {
             console.error('error in head', err);
+        };
+    };
+
+    // function to check if notification exists
+    const checkNotification = async () => {
+        try {
+            const response = await fetch(`${apiHost}/users/unviewed-notification`, { credentials: 'include' });
+            if (response.status !== 200) throw 'something went wrong checking notification exists';
+
+            const data = await response.json();
+            setShowDot(data.status);
+        } catch (err) {
+            console.error('error checking notification exits', err);
         };
     };
 
@@ -56,6 +70,7 @@ export default function Head() {
     useEffect(() => {
         getFistName();
         fetchUserImage();
+        checkNotification();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -71,8 +86,9 @@ export default function Head() {
                 </button>
                 <span className="text-sm font-medium">Welcome, {userName}</span>
             </div>
-            <button onClick={() => redirect(notBtRef, '/notifications')} ref={notBtRef}>
+            <button onClick={() => redirect(notBtRef, '/notifications')} ref={notBtRef} className="relative">
                 <FontAwesomeIcon icon={faBell} className="h-4 w-4 text-white p-2 bg-blue-600 rounded-xl" />
+                {showDot && <div className="w-3 h-3 rounded-full bg-red-600 absolute top-1 right-1" role="alert"></div>}
             </button>
         </div>
     );
