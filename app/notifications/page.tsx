@@ -3,12 +3,12 @@
 import Notification from "@/components/admin/notification/unit-notification";
 import Header from "@/components/multipurpose/header";
 import Loader from "@/components/multipurpose/loader";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { faExclamationCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
 const Notifications = () => {
-    const [notifications, setNotifications] = useState<any>([]);
+    const [notifications, setNotifications] = useState<[]>([]);
     const [error, setError] = useState<boolean>(false);
     const [fetchingMore, setFetchingMore] = useState<boolean>(false);
     const [showMoreBt, setShowMoreBt] = useState<boolean>(true);
@@ -26,15 +26,14 @@ const Notifications = () => {
 
     const fetchNotifications = async () => {
         try {
-            console.log('notifcations', notifications);
-            setError(false);
-            await new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    setNotifications(data);
-                    resolve(true);
-                }, 2000);
-            });
+            const response = await fetch(`${apiHost}/users/notifications/10/${pagin}`, { credentials: 'include' });
 
+            if (response.status !== 200) throw 'something went wrong fetching notifications';
+
+            const data: [] = await response.json();
+            if (data.length < 10) setShowMoreBt(false);
+
+            setNotifications([...notifications, ...data]);
         } catch (err) {
             console.log('error occured in notifications', err);
             setError(true);
@@ -61,14 +60,26 @@ const Notifications = () => {
 
     if (error) {
         return (
-            <div className="relativew-full h-full mt-20">
+            <div className="relativew-full h-full mt-36">
                 <Header heading="Notifications" />
                 <div className="error-container mx-4 bg-red-100 text-red-500 p-4 rounded-lg shadow-md mt-8">
                     <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
                     <span className="text-lg">Something went wrong</span>
-                    <button onClick={() => setReload(!reload)} className="bg-white text-red-500 px-4 py-2 ml-4 rounded-md shadow-md">
+                    <button onClick={() => { setReload(!reload); setPagin(0) }} className="bg-white text-red-500 px-4 py-2 ml-4 rounded-md shadow-md">
                         Reload
                     </button>
+                </div>
+            </div>
+        );
+    };
+
+    if (notifications.length < 1) {
+        return (
+            <div className="relativew-full h-full mt-20">
+                <Header heading="Notifications" />
+                <div className="flex flex-col items-center gap-6 bg-blue-500 px-5 py-5 mt-20 mx-6 text-white rounded-md">
+                    <FontAwesomeIcon icon={faExclamationCircle} className="mr-2 h-10" />
+                    <p className="text-sm font-medium">You do not have any notification yet.</p>
                 </div>
             </div>
         );
@@ -79,7 +90,7 @@ const Notifications = () => {
             <Header heading="Notifications" />
 
             {notifications.map((ele: any, index: number) => {
-                return <Notification key={index} type={ele.type} message={ele.message} viewed={ele.viewed} date={ele.date} />
+                return <Notification key={index} type={ele.type} message={ele.message} viewed={ele.viewed} date={ele.created_at} />
             })}
 
             {showMoreBt && (<div className="text-center mt-4 mb-3">
