@@ -71,9 +71,9 @@ export default function Head() {
                 </button>
                 <span className="text-sm font-medium">Welcome, {userName}</span>
             </div>
-            <button onClick={() => redirect(notBtRef, '/notification')} ref={notBtRef}>
+            <button onClick={() => redirect(notBtRef, '/notifications')} ref={notBtRef}>
                 <FontAwesomeIcon icon={faBell} className="h-4 w-4 text-white p-2 bg-blue-600 rounded-xl" />
             </button>
         </div>
-    )
-}
+    );
+};

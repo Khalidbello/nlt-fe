@@ -6,6 +6,7 @@ import showClicked from '@/app/utils/clicked';
 import { faBackward } from "@fortawesome/free-solid-svg-icons/faBackward";
 import { useRouter } from "next/navigation";
 import Roller from '@/components/multipurpose/roller-white';
+import CongratulationsUI from "./course-completion";
 
 interface QuizResultProps {
     answers: { [key: number]: boolean };
@@ -30,6 +31,8 @@ const QuizResult: React.FC<QuizResultProps> = ({ answers, setShowResult, setShow
     const [showRoller, setShowRoller] = useState<boolean>(false);
     const completedBtRef = useRef<null | HTMLButtonElement>(null);
     const retryBtRef = useRef<null | HTMLButtonElement>(null);
+    const [showCongrats, setShowCongrats] = useState<boolean>(false);
+    const [completionData, setCompletionData] = useState<any>(null);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
     const keys = Object.keys(answers); //  to hold answer keys
 
@@ -60,6 +63,14 @@ const QuizResult: React.FC<QuizResultProps> = ({ answers, setShowResult, setShow
 
             if (response.status === 200) {
                 const data = await response.json();
+
+                if (data.status === 'completed') {
+                    // display course completion ui
+                    setCompletionData(data);
+                    setShowCongrats(true);
+                    return;
+                };
+
                 router.push(`/lecture?courseId=${data.courseId}&chapterId=${data.chapterId}&chapterNumber=${data.chapterNumber}&lessonNumber=${data.lessonNumber}`);
                 setTimeout(() => setShowQuiz(false), 250);
             }
@@ -151,6 +162,8 @@ const QuizResult: React.FC<QuizResultProps> = ({ answers, setShowResult, setShow
                     )}
                 </>
             </div>
+
+            {showCongrats && <CongratulationsUI courseName={completionData.courseName} userName={completionData.userName} />}
         </div >
     )
 };

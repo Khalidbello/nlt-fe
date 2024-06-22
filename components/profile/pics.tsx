@@ -40,6 +40,7 @@ const ProfilePic: React.FC<ProfilePicProps> = ({ firstName, lastName }) => {
 
     useEffect(() => {
         fetchUserImage();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload]);
 
     return (

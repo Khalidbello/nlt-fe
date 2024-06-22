@@ -37,7 +37,7 @@ const Child: React.FC<ChildProps> = ({ data }) => {
     const btRef = useRef<null | HTMLButtonElement>(null);
 
     const handleClick = () => {
-        showClicked(btRef);
+        if (btRef.current) showClicked(btRef.current);
         setTimeout(() => data.action(true), 250);
     };
 

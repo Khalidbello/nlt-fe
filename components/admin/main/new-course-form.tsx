@@ -140,7 +140,7 @@ const NewCourseForm: React.FC<NewCourseForm> = ({ show, data }) => {
                 body: formData
             });
 
-            if (response.status === 403) return router.push('/admin-login');
+            if (response.status === 403) return router.push('/admin-sign-in?redirect=true');
 
             if (response.status !== 200) throw 'Something went wrong';
             setShowSuccess(true);
