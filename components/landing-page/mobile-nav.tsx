@@ -77,7 +77,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ flag, setFlag }) => {
                         to="features"
                         smooth={true}
                         duration={500}
-                        offset={-200}
+                        offset={-100}
                         spy={true}
                         onSetActive={() => setActiveSection('features')}
                         className={`${activeSection === 'features' ? 'bg-blue-700 text-white' : ' text-blue-700'} hover:bg-blue-500 hover:text-white px-3 py-2 mx-1 rounded-xl bg-blue-200`}
@@ -89,7 +89,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ flag, setFlag }) => {
                         to="review"
                         smooth={true}
                         duration={500}
-                        offset={-200}
+                        offset={-100}
                         spy={true}
                         onSetActive={() => setActiveSection('review')}
                         className={`${activeSection === 'review' ? 'bg-blue-700 text-white' : ' text-blue-700'} hover:bg-blue-500 hover:text-white px-3 py-2 mx-1 rounded-xl bg-blue-200`}
@@ -101,7 +101,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ flag, setFlag }) => {
                         to="news-letter"
                         smooth={true}
                         duration={500}
-                        offset={-200}
+                        offset={-100}
                         spy={true}
                         onSetActive={() => setActiveSection('news-letter')}
                         className={`${activeSection === 'news-letter' ? 'bg-blue-700 text-white' : ' text-blue-700'} hover:bg-blue-500 hover:text-white px-3 py-2 mx-1 rounded-xl bg-blue-200`}

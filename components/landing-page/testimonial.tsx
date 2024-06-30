@@ -12,10 +12,10 @@ export default function StudentsReview() {
         setCurrent(index);
         if (carouselRef.current) {
             carouselRef.current.scrollTo({
-                left: index * 300,
+                left: index * 290,
                 behavior: 'smooth'
             });
-        }
+        };
     };
 
     const leftScroll = () => {

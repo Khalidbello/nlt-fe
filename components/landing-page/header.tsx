@@ -55,7 +55,7 @@ const Header: React.FC = () => {
                                 to="features"
                                 smooth={true}
                                 duration={500}
-                                offset={-200}
+                                offset={-100}
                                 spy={true}
                                 onSetActive={() => setActiveSection('features')}
                                 className={`${activeSection === 'features' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl font-medium`}
@@ -66,7 +66,7 @@ const Header: React.FC = () => {
                                 to="review"
                                 smooth={true}
                                 duration={500}
-                                offset={-200}
+                                offset={-100}
                                 spy={true}
                                 onSetActive={() => setActiveSection('review')}
                                 className={`${activeSection === 'review' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl font-medium`}
@@ -77,7 +77,7 @@ const Header: React.FC = () => {
                                 to="news-letter"
                                 smooth={true}
                                 duration={500}
-                                offset={-200}
+                                offset={-100}
                                 spy={true}
                                 onSetActive={() => setActiveSection('news-letter')}
                                 className={`${activeSection === 'news-letter' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl font-medium`}
