@@ -8,7 +8,7 @@ const EasyUi: React.FC = () => {
 
             <div className={`mt-[8.5rem] ml-10 mr-5 transition-opacity duration-[1500ms]  relative flex-shrink w-[98%] md:min-w-[50%] h-72 md:h-[30em] bg-blue-700 rounded-2xl`}>
                 <div className='absolute -top-5 -left-5 w-full h-full rounded-2xl bg-green-100'>
-                    <Image alt='easy ui image' src={'/images/ui.gif'} className='absolute -top-[8rem] md:-top-[10rem] left-0 w-full h-[140%]' width={500} height={500} />
+                    <Image alt='easy ui image' src={'/images/ui.gif'} className='absolute -top-[8rem] md:-top-[10rem] left-0 w-full h-[140%]' width={1000} height={1000} />
                 </div>
             </div>
 

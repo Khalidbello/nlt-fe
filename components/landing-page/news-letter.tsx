@@ -42,7 +42,7 @@ const NewsLetter: React.FC = () => {
             {/* <div className="w-[350px] h-[400px] bg-yellow-400 transform rotate-[45deg] absolute top-[-60px] right-[-190px]"></div> */}
             <div className={`mt-36 mr-12 ml-5 transition-opacity duration-[1500ms]  relative flex-shrink w-[98%] md:min-w-[50%] h-72 md:h-[30em] bg-blue-700 rounded-2xl`}>
                 <div className='absolute -top-7 -right-7 w-full h-full rounded-2xl bg-cyan-300'>
-                    <Image alt='easy ui image' src={'/images/newsletter.gif'} className='absolute  -top-[8rem] md:-top-[10rem] left-0 w-full h-[140%]' width={500} height={500} />
+                    <Image alt='easy ui image' src={'/images/newsletter.gif'} className='absolute  -top-[8rem] md:-top-[10rem] left-0 w-full h-[140%]' width={1000} height={1000} />
                 </div>
             </div>
 

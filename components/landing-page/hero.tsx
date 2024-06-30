@@ -1,11 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 export default function Hero() {
-    const [inView, setInView] = useState(false);
-    const [inView2, setView2] = useState(false);
-
 
     return (
         <div className="bg-blue-700 pt-10 max-w-srcree-2xl h-auto flex flex-col justify-around items-center  gap-x-10 gap-y-14 px-10  md:h-full  md:flex-row md:px-20">
@@ -24,6 +22,7 @@ export default function Hero() {
                 </div>
             </div>
             <div className="flex-grow-1 bg-blue-600 rounded-2xl h-96 w-full mb-10 md:mb-0 md:h-[80%] md:min-w-[50%] min-w-[80%]">
+                <Image alt='hero' src='/images/hero.gif' height={1000} width={1000} className='w-full h-full' />
             </div>
         </div >
     )
