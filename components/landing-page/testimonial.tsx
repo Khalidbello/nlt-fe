@@ -29,13 +29,13 @@ export default function StudentsReview() {
         const nextIndex = current + 1;
         if (nextIndex < members.length) {
             scrollTo(nextIndex);
-        }
+        };
     };
 
     return (
-        <div className="bg-white px-4 md:px-10 py-20 md:p-10 relative">
+        <div id='review' className="bg-white px-4 md:px-10 py-20 md:p-10 relative">
             <h2 className="flex flex-col items-center justify-center gap-2 text-center mb-3">
-                <span className="text-sm text-blue-700">Our Students</span>
+                <span className="text-sm text-blue-700 font-medium">Our Students</span>
                 <span className="text-gray-800 text-lg text-center">What They Think About Us</span>
             </h2>
             <div className="md:max-w-[1100px] relative mx-auto">

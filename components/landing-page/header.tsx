@@ -3,15 +3,37 @@
 // header for landing page
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faBars } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
-//import MobileNav from '@/components/landing-page/mobile-nav';
-import { useRef, useState } from 'react';
+import Image from 'next/image';
+import MobileNav from './mobile-nav';
+import { useEffect, useRef, useState } from 'react';
 import showClick from '@/app/utils/clicked';
+import Link from "next/link";
+import { Link as ScrollLink, Element, Events, scrollSpy } from 'react-scroll';
 
 
 const Header: React.FC = () => {
     const [flag, setFlag] = useState<boolean>(false);
     const menuBtRef = useRef<null | HTMLButtonElement>(null);
+
+    const [activeSection, setActiveSection] = useState('');
+
+    useEffect(() => {
+        Events.scrollEvent.register('begin', function (to, element) {
+            console.log('begin', arguments);
+        });
+
+        Events.scrollEvent.register('end', function (to, element) {
+            setActiveSection(to);
+        });
+
+        // Register scroll spy
+        scrollSpy.update();
+
+        return () => {
+            Events.scrollEvent.remove('begin');
+            Events.scrollEvent.remove('end');
+        };
+    }, []);
 
     const handleMenuClick = () => {
         if (menuBtRef.current) showClick(menuBtRef.current);
@@ -23,13 +45,45 @@ const Header: React.FC = () => {
             <header className='z-50 fixed w-full p-3 pt-0 flex items-center justify-center'>
                 <div className='max-w-screen-xl bg-blue-100 w-full rounded-xl px-5 py-2 flex justify-between items-center h-16'>
                     <span className='inline-flex items-center gap-2 max-w-lg'>
-                        <FontAwesomeIcon icon={faStar} className='text-blue-500 text-x h-10' />
+                            <Image alt='logo' src='/images/favicon.png' height={300} width={300} className='text-blue-500 w-10 h-10' />
                         <span className='font-bold'>Life<span className='text-blue-500'>Style</span>Leverage</span>
                     </span>
 
                     <span className='hidden items-center justify-between gap-5 xl:gap-x-32 lg:inline-flex'>
                         <nav>
-                            <Link href='#' className='hover:bg-blue-500 hover:text-white px-3 py-2 mx-1 rounded-xl text-blue-700 bg-blue-200'> Trusted By </Link>
+                            <ScrollLink
+                                to="features"
+                                smooth={true}
+                                duration={500}
+                                offset={-200}
+                                spy={true}
+                                onSetActive={() => setActiveSection('features')}
+                                className={`${activeSection === 'features' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl font-medium`}
+                            >
+                                Features
+                            </ScrollLink>
+                            <ScrollLink
+                                to="review"
+                                smooth={true}
+                                duration={500}
+                                offset={-200}
+                                spy={true}
+                                onSetActive={() => setActiveSection('review')}
+                                className={`${activeSection === 'review' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl font-medium`}
+                            >
+                                Reviews
+                            </ScrollLink>
+                            <ScrollLink
+                                to="news-letter"
+                                smooth={true}
+                                duration={500}
+                                offset={-200}
+                                spy={true}
+                                onSetActive={() => setActiveSection('news-letter')}
+                                className={`${activeSection === 'news-letter' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl font-medium`}
+                            >
+                                News Letter
+                            </ScrollLink>
                         </nav>
                         <span className='inline-flex gap-4'>
                             <Link href='/sign-in' className='hover:bg-blue-500 hover:text-white px-4 py-2 border border-solid border-blue-600 text-blue-600 rounded-full'> Sign In</Link>
@@ -45,7 +99,7 @@ const Header: React.FC = () => {
                     </button>
                 </div>
             </header>
-            {/* {flag && <MobileNav flag={flag} setFlag={setFlag} />} */}
+            {flag && <MobileNav flag={flag} setFlag={setFlag} />}
         </>
 
     )

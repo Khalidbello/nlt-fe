@@ -1,12 +1,11 @@
-import { faMoneyBill, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
-import { faLockOpen } from "@fortawesome/free-solid-svg-icons/faLockOpen";
+import { faCreditCard, faGraduationCap, faInfinity } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const OurFeatures = () => {
     return (
-        <div className="mt-10 mb-20 max-w-screen-xl mx-auto">
+        <div id='features' className="mt-10 mb-20 max-w-screen-xl mx-auto">
             <h2 className="flex flex-col items-center justify-center gap-1 text-center mb-3">
-                <span className="text-blue-700 text-xm">Our App</span>
+                <span className="text-blue-700 text-xm font-medium">Our App</span>
 
                 <span className="text-lg font-medium">Provide Features</span>
             </h2>
@@ -28,22 +27,22 @@ const OurFeatures = () => {
 
 const features = [
     {
-        icon: faLockOpen,
+        icon: faGraduationCap,
         iconColor: 'text-cyan-600 ',
         title: 'Free Course Enrollment',
-        details: ' Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa repellendus perspiciatis non eos rem expedita ipsum ex? Qui tenetur architecto et ex provident fugit,',
+        details: 'Free Enrollment: Begin your learning journey without any upfront payment, giving you the freedom to explore the course content at no cost.',
     },
     {
-        icon: faMoneyBill1Wave,
+        icon: faCreditCard,
         iconColor: 'text-green-700 ',
-        title: 'Free Course Enrollment',
-        details: ' Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa repellendus perspiciatis non eos rem expedita ipsum ex? Qui tenetur architecto et ex provident fugit,',
+        title: 'Flexible Installment Payments',
+        details: 'We believe that financial constraints should never be a barrier to education, which is why we offer Flexible Installment Payment Plans',
     },
     {
-        icon: faLockOpen,
+        icon: faInfinity,
         iconColor: 'text-purple-500 ',
-        title: 'Free Course Enrollment',
-        details: ' Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa repellendus perspiciatis non eos rem expedita ipsum ex? Qui tenetur architecto et ex provident fugit,',
+        title: 'Lifetime Access to Courses',
+        details: 'Our lifetime access ensures flexibility and continuous learning without any time constraints. Dive into your educational journey with confidence',
     }
 ]
 
