@@ -2,11 +2,42 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faGreaterThan, faLessThan } from "@fortawesome/free-solid-svg-icons";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import LoadingAnimation from "../../multipurpose/loader";
+import Review from "./unit-testimonial";
 
 export default function StudentsReview() {
     const carouselRef = useRef<HTMLDivElement | null>(null);
     const [current, setCurrent] = useState(0);
+    const [fetching, setFetching] = useState<boolean>(true);
+    const [fetchingMore, setFetchingMore] = useState<boolean>(true);
+    const [reviews, setReviews] = useState<any>([]);
+    const [pagin, setPagin] = useState<number>(0);
+    const [error, setError] = useState<string>('');
+    const apiHost = process.env.NEXT_PUBLIC_API_HOST;
+
+    // function to fetch reviews
+    const fetchReviews = async () => {
+        try {
+            setFetchingMore(true);
+
+            const response = await fetch(`${apiHost}/users/reviews/${pagin}/10`)
+
+            const datas = await response.json();
+            setReviews([...reviews, ...datas]);
+            console.log('reviewessssssssssssssssss', datas);
+        } catch (err) {
+            console.error('An error  occured in fetch reviews');
+            setError('An error occured please try again.');
+        } finally {
+            setFetching(false);
+            setFetchingMore(false);
+        };
+    };
+
+    const fetchMoreReiews = async () => {
+        setPagin(pagin + 10);
+    };
 
     const scrollTo = (index: number) => {
         setCurrent(index);
@@ -27,11 +58,27 @@ export default function StudentsReview() {
 
     const rightScroll = () => {
         const nextIndex = current + 1;
-        if (nextIndex < members.length) {
+        if (nextIndex < reviews.length) {
             scrollTo(nextIndex);
         };
     };
 
+    useEffect(() => {
+        fetchReviews();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pagin])
+
+    if (fetching) {
+        return (
+            <div id='review' className="bg-white px-4 md:px-10 py-20 md:p-10 relative">
+                <h2 className="flex flex-col items-center justify-center gap-2 text-center mb-3">
+                    <span className="text-sm text-blue-700 font-medium">Our Students</span>
+                    <span className="text-gray-800 text-lg text-center">What They Think About Us</span>
+                </h2>
+                <LoadingAnimation h="h-[2rem]" />
+            </div>
+        )
+    }
     return (
         <div id='review' className="bg-white px-4 md:px-10 py-20 md:p-10 relative">
             <h2 className="flex flex-col items-center justify-center gap-2 text-center mb-3">
@@ -43,8 +90,8 @@ export default function StudentsReview() {
                     ref={carouselRef}
                     className="md:max-w-[1000px] mx-auto flex justify-start items-stretch gap-[20px] mt-10  relative overflow-hidden"
                 >
-                    {members.map((_, index) => (
-                        <Member key={index} />
+                    {reviews.map((review: any, index: any) => (
+                        <Review review={review} key={index} />
                     ))}
                 </div>
                 <button className="left-bt absolute top-[50%] left-[-10px] md:left-0 z-10 bg-blue-800 bg-opacity-50 p-2 w-14 h-14 rounded-full flex justify-center items-center" onClick={leftScroll}>
@@ -56,7 +103,7 @@ export default function StudentsReview() {
             </div>
 
             <div className="indcator flex justify-center items-center gap-1 mt-4">
-                {members.map((_, index) => (
+                {reviews.map((_: any, index: any) => (
                     <button
                         key={index}
                         className={`hover:bg-orange-300 w-2 h-2 rounded-full ${index === current ? 'bg-blue-700' : 'bg-blue-100'}`}
@@ -67,33 +114,3 @@ export default function StudentsReview() {
         </div>
     );
 };
-
-
-const Member: React.FC = () => {
-    return (
-        <div className="flex-shrink-0 w-[250px] h-[25rem] bg-orange-400 rounded-lg ml-[20px] overflow-hidden relative shadow-lg">
-            <div className="flex flex-col justify-between items-center w-full h-full text-white">
-                <div className="text-sm text-center px-4 pt-10">
-                    <p className="leading-10">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua.
-                    </p>
-                </div>
-
-                <div className="flex items-center mb-6 justify-start">
-                    <div className="rounded-full bg-white w-16 h-16 flex items-center justify-center mr-6">
-                        <div className='w-6 h-6 rounded-full'>
-                            {/* <img src="user_profile_picture.jpg" alt="User Profile" className="w-12 h-12 rounded-full" /> */}
-                        </div>
-                    </div>
-                    <div>
-                        <div className="text-xl font-semibold mb-1">John Doe</div>
-                        <div className="text-sm">Student</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const members: any[] = [1, 2, 3, 5, 6, 7, 8, 9, 10];

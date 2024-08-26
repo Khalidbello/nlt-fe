@@ -13,17 +13,17 @@ const EasyUi: React.FC = () => {
             </div>
 
 
-            <p className="relative flex-shrink px-4">
+            <div className="relative flex-shrink px-4">
                 <h3 className="font-xl md:text-4xl font-bold">
                     Effortless Learning with Our Intuitive <span className='text-blue-600'>Easy To</span> Use User Interface
                 </h3>
 
-                <div className="text-gray-600 pt-5">
+                <p className="text-gray-600 pt-5">
                     Our eLearning app features an easy-to-use interface designed to make your educational journey smooth and enjoyable. Navigate through courses, track your progress,
                     and access learning materials effortlessly, ensuring a seamless and engaging learning experience for all users.
-                </div>
-            </p>
-        </div>
+                </p>
+            </div>
+        </div >
     );
 };
 

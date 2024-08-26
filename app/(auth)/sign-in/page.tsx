@@ -7,6 +7,7 @@ import Loader from '@/components/multipurpose/roller-white';
 import { validateEmail, validatePassword } from './../validators';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 
 const LoginForm: React.FC = () => {
     const router = useRouter();
@@ -83,10 +84,10 @@ const LoginForm: React.FC = () => {
         <div className="py-4 min-h-screen flex items-center justify-center bg-blue-50">
             <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full mx-4">
                 <div className="flex items-center justify-center mb-4">
-                    <div className="bg-blue-500 w-20 h-20 rounded-full flex justify-center items-center">logo</div>
+                    <Image src='/images/logo.jpg' alt='Brand logo' width={200} height={200} />
                 </div>
 
-                <h2 className="text-2xl mb-12 text-center font-bold">Welcome Back to brandName</h2>
+                <h2 className="text-xl mb-12 text-center font-bold">Welcome Back </h2>
 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-10">

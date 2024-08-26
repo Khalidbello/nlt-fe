@@ -12,10 +12,12 @@ import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import DoughnutChart from '@/components/course-view/doughnu';
 import ContinueLearningBT from '@/components/course-view/continue-bt';
 import { useRouter, useSearchParams } from 'next/navigation';
+import EnterReview from '@/components/course-view/enter-review';
 
 
 interface courseDataType {
     courseName: string;
+    courseId: number;
     about: string;
     enrolled: boolean;
     quizPerfomace: number;
@@ -27,6 +29,7 @@ interface courseDataType {
     image: string;
     lessonNumbers: { [key: number]: number };
     completed: boolean;
+    reviewed: boolean;
 }
 
 const CourseView = () => {
@@ -34,6 +37,7 @@ const CourseView = () => {
     const searchParams = useSearchParams();
     const [courseData, setCourseData] = useState<courseDataType>({
         courseName: '',
+        courseId: 0,
         about: '',
         enrolled: false,
         quizPerfomace: 0,
@@ -45,6 +49,7 @@ const CourseView = () => {
         lessonNumbers: { 0: 0 },
         image: '',
         completed: false,
+        reviewed: false,
     });
     const [showLoader, setShowLoader] = useState<boolean>(true);
     const [showError, setShowError] = useState<boolean>(false);
@@ -75,8 +80,8 @@ const CourseView = () => {
             setShowError(true);
         } finally {
             setShowLoader(false);
-        }
-    }
+        };
+    };
 
     useEffect(() => {
         fetchData();
@@ -112,6 +117,11 @@ const CourseView = () => {
 };
 
 const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ courseData, courseId }) => {
+    const [showEnterReview, setShowEnterReview] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (courseData.currentChapter > 0 && !courseData.reviewed) setShowEnterReview(true);
+    }, []);
     const data = {
         labels: ['Failed', 'Passed',],
         datasets: [
@@ -171,9 +181,12 @@ const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ cour
             ) : (
                 <FloatingEnrollButton courseId={courseId} />
             )}
+
+            {showEnterReview && <EnterReview courseName={courseData.courseName} courseId={courseData.courseId} hide={setShowEnterReview} />}
             <div className='h-16'></div>
         </>
-    )
-}
+    );
+};
+
 
 export default CourseView;

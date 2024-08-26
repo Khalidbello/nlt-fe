@@ -5,6 +5,7 @@ import React, { useState, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/components/multipurpose/roller-white';
 import { validateEmail, validatePassword } from './../validators';
+import Image from 'next/image';
 
 const AdminLoginForm: React.FC = () => {
     const router = useRouter();
@@ -72,10 +73,10 @@ const AdminLoginForm: React.FC = () => {
         <div className="py-4 min-h-screen flex items-center justify-center bg-blue-50">
             <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full mx-4">
                 <div className="flex items-center justify-center mb-4">
-                    <div className="bg-blue-500 w-20 h-20 rounded-full flex justify-center items-center">logo</div>
+                    <Image src='/images/logo.jpg' alt='Brand logo' width={200} height={200} />
                 </div>
 
-                <h2 className="text-2xl mb-12 text-center font-bold">Admin sing in</h2>
+                <h2 className="text-xl mb-12 text-center font-bold">Admin Sign In</h2>
 
                 <form onSubmit={handleLogin}>
                     <div className="mb-10">

@@ -13,11 +13,11 @@ const OurFeatures = () => {
             <div className="flex items-stretch justify-center  gap-x-24 gap-y-5 flex-wrap">
                 {features.map((data, index) => {
                     return (
-                        <p key={index} className="flex flex-col items-center justify-center gap-3 min-w-[6rem]  max-w-[20rem] rounded-2xl px-5 py-8 shadow-lg">
+                        <div key={index} className="flex flex-col items-center justify-center gap-3 min-w-[6rem]  max-w-[20rem] rounded-2xl px-5 py-8 shadow-lg">
                             <FontAwesomeIcon icon={data.icon} className={`${data.iconColor} w-9 h-9`} />
                             <h3 className="font-medium">{data.title}</h3>
                             <p className="text-gray-700 text-sm text-center">{data.details}</p>
-                        </p>
+                        </div>
                     )
                 })}
             </div>

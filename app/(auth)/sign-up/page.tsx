@@ -7,6 +7,7 @@ import { validateEmail, validatePassword, verifyPhoneNumber } from './../validat
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import Image from 'next/image';
 
 const SignUpForm: React.FC = () => {
     const router = useRouter();
@@ -93,11 +94,10 @@ const SignUpForm: React.FC = () => {
         <div className="min-h-screen flex items-center justify-center bg-blue-50 py-6">
             <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full mx-4">
                 <div className="flex items-center justify-center mb-4">
-                    <div className="bg-blue-600 w-20 h-20 rounded-full flex justify-center items-center">logo</div>
+                    <Image src='/images/logo.jpg' alt='Brand logo' width={200} height={200} />
                 </div>
 
-                <h2 className="text-2xl mb-4 text-center font-bold">Sign Up</h2>
-
+                <h2 className="text-xl mb-12 text-center font-bold">Create an Account</h2>
                 <form onSubmit={onSubmit}>
                     <div className="mb-10 mt-10">
                         <input

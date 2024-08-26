@@ -46,7 +46,7 @@ const NewsLetter: React.FC = () => {
                 </div>
             </div>
 
-            <p className="relative flex-shrink px-4">
+            <div className="relative flex-shrink px-4">
                 <h3 className="font-medium flex flex-col">
                     <span className='text-blue-600 text-sm font-medium'>News Letter</span>
                     <span>Suscribe To Our News Letter, Be The First To Know About An Update</span>
@@ -72,7 +72,7 @@ const NewsLetter: React.FC = () => {
                 </form>
                 {success && <p className='mt-3 text-sm text-green-500'>Subscription successfull</p>}
                 {error && <p className='mt-3 text-sm text-red-500'>{error}</p>}
-            </p>
+            </div>
         </div>
     );
 };

@@ -23,7 +23,7 @@ export default function Hero() {
                 </div>
             </div>
             <div className="flex-grow-1 bg-blue-600 rounded-2xl h-96 w-full mb-10 md:mb-0 md:h-[80%] md:min-w-[50%] min-w-[80%]">
-                <Image alt='hero' src='/images/hero.gif' height={1000} width={1000} className='w-full h-full' />
+                <Image alt='hero' src='/images/hero.gif' height={1000} width={1000} className='w-full h-full' unoptimized />
             </div>
         </div >
     )
