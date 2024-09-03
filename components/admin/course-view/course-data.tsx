@@ -10,6 +10,7 @@ import showClicked from '@/app/utils/clicked';
 import NewCourseForm from '../main/new-course-form';
 import About from '@/components/course-view/about';
 import DeletePrompt from './delete-course-propmp';
+import CourseStatus from './set-course-status';
 
 interface CourseData {
     courseName: string;
@@ -18,7 +19,8 @@ interface CourseData {
     price: number;
     discount: number;
     image: string;
-    courseId: number
+    courseId: number;
+    status: string;
 }
 
 interface DisplayCourseDataProps {
@@ -119,8 +121,9 @@ const DisplayCourseData: React.FC<DisplayCourseDataProps> = ({ courseId, setShow
                     <img src={`data:image/jpeg;base64,${courseData.image}`} alt="Selected Image"
                         className='rounded-xl border-[2px] border-blue-300' />
                 }
-                <h2 className='font-medium mt-3 mb-3'>{courseData.title}</h2>
+                <h2 className='mt-3 mb-3 text-xm'>{courseData.title}</h2>
                 <About text={courseData.aboutCourse} limit={200} />
+                <CourseStatus status={courseData.status} courseId={courseData.courseId} />
                 <div className="flex items-center">
                     <p className="text-blue-500 font-medium">Price: ${courseData.price}</p>
                     {courseData.discount > 0 && (

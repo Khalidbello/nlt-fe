@@ -1,5 +1,5 @@
 import showClicked from "@/app/utils/clicked";
-import { faSchool, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faCancel, faCheck, faSchool, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -14,9 +14,10 @@ interface courseCardProps {
     numberOfLessons: number;
     numberOfChapters: number;
     image: string;
+    status: string;
 }
 
-const UnitCourse: React.FC<courseCardProps> = ({ courseId, courseName, courseDescription, image, numberOfEnrolledStudents, numberOfLessons, numberOfChapters }) => {
+const UnitCourse: React.FC<courseCardProps> = ({ courseId, courseName, courseDescription, image, numberOfEnrolledStudents, numberOfLessons, numberOfChapters, status }) => {
     const router = useRouter();
     const actionBtRef = useRef<null | HTMLButtonElement>(null);
 
@@ -43,6 +44,12 @@ const UnitCourse: React.FC<courseCardProps> = ({ courseId, courseName, courseDes
                 <div className="flex items-center text-gray-500 text-sm">
                     <FontAwesomeIcon icon={faSchool} className='w-5 h-5 text-blue-400' />
                     <p className='ml-3'>{numberOfChapters} Chapters, {numberOfLessons} Lessons</p>
+                </div>
+                <div className="flex items-center text-gray-500 text-sm">
+                    <FontAwesomeIcon icon={status === 'active' ? faCheck : faCancel} className={`w-5 h-5 ${status === 'active' ? 'text-green-500' : 'text-red-500'}`} />
+                    <p className='ml-3'>
+                        Status: <span className={`${status === 'active' ? 'text-green-500' : 'text-red-500'}`}>{status}</span>
+                    </p>
                 </div>
                 <button
                     onClick={handleClick}

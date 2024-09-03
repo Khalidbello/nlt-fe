@@ -43,10 +43,10 @@ const Header: React.FC = () => {
     return (
         <>
             <header className='z-50 fixed w-full p-3 pt-0 flex items-center justify-center'>
-                <div className='max-w-screen-xl bg-blue-100 w-full rounded-xl px-5 py-2 flex justify-between items-center h-16'>
-                    <span className='inline-flex items-center gap-2 max-w-lg'>
-                            <Image alt='logo' src='/images/favicon.png' height={300} width={300} className='text-blue-500 w-10 h-10' />
-                        <span className='font-bold'>Life<span className='text-blue-500'>Style</span>Leverage</span>
+                <div className='max-w-screen-xl bg-white w-full rounded-xl px-5 py-2 flex justify-between items-center h-16'>
+                    <span className='inline-flex items-center gap-1 max-w-lg'>
+                        <Image alt='logo' src='/images/favicon.png' height={300} width={300} className='text-blue-500 w-7 h-7' />
+                        <span className='font-medium'>LifeStyleLeverage</span>
                     </span>
 
                     <span className='hidden items-center justify-between gap-5 xl:gap-x-32 lg:inline-flex'>
@@ -58,7 +58,7 @@ const Header: React.FC = () => {
                                 offset={-100}
                                 spy={true}
                                 onSetActive={() => setActiveSection('features')}
-                                className={`${activeSection === 'features' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl font-medium`}
+                                className={`${activeSection === 'features' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl text-sm`}
                             >
                                 Features
                             </ScrollLink>
@@ -69,7 +69,7 @@ const Header: React.FC = () => {
                                 offset={-100}
                                 spy={true}
                                 onSetActive={() => setActiveSection('review')}
-                                className={`${activeSection === 'review' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl font-medium`}
+                                className={`${activeSection === 'review' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl text-sm`}
                             >
                                 Reviews
                             </ScrollLink>
@@ -80,7 +80,7 @@ const Header: React.FC = () => {
                                 offset={-100}
                                 spy={true}
                                 onSetActive={() => setActiveSection('news-letter')}
-                                className={`${activeSection === 'news-letter' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl font-medium`}
+                                className={`${activeSection === 'news-letter' ? 'text-blue-700' : ' text-gray-700'} hover:text-blue-400 px-3 py-2 mx-1 rounded-xl text-sm`}
                             >
                                 News Letter
                             </ScrollLink>

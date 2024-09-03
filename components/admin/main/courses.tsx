@@ -98,6 +98,7 @@ const Courses = () => {
                     numberOfChapters={course.numberOfChapters}
                     numberOfLessons={course.numberOfLessons}
                     coursetTitle={course.coursetTitles}
+                    status={course.status}
                 />
             ))}
             {

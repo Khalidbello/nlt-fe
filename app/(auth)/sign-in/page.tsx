@@ -59,7 +59,7 @@ const LoginForm: React.FC = () => {
                 setEmail('');
                 setPassword('');
                 setshowBtLoader(false);
-                setLoggedIn('succesfully loggedin');
+                setLoggedIn('succesfully logged in');
 
                 if (redirect === 'true') {
                     router.back()
