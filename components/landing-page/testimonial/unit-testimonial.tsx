@@ -32,7 +32,7 @@ const Review: React.FC<{ review: any }> = ({ review }) => {
                 <div className="flex items-center mb-6 justify-start gap-3">
                     <div className="rounded-full bg-white w-16 h-16 flex items-center justify-center">
                         <div className='w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center'>
-                            {false ? (
+                            {image ? (
                                 <Image alt='profile picture' height={500} width={500} src={`data:image/jpeg;base64,${image.dp}`} className="h-full w-full rounded-full border-[1px] border-blue-500" />
                             ) : (
                                 <FontAwesomeIcon icon={faUser} className="w-full h-full p-2 text-blue-600 rounded-xl" />
