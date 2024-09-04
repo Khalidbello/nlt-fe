@@ -46,7 +46,7 @@ const NewsLetter: React.FC = () => {
                 </div>
             </div>
 
-            <div className="relative flex-shrink px-4">
+            <div className="relative flex-shrink px-4 mt-8">
                 <h3 className="font-medium flex flex-col">
                     <span className='text-blue-600 text-sm font-medium'>News Letter</span>
                     <span>Suscribe To Our News Letter, Be The First To Know About An Update</span>

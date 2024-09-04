@@ -12,7 +12,7 @@ const EasyUi: React.FC = () => {
                 </div>
             </div>
 
-            <div className="relative flex-shrink px-4 pb-4 rounded-xl overflow-hidden">
+            <div className="z-30 relative flex-shrink px-4 pb-4 rounded-xl overflow-hidden">
                 <div className='w-[60%] h-[2px] absolute top-0 right-0 bg-purple-700'></div>
                 <h3 className="font-xl md:text-4xl font-bold text-center text-blue-700 mt-2">
                     Effortless Learning with Our Intuitive <span className="text-blue-500">Easy-to-Use</span> User Interface
@@ -21,7 +21,7 @@ const EasyUi: React.FC = () => {
                     Our eLearning app features an intuitive and user-friendly interface designed to make your educational journey seamless and enjoyable. Navigate through courses, track your progress,
                     and access learning materials effortlessly, ensuring a smooth and engaging learning experience for all users.
                 </p>
-                <div className='w-[10rem] h-[10rem] rounded-full absolute -bottom-4 -left-[3rem] bg-blue-100 z-20 bg-opacity-30'></div>
+                <div className='w-[10rem] h-[10rem] rounded-full absolute -bottom-4 -left-[3rem] bg-blue-100 z-20 bg-opacity-70'></div>
             </div>
         </div >
     );

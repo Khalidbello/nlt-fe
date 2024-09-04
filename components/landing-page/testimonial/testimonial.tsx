@@ -70,7 +70,7 @@ export default function StudentsReview() {
 
     if (fetching) {
         return (
-            <div id='review' className="bg-white px-4 md:px-10 py-20 md:p-10 relative">
+            <div id='review' className="bg-gray-200 px-4 md:px-10 py-20 md:p-10 relative">
                 <h2 className="flex flex-col items-center justify-center gap-2 text-center mb-3">
                     <span className="text-sm text-blue-700 font-medium">Our Students</span>
                     <span className="text-gray-800 text-lg text-center">What They Think About Us</span>
@@ -80,10 +80,10 @@ export default function StudentsReview() {
         )
     }
     return (
-        <div id='review' className="bg-white px-4 md:px-10 py-20 md:p-10 relative">
+        <div id='review' className="bg-gray-200 px-4 md:px-10 py-20 md:p-10 relative mb-8">
             <h2 className="flex flex-col items-center justify-center gap-2 text-center mb-3">
                 <span className="text-sm text-blue-700 font-medium">Our Students</span>
-                <span className="text-gray-800 text-lg text-center">What They Think About Us</span>
+                <span className="text-gray-800 text-lg text-center">What They Say Abou Our Courses</span>
             </h2>
             <div className="md:max-w-[1100px] relative mx-auto">
                 <div
@@ -106,7 +106,7 @@ export default function StudentsReview() {
                 {reviews.map((_: any, index: any) => (
                     <button
                         key={index}
-                        className={`hover:bg-orange-300 w-2 h-2 rounded-full ${index === current ? 'bg-blue-700' : 'bg-blue-100'}`}
+                        className={`hover:bg-orange-300 w-2 h-2 rounded-full ${index === current ? 'bg-blue-700' : 'bg-gray-100'}`}
                         onClick={() => scrollTo(index)}
                     ></button>
                 ))}

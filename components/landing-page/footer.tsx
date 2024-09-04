@@ -33,9 +33,9 @@ const Footer = () => {
         <footer className="w-full bg-black text-white p-4 pb-0">
             <div className="flex justify-evenly flex-wrap gap-10 mb-6">
                 <div className="flex flex-col max-w-[16rem] gap-3">
-                    <span className='inline-flex items-center gap-2 max-w-lg'>
-                        <Image alt='logo' src='/images/favicon.png' height={300} width={300} className='text-blue-500 w-10 h-10' />
-                        <span className='font-bold'>Life<span className='text-blue-500'>Style</span>Leverage</span>
+                    <span className='inline-flex items-center gap-1 max-w-lg'>
+                        <Image alt='logo' src='/images/favicon.png' height={300} width={300} className='text-blue-500 w-7 h-7' />
+                        <span className='font-medium'>LifeStyleLeverage</span>
                     </span>
                     <p className="bg-gray-900 p-4 rounded-xl">
                         This innovative e-learning app empowers you to become the master of your time and well-being. Learn in-demand skills, optimize your finances, and cultivate inner peace

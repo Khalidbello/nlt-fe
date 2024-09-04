@@ -22,24 +22,25 @@ const Review: React.FC<{ review: any }> = ({ review }) => {
     }, []);
 
     return (
-        <div className="flex-shrink-0 w-[250px] h-[25rem] bg-orange-400 rounded-lg ml-[20px] overflow-hidden relative shadow-lg">
-            <div className="flex flex-col justify-between items-center w-full h-full text-white">
-                <div className="text-sm text-center px-4 pt-10">
+        <div className="flex-shrink-0 w-[250px] h-[25rem] bg-white rounded-lg ml-[20px] overflow-hidden relative shadow-lg">
+            <div className="w-[6rem] h-[6rem] bg-orange-200 transform rotate-[45deg] absolute bottom-[-4rem] right-[-1rem] z-1"></div>
+            <div className="flex flex-col justify-between items-stretch w-full h-full z-30 relative">
+                <div className="text-sm text-center px-4 pt-10 text-gray-600">
                     <p className="leading-10">{review.review}</p>
                 </div>
 
-                <div className="flex items-center mb-6 justify-start">
-                    <div className="rounded-full bg-white w-16 h-16 flex items-center justify-center mr-6">
-                        <div className='w-6 h-6 rounded-full'>
-                            {image ? (
-                                <Image alt='profile picture' height={500} width={500} src={`data:image/jpeg;base64,${image.dp}`} className="h-9 w-9 rounded-full border-[1px] border-blue-500" />
+                <div className="flex items-center mb-6 justify-start gap-3">
+                    <div className="rounded-full bg-white w-16 h-16 flex items-center justify-center">
+                        <div className='w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center'>
+                            {false ? (
+                                <Image alt='profile picture' height={500} width={500} src={`data:image/jpeg;base64,${image.dp}`} className="h-full w-full rounded-full border-[1px] border-blue-500" />
                             ) : (
-                                <FontAwesomeIcon icon={faUser} className="h-5 w-5 p-2 text-blue-600 rounded-xl" />
+                                <FontAwesomeIcon icon={faUser} className="w-full h-full p-2 text-blue-600 rounded-xl" />
                             )}
                         </div>
                     </div>
                     <div>
-                        <div className="text-xl font-semibold mb-1">{review.name}</div>
+                        <div className="text-xl font-medium mb-1">{review.name}</div>
                         <div className="text-sm">Student</div>
                     </div>
                 </div>
