@@ -54,6 +54,7 @@ const EnterOtp: React.FC<EnterOtpProps> = ({ email }) => {
             setPassword(data.password);
             setTimeout(() => setShowSucessfull(true), 1000);
         } catch (err) {
+            console.error('An error occured in sending emai recovery otp', err);
             setError('something went wrong try again');
         } finally {
             setShowRoller(false);
