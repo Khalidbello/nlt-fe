@@ -106,7 +106,7 @@ export default function StudentsReview() {
                 {reviews.map((_: any, index: any) => (
                     <button
                         key={index}
-                        className={`hover:bg-orange-300 w-2 h-2 rounded-full ${index === current ? 'bg-blue-700' : 'bg-gray-100'}`}
+                        className={`hover:bg-orange-100 w-2 h-2 rounded-full ${index === current ? 'bg-orange-300' : 'bg-gray-100'}`}
                         onClick={() => scrollTo(index)}
                     ></button>
                 ))}

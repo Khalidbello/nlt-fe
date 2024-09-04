@@ -3,10 +3,10 @@ import Image from 'next/image';
 const Instumental: React.FC = () => {
 
     return (
-        <div className="relative mt-36 rounded-xl px-5 mb-20 max-w-screen-xl mx-auto flex justify-between items-center gap-x-20 gap-y-7 md:px-20 flex-wrap md:flex-nowrap">
-            <div className="relative flex-shrink px-4 pb-4 rounded-xl overflow-hidden">
-                <div className='w-[60%] h-[2px] absolute top-0 left-0 bg-purple-700'></div>
-                <h3 className="font-xl md:text-4xl font-bold text-center text-blue-700 mt-2">
+        <div className="relative mt-36 rounded-b-xl px-5 mb-20 max-w-screen-xl mx-auto flex justify-between items-center gap-x-20 gap-y-7 md:px-20 flex-wrap md:flex-nowrap">
+            <div className="relative flex-shrink px-4 pb-4 rounded-b-xl overflow-hidden">
+                <div className='w-[60%] h-[3px] absolute top-0 left-0 bg-purple-700'></div>
+                <h3 className="font-xl md:text-4xl font-bold text-center text-blue-700 mt-3">
                     Our Free Enrolment Funcionlity Enables You To <span className='text-blue-600'>Explore a Course</span>  Before Actually Paying For It.
                 </h3>
                 <p className="text-gray-700 pt-5 px-4 relative z-30">
