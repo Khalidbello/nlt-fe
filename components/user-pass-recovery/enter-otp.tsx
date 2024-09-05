@@ -20,7 +20,7 @@ const EnterOtp: React.FC<EnterOtpProps> = ({ email }) => {
     // handle otp input change
     const handleOtpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         // @ts-ignore
-        setOtp(parseInt(event.target.value));
+        setOtp(event.target.value);
         setError('');
     };
 
@@ -41,7 +41,7 @@ const EnterOtp: React.FC<EnterOtpProps> = ({ email }) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    otp: otp.trim(),
+                    otp: parseInt(otp),
                     email: email.trim()
                 })
             });
