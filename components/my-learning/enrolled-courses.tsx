@@ -20,6 +20,7 @@ interface courseType {
     enrolledStudents: number;
     progress: number;
     image: string;
+    status: string;
 };
 
 const EnrolldedCourses: React.FC = () => {
@@ -57,7 +58,7 @@ const EnrolldedCourses: React.FC = () => {
     }
     useEffect(() => {
         fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload]);
 
     return (
@@ -101,6 +102,7 @@ const EnrolldedCourses: React.FC = () => {
                                         isEnrolled={course.isEnrolled}
                                         progress={course.progress}
                                         lastVisited={course.lastVisited}
+                                        status={course.status}
                                     />
                                 })
                             )}
