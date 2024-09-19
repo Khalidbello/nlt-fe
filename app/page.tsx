@@ -16,9 +16,9 @@ export default function LandigPage() {
       <Header />
       <Hero />
       <OurFeatures />
+      <StudentsReview />
       <EasyUi />
       <Instumental />
-      <StudentsReview />
       <NewsLetter />
       <Footer />
     </>

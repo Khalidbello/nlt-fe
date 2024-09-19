@@ -19,6 +19,7 @@ interface courseType {
     enrolledStudents: number;
     progress: number;
     image: string;
+    status: string;
 };
 
 const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
@@ -97,7 +98,7 @@ const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
     };
 
     return (
-        <div className="mt-10">
+        <div className="mt-10 w-full py-4 overflow-y-auto">
             <h2 className="mb-4 ml-4 font-semibold">Courses</h2>
             <div>
                 {courses.map((course, index) => (
@@ -114,6 +115,7 @@ const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
                         isEnrolled={course.isEnrolled}
                         progress={course.progress}
                         lastVisited={course.lastVisited}
+                        status={course.status}
                     />
                 ))}
             </div>
@@ -152,6 +154,7 @@ const mockData: courseType[] = [
         progress: 60,
         image: '/images/e-learning-1.jpg',
         isEnrolled: false,
+        status: 'active',
     },
     {
         course_id: 123,
@@ -169,6 +172,7 @@ const mockData: courseType[] = [
         progress: 60,
         image: '/images/e-learning-1.jpg',
         isEnrolled: true,
+        status: 'active',
     }
 ]
 export default CoursesView;

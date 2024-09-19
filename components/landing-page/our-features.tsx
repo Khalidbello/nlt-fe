@@ -1,4 +1,4 @@
-import { faCreditCard, faGraduationCap, faInfinity } from "@fortawesome/free-solid-svg-icons";
+import { faCreditCard, faGraduationCap, faInfinity, faChartBar, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const OurFeatures = () => {
@@ -17,7 +17,7 @@ const OurFeatures = () => {
                             <div className={`${data.iconBgColor} w-12 h-12 rounded-full mx-auto flex items-center justify-center`}>
                                 <FontAwesomeIcon icon={data.icon} className={`${data.iconColor} w-7 h-7`} />
                             </div>
-                            <h3 className="font-medium">{data.title}</h3>
+                            <h3 className="font-medium text-center">{data.title}</h3>
                             <p className="text-gray-700 text-sm text-center">{data.details}</p>
                         </div>
                     )
@@ -43,12 +43,27 @@ const features = [
         details: 'We believe that financial constraints should never be a barrier to education, which is why we offer Flexible Installment Payment Plans',
     },
     {
-        icon: faInfinity,
+        icon: faChartBar,
         iconColor: 'text-purple-500 ',
         iconBgColor: 'bg-purple-100',
+        title: 'Essential, Value-Adding Topics Covered',
+        details: 'Our curriculum includes critical financial concepts, investment strategies, and life skills that are relevant and actionable.',
+    },
+    {
+        icon: faPencilAlt,
+        iconColor: 'text-blue-500 ',
+        iconBgColor: 'bg-blue-100',
+        title: 'Simple, Short & Powerful Lesson Design',
+        details: 'Learn at your own pace with our concise, impactful lessons designed to keep you engaged and informed.',
+    },
+    {
+        icon: faInfinity,
+        iconColor: 'text-orange-500 ',
+        iconBgColor: 'bg-orange-100',
         title: 'Lifetime Access to Courses',
-        details: 'Our lifetime access ensures flexibility and continuous learning without any time constraints. Dive into your educational journey with confidence',
-    }
-]
+        details: 'Enjoy unlimited access to all course materials, so you can revisit and refresh your knowledge whenever you need.',
+    },
+];
+
 
 export default OurFeatures;

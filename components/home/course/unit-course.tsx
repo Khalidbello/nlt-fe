@@ -20,11 +20,12 @@ interface courseCardProps {
     isEnrolled: boolean;
     progress: number;
     lastVisited: string;
+    status: string;
 }
 
 
 const CourseCard: React.FC<courseCardProps> =
-    ({ courseId, courseName, title, description, imageUrl, enrolledStudents, numChapters, numLessons, isEnrolled, progress, lastVisited }) => {
+    ({ courseId, courseName, title, description, imageUrl, enrolledStudents, numChapters, numLessons, isEnrolled, progress, lastVisited, status }) => {
         const actionBtRef = useRef<null | HTMLButtonElement>(null);
         const router = useRouter();
 
@@ -62,24 +63,36 @@ const CourseCard: React.FC<courseCardProps> =
                             </div>
                         </>
                     ) : (
-                        <>
-                            <div className="flex items-center text-gray-500 text-sm">
-                                <FontAwesomeIcon icon={faUser} className='w-5 h-5 text-blue-400' />
-                                <p className='ml-3'>{enrolledStudents} Students Enrolled</p>
-                            </div>
-                            <div className="flex items-center text-gray-500 text-sm">
-                                <FontAwesomeIcon icon={faSchool} className='w-5 h-5 text-blue-400' />
-                                <p className='ml-3'>{numChapters} Chapters, {numLessons} Lessons</p>
-                            </div>
-                        </>
+                        status === 'active' && (
+                            <>
+                                <div className="flex items-center text-gray-500 text-sm">
+                                    <FontAwesomeIcon icon={faUser} className='w-5 h-5 text-blue-400' />
+                                    <p className='ml-3'>{enrolledStudents} Students Enrolled</p>
+                                </div>
+                                <div className="flex items-center text-gray-500 text-sm">
+                                    <FontAwesomeIcon icon={faSchool} className='w-5 h-5 text-blue-400' />
+                                    <p className='ml-3'>{numChapters} Chapters, {numLessons} Lessons</p>
+                                </div>
+                            </>
+                        )
                     )}
-                    <button
-                        onClick={handleClick}
-                        ref={actionBtRef}
-                        className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md inline-flex items-center justify-center"
-                    >
-                        {isEnrolled ? 'View Course' : 'Explore'}
-                    </button>
+                    {status === 'active' ? (
+                        <button
+                            onClick={handleClick}
+                            ref={actionBtRef}
+                            className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md inline-flex items-center justify-center"
+                        >
+                            {isEnrolled ? 'View Course' : 'Explore'}
+                        </button>
+                    ) : (
+                        <button
+                            disabled={true}
+                            className="bg-blue-500 bg-opacity-50 text-white font-semibold py-2 px-4 rounded-md inline-flex items-center justify-center"
+                        >
+                            Comig soon
+                        </button>
+                    )
+                    }
                 </div>
             </div>
         );

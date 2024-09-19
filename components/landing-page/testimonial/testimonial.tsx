@@ -102,6 +102,7 @@ export default function StudentsReview() {
                 </button>
             </div>
 
+
             <div className="indcator flex justify-center items-center gap-1 mt-4">
                 {reviews.map((_: any, index: any) => (
                     <button
