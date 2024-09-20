@@ -20,7 +20,7 @@ const Welcome: React.FC = () => {
             <div className="flex items-center justify-center mb-4">
                 <Image src='/images/logo.jpg' alt='Brand logo' width={200} height={200} />
             </div>
-            <h1 className="text-4xl font-bold mb-12 text-gray-800">Learnig made easy</h1>
+            <h1 className="text-4xl font-bold mb-12 text-gray-800">{`Learn What Matter's`}</h1>
             <div className="w-64 h-64  rounded-xl flex flex-col items-center justify-center gap-4 bg-white">
                 <Link
                     className="px-6 py-2 bg-blue-500 text-white text-lg font-medium rounded-full hover:bg-blue-600 transition-colors"
