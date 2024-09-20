@@ -31,7 +31,7 @@ const Welcome: React.FC = () => {
                 <div className='rounded-full w-10 h-10 bg-blue-200 text-blue-600 flex items-center justify-center'>OR</div>
                 <Link
                     className="px-6 py-2 bg-blue-500 text-white text-lg font-medium rounded-full hover:bg-blue-600 transition-colors"
-                    href={'/sign-nup'}
+                    href={'/sign-up'}
                 >
                     Create Account
                 </Link>
