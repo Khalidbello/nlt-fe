@@ -14,6 +14,7 @@ import NoAccess from '@/components/lecture/access-denied';
 import EnrollmentOpt from '@/components/course-view/enrollment-option';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import HomeBt from '@/components/multipurpose/home-bt';
 
 
 interface datainterface {
@@ -109,6 +110,7 @@ const Lecture: React.FC = () => {
 
     return (
         <div className="w-full h-full pt-20">
+            <HomeBt />
             <Head chapter={data.chapter_number} lesson={data.lesson_number} />
             {loader ? (
                 <div className='h-[90%] flex items-center justify-center'>
