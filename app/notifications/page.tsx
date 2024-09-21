@@ -2,6 +2,7 @@
 
 import Notification from "@/components/admin/notification/unit-notification";
 import Header from "@/components/multipurpose/header";
+import HomeBt from "@/components/multipurpose/home-bt";
 import Loader from "@/components/multipurpose/loader";
 import { faExclamationCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -45,7 +46,7 @@ const Notifications = () => {
 
     useEffect(() => {
         fetchNotifications();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload, pagin]);
 
     if (isFetching) {
@@ -88,6 +89,7 @@ const Notifications = () => {
 
     return (
         <div className="relativew-full h-full mt-20">
+            <HomeBt />
             <Header heading="Notifications" />
 
             {notifications.map((ele: any, index: number) => {
