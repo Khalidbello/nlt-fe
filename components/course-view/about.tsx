@@ -15,7 +15,7 @@ const About: React.FC<AboutProps> = ({ text, limit }) => {
     const handleToggleExpansion = () => setIsExpanded(!isExpanded);
 
     return (
-        <div className="mb-4">
+        <div className="mb-4 mx-3">
             <h2 className='font-medium pl-6 mb-2'>About course</h2>
             <p className="text-gray-700 border-[2px] border-blue-50 shadow-md rounded-xl p-3">{displayedText}</p>
             {!isExpanded && (

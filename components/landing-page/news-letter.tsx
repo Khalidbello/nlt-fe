@@ -49,7 +49,7 @@ const NewsLetter: React.FC = () => {
             <div className="relative flex-shrink px-4 mt-8">
                 <h3 className="font-medium flex flex-col">
                     <span className='text-blue-600 text-sm font-medium'>News Letter</span>
-                    <span>Suscribe To Our News Letter, Be The First To Know About An Update</span>
+                    <span>Subscribe To Our News Letter, Be The First To Know About An Update</span>
                 </h3>
 
                 <form className="text-gray-600 pt-5" onSubmit={subscribe}>
