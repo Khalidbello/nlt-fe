@@ -9,6 +9,7 @@ import { useRef } from "react";
 const HomeBt = () => {
     const router = useRouter();
     const btRef = useRef<null | HTMLButtonElement>(null);
+
     const push = () => {
         if (btRef.current) {
             showClicked(btRef.current);
@@ -17,8 +18,8 @@ const HomeBt = () => {
     };
 
     return (
-        <button className="fixed bottom-3 left-3 bg-blue-100 w-6 h-6 rounded-xl flex items-center justify-center">
-            <FontAwesomeIcon icon={faHome} className="w-4 h-4 text-blue-500" />
+        <button onClick={push} ref={btRef} className="fixed bottom-3 left-3 bg-blue-100 w-9 h-9 rounded-xl flex items-center justify-center">
+            <FontAwesomeIcon icon={faHome} className="w-5 h-5 text-blue-500" />
         </button>
     );
 };
