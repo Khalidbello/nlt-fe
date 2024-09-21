@@ -13,6 +13,7 @@ import DoughnutChart from '@/components/course-view/doughnu';
 import ContinueLearningBT from '@/components/course-view/continue-bt';
 import { useRouter, useSearchParams } from 'next/navigation';
 import EnterReview from '@/components/course-view/enter-review';
+import HomeBt from '@/components/multipurpose/home-bt';
 
 
 interface courseDataType {
@@ -134,6 +135,7 @@ const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ cour
 
     return (
         <>
+            <HomeBt />
             <Name name={courseData.courseName} image={courseData.image} />
             {courseData.enrolled && (
                 <>
