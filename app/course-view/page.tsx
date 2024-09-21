@@ -121,7 +121,7 @@ const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ cour
     const [showEnterReview, setShowEnterReview] = useState<boolean>(false);
 
     useEffect(() => {
-        if (courseData.currentChapter > 0 && !courseData.reviewed) setShowEnterReview(true);
+        if (courseData.currentChapter > 1 && !courseData.reviewed) setShowEnterReview(true);
     }, []);
     const data = {
         labels: ['Failed', 'Passed',],
