@@ -18,7 +18,7 @@ const HomeBt = () => {
     };
 
     return (
-        <button onClick={push} ref={btRef} className="fixed bottom-3 left-3 bg-blue-100 w-9 h-9 rounded-xl flex items-center justify-center">
+        <button onClick={push} ref={btRef} className="fixed bottom-3 left-3 bg-blue-100 w-9 h-9 rounded-xl flex items-center justify-center z-50">
             <FontAwesomeIcon icon={faHome} className="w-5 h-5 text-blue-500" />
         </button>
     );
