@@ -125,7 +125,7 @@ const DisplayCourseData: React.FC<DisplayCourseDataProps> = ({ courseId, setShow
                 <About text={courseData.aboutCourse} limit={200} />
                 <CourseStatus status={courseData.status} courseId={courseData.courseId} />
                 <div className="flex items-center">
-                    <p className="text-blue-500 font-medium">Price: ${courseData.price}</p>
+                    <p className="text-blue-500 font-medium">Price: ₦{courseData.price}</p>
                     {courseData.discount > 0 && (
                         <p className="ml-4 text-green-700">
                             Discount: {courseData.discount}%

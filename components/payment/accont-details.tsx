@@ -122,7 +122,7 @@ const AccountDetails = () => {
                             </button>
 
                         </div>
-                        <div className="mb-2"><span className="font-medium">Amount:</span> ${data.amount}</div>
+                        <div className="mb-2"><span className="font-medium">Amount:</span> ₦{data.amount}</div>
                         <div className="mb-2"><span className="font-medium">Bank name:</span> {data.bankName}</div>
                     </p>
 

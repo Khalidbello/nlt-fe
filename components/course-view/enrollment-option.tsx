@@ -117,7 +117,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
                                         disabled={startFreeLoading}
                                         onClick={handleEnrollFree}
                                         className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-5 rounded-xl">
-                                        {startFreeLoading ? <RollerAnimation h='h-[1.5rem]' /> : ('Start Free  $0')}
+                                        {startFreeLoading ? <RollerAnimation h='h-[1.5rem]' /> : ('Start Free ₦0')}
                                     </button>
                                 )}
 
@@ -129,7 +129,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
                                             onClick={() => handlePaymentButtonCLicked('half', halfBtRef)}
                                             className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-5 rounded-xl"
                                         >
-                                            Pay Half ${Math.floor(data.price * 0.5)}
+                                            Pay Half ₦{Math.floor(data.price * 0.5)}
                                         </button>
                                         <button
                                             ref={fullBtRef}
@@ -149,7 +149,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
                                         onClick={() => handlePaymentButtonCLicked('completeHalf', halfBtRef)}
                                         className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-5 rounded-xl"
                                     >
-                                        Complete half payment ${Math.floor(data.price * 0.5)}
+                                        Complete half payment ₦{Math.floor(data.price * 0.5)}
                                     </button>
                                 )}
                             </>
