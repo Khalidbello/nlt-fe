@@ -1,6 +1,5 @@
 //'use client';
 
-import { Suspense } from 'react'
 import NavBar from '@/components/home/nav';
 //import Loading from '@/components/home/loading';
 
