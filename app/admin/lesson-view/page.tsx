@@ -5,9 +5,10 @@ import LessonContent from "@/components/admin/lesson-view/lesson-content";
 import Header from "@/components/multipurpose/header";
 import { useSearchParams } from "next/navigation";
 import AddQuizBt from "@/components/admin/lesson-view/add-quiz-bt";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import AddQuizForm from "@/components/admin/lesson-view/add-quiz-form";
 import QuizView from "@/components/admin/lesson-view/quiz-view";
+import Loader from "@/components/multipurpose/loader";
 
 const LessonView = () => {
     const searchPrams = useSearchParams();
@@ -18,29 +19,31 @@ const LessonView = () => {
     const [quizReloader, setQuizReloader] = useState<boolean>(false);
 
     return (
-        <div className="w-full h-full pt-20 relative">
-            <Header heading="Lesson view" />
-            {
-                // @ts-ignore
-                <LessonData courseId={courseId} ChapterId={chapterId} lessonId={lessonId} />
-            }
-            {
-                // @ts-ignore
-                <LessonContent courseId={courseId} chapterId={chapterId} lessonId={lessonId} />
-            }
+        <Suspense fallback={<Loader h={'h-[5rem]'} />}>
+            <div className="w-full h-full pt-20 relative">
+                <Header heading="Lesson view" />
+                {
+                    // @ts-ignore
+                    <LessonData courseId={courseId} ChapterId={chapterId} lessonId={lessonId} />
+                }
+                {
+                    // @ts-ignore
+                    <LessonContent courseId={courseId} chapterId={chapterId} lessonId={lessonId} />
+                }
 
-            {
-                // @ts-ignore
-                showAddQuiz && <AddQuizForm courseId={courseId} lessonId={lessonId} chapterId={chapterId} hide={setShowAddQuiz} reload={quizReloader} setReload={setQuizReloader} />
-            }
+                {
+                    // @ts-ignore
+                    showAddQuiz && <AddQuizForm courseId={courseId} lessonId={lessonId} chapterId={chapterId} hide={setShowAddQuiz} reload={quizReloader} setReload={setQuizReloader} />
+                }
 
-            {
-                // @ts-ignore
-                <QuizView courseId={courseId} chapterId={chapterId} lessonId={lessonId} reloader={quizReloader} setReloader={setQuizReloader} />
-            }
-            <AddQuizBt show={setShowAddQuiz} />
-            <div className="h-20"></div>
-        </div>
+                {
+                    // @ts-ignore
+                    <QuizView courseId={courseId} chapterId={chapterId} lessonId={lessonId} reloader={quizReloader} setReloader={setQuizReloader} />
+                }
+                <AddQuizBt show={setShowAddQuiz} />
+                <div className="h-20"></div>
+            </div>
+        </Suspense>
     );
 };
 

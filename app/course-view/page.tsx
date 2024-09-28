@@ -5,7 +5,7 @@ import Name from '@/components/course-view/name';
 import About from '@/components/course-view/about';
 import FloatingEnrollButton from '@/components/course-view/enroll-bt';
 import Chapter, { chapterType } from '@/components/course-view/chapter';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Loader from '@/components/multipurpose/loader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
@@ -90,30 +90,31 @@ const CourseView = () => {
     }, [reload]);
 
     return (
-        <div className="w-full h-full pt-16">
-            <Header heading='Course view' />
-            {showLoader ? (
-                <div className="flex justify-center items-center h-[90%]">
-                    <Loader h='h-[7rem]' />
-                </div>
-            ) : (
-                <div className="">
-                    {showError ? (
-                        <div className="error-container mx-4 bg-red-100 text-red-500 p-4 rounded-lg shadow-md mt-8">
-                            <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
-                            <span className="text-lg">Something went wrong</span>
-                            <button onClick={() => setReload(!reload)} className="bg-white text-red-500 px-4 py-2 ml-4 rounded-md shadow-md">
-                                Reload
-                            </button>
-                        </div>
-                    ) : (
-                        // @ts-ignore
-                        <Main courseData={courseData} courseId={parseInt(courseId)} />
-                    )}
-                </div>
-            )}
-        </div>
-
+        <Suspense fallback={<Loader h={'h-[5rem]'} />}>
+            <div className="w-full h-full pt-16">
+                <Header heading='Course view' />
+                {showLoader ? (
+                    <div className="flex justify-center items-center h-[90%]">
+                        <Loader h='h-[7rem]' />
+                    </div>
+                ) : (
+                    <div className="">
+                        {showError ? (
+                            <div className="error-container mx-4 bg-red-100 text-red-500 p-4 rounded-lg shadow-md mt-8">
+                                <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+                                <span className="text-lg">Something went wrong</span>
+                                <button onClick={() => setReload(!reload)} className="bg-white text-red-500 px-4 py-2 ml-4 rounded-md shadow-md">
+                                    Reload
+                                </button>
+                            </div>
+                        ) : (
+                            // @ts-ignore
+                            <Main courseData={courseData} courseId={parseInt(courseId)} />
+                        )}
+                    </div>
+                )}
+            </div>
+        </Suspense>
     );
 };
 
@@ -122,7 +123,7 @@ const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ cour
 
     useEffect(() => {
         if (courseData.currentChapter > 1 && !courseData.reviewed) setShowEnterReview(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const data = {
         labels: ['Failed', 'Passed',],

@@ -5,7 +5,7 @@ import Note from '@/components/lecture/note';
 import Audio from '@/components/lecture/audio';
 import QuizButton from '@/components/lecture/quiz-bt';
 import Quiz from '@/components/lecture/quiz';
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import Loader from '@/components/multipurpose/loader';
 import showClicked from '@/app/utils/clicked';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -109,58 +109,60 @@ const Lecture: React.FC = () => {
     }, [searchParams, reload]);
 
     return (
-        <div className="w-full h-full pt-20">
-            <HomeBt />
-            <Head chapter={data.chapter_number} lesson={data.lesson_number} />
-            {loader ? (
-                <div className='h-[90%] flex items-center justify-center'>
-                    <Loader h='h-[8rem]' />
-                </div>
-            ) : (showError ? (
+        <Suspense fallback={<Loader h={'h-[5rem]'} />}>
+            <div className="w-full h-full pt-20">
+                <HomeBt />
+                <Head chapter={data.chapter_number} lesson={data.lesson_number} />
+                {loader ? (
+                    <div className='h-[90%] flex items-center justify-center'>
+                        <Loader h='h-[8rem]' />
+                    </div>
+                ) : (showError ? (
 
-                <div className="error-container mx-4 bg-red-100 text-red-500 p-4 rounded-lg shadow-md mt-20">
-                    <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
-                    <span className="text-lg">Something went wrong</span>
-                    <button onClick={() => setReload(!reload)} className="bg-white text-red-500 px-4 py-2 ml-4 rounded-md shadow-md">
-                        Reload
-                    </button>
-                </div>
-            ) : (
-                <>
-                    {showLecture && (
-                        <>
-                            <Link href={`course-view?course_id=${data.course_id}`}>
-                                <div className='text-xl font-medium mx-4 mb-4'>{data.course_name}</div>
-                            </Link>
-                            <Note text={data.opening_note} />
-                            {
-                                //@ts-ignore
-                                <Audio src={data.audio} />
-                            }
-                            <Note text={data.closing_note} />
+                    <div className="error-container mx-4 bg-red-100 text-red-500 p-4 rounded-lg shadow-md mt-20">
+                        <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+                        <span className="text-lg">Something went wrong</span>
+                        <button onClick={() => setReload(!reload)} className="bg-white text-red-500 px-4 py-2 ml-4 rounded-md shadow-md">
+                            Reload
+                        </button>
+                    </div>
+                ) : (
+                    <>
+                        {showLecture && (
+                            <>
+                                <Link href={`course-view?course_id=${data.course_id}`}>
+                                    <div className='text-xl font-medium mx-4 mb-4'>{data.course_name}</div>
+                                </Link>
+                                <Note text={data.opening_note} />
+                                {
+                                    //@ts-ignore
+                                    <Audio src={data.audio} />
+                                }
+                                <Note text={data.closing_note} />
 
-                            <div className='h-10'></div>
+                                <div className='h-10'></div>
 
-                            {!showQuiz && <QuizButton onClick={startQuiz} />}
-                            {showQuiz && (
-                                <>
-                                    <h3 className='mb-3 text-center border-2 border-gray-100 rounded-xl px-4 py-2'>Quiz</h3>
-                                    <Quiz courseId={data.course_id} chapterId={data.chapter_id} lessonId={data.lesson_id} setShowQuiz={setShowQuiz} />
-                                </>
-                            )}
+                                {!showQuiz && <QuizButton onClick={startQuiz} />}
+                                {showQuiz && (
+                                    <>
+                                        <h3 className='mb-3 text-center border-2 border-gray-100 rounded-xl px-4 py-2'>Quiz</h3>
+                                        <Quiz courseId={data.course_id} chapterId={data.chapter_id} lessonId={data.lesson_id} setShowQuiz={setShowQuiz} />
+                                    </>
+                                )}
 
-                            <div className='h-10'></div>
-                        </>
-                    )}
+                                <div className='h-10'></div>
+                            </>
+                        )}
 
-                    {showMakePayment && (
-                        // @ts-ignore
-                        <EnrollmentOpt courseId={parseInt(courseId)} hide={setShowMakePayment} options={options} />
-                    )}
-                </>
-            )
-            )}
-        </div >
+                        {showMakePayment && (
+                            // @ts-ignore
+                            <EnrollmentOpt courseId={parseInt(courseId)} hide={setShowMakePayment} options={options} />
+                        )}
+                    </>
+                )
+                )}
+            </div >
+        </Suspense>
     );
 };
 

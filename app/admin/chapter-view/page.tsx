@@ -5,8 +5,9 @@ import AddLesson from "@/components/admin/chapter-view/add-lesson-form";
 import ChapterData from "@/components/admin/chapter-view/chapter-data";
 import Lessons from "@/components/admin/chapter-view/lessons";
 import Header from "@/components/multipurpose/header";
+import Loader from "@/components/multipurpose/loader";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 interface ChapterView {
     courseId: number;
@@ -21,28 +22,30 @@ const ChapterView: React.FC = () => {
     const [showAddLessonBt, setShowAddLessonBt] = useState<boolean>(false);
 
     return (
-        <div className="w-ful h-full relative pt-20">
-            <Header heading="Chapter view" />
-            {
-                // @ts-ignore
-                <ChapterData courseId={courseId} chapterId={chapterId} setShowAddLessonBt={setShowAddLessonBt} />
-            }
+        <Suspense fallback={<Loader h={'h-[5rem]'} />}>
+            <div className="w-ful h-full relative pt-20">
+                <Header heading="Chapter view" />
+                {
+                    // @ts-ignore
+                    <ChapterData courseId={courseId} chapterId={chapterId} setShowAddLessonBt={setShowAddLessonBt} />
+                }
 
-            <h2 className="mb-2 px-3 font-medium">Lessons</h2>
-            {
-                // @ts-ignore
-                <Lessons courseId={courseId} chapterId={chapterId} />
+                <h2 className="mb-2 px-3 font-medium">Lessons</h2>
+                {
+                    // @ts-ignore
+                    <Lessons courseId={courseId} chapterId={chapterId} />
 
-            }
-            {
-                // @ts-ignore
-                showAddLesson && <AddLesson courseId={courseId} chapterId={chapterId} show={setShowAddLesson} />
-            }
+                }
+                {
+                    // @ts-ignore
+                    showAddLesson && <AddLesson courseId={courseId} chapterId={chapterId} show={setShowAddLesson} />
+                }
 
-            {showAddLessonBt && <AddLectureBt show={setShowAddLesson} />}
+                {showAddLessonBt && <AddLectureBt show={setShowAddLesson} />}
 
-            <div className="h-20"></div>
-        </div>
+                <div className="h-20"></div>
+            </div>
+        </Suspense>
     )
 }
 

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/components/multipurpose/roller-white';
 import { validateEmail, validatePassword } from './../validators';
@@ -81,62 +81,64 @@ const LoginForm: React.FC = () => {
     };
 
     return (
-        <div className="py-4 min-h-screen flex items-center justify-center bg-blue-50">
-            <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full mx-4">
-                <div className="flex items-center justify-center mb-4">
-                    <Image src='/images/logo.jpg' alt='Brand logo' width={200} height={200} />
-                </div>
-
-                <h2 className="text-xl mb-12 text-center font-bold">Welcome Back </h2>
-
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-10">
-                        <input
-                            type="email"
-                            formNoValidate={true}
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => { setErrorMessage(''); setEmail(e.target.value) }}
-                            className="w-full border-gray-300 border-[1px] rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                        />
-                    </div>
-                    <div className="flex items-center justify-between mb-6 w-full border-gray-300 border-[1px] rounded-md">
-                        <input
-                            type={showPassword ? 'password' : 'text'}
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => { setErrorMessage(''); setPassword(e.target.value) }}
-                            className="w-full focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 border-[1px] rounded-md py-2 px-3"
-                        />
-                        <button ref={passwordVisibilityRef} onClick={(e) => { e.stopPropagation(); handlePasswordVisiblity(); }} className='w-10 h-full'>
-                            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} className="w-4 h-5" />
-                        </button>
+        <Suspense fallback={<Loader h={'h-[5rem]'} />}>
+            <div className="py-4 min-h-screen flex items-center justify-center bg-blue-50">
+                <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full mx-4">
+                    <div className="flex items-center justify-center mb-4">
+                        <Image src='/images/logo.jpg' alt='Brand logo' width={200} height={200} />
                     </div>
 
-                    {loggedIn && <div className='text-green-500 text-sm text-center'>{loggedIn}</div>}
-                    {errorMessage && <p className="text-red-500 mb-4 text-center">{errorMessage}</p>}
+                    <h2 className="text-xl mb-12 text-center font-bold">Welcome Back </h2>
 
-                    <div className="mb-4 mt-10">
-                        <button
-                            onClick={handleLogin}
-                            ref={submitBt}
-                            type="submit"
-                            className="w-full bg-blue-500 text-white rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                        >
-                            {showBtLoader ? <Loader h='h-[2rem]' /> : 'Sign In'}
-                        </button>
-                    </div>
-                </form>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-10">
+                            <input
+                                type="email"
+                                formNoValidate={true}
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => { setErrorMessage(''); setEmail(e.target.value) }}
+                                className="w-full border-gray-300 border-[1px] rounded-md py-2 px-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div className="flex items-center justify-between mb-6 w-full border-gray-300 border-[1px] rounded-md">
+                            <input
+                                type={showPassword ? 'password' : 'text'}
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => { setErrorMessage(''); setPassword(e.target.value) }}
+                                className="w-full focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 border-[1px] rounded-md py-2 px-3"
+                            />
+                            <button ref={passwordVisibilityRef} onClick={(e) => { e.stopPropagation(); handlePasswordVisiblity(); }} className='w-10 h-full'>
+                                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} className="w-4 h-5" />
+                            </button>
+                        </div>
 
-                <p className="text-center text-gray-500 mt-6">
-                    {`Don't have an account ? `}
-                    <Link href="/sign-up" className="text-blue-500">Sign Up</Link>
-                </p>
-                <p className="text-center text-gray-500 mt-3">
-                    <Link href="/forgot-password" className="text-blue-500">Forgot Password ?</Link>
-                </p>
+                        {loggedIn && <div className='text-green-500 text-sm text-center'>{loggedIn}</div>}
+                        {errorMessage && <p className="text-red-500 mb-4 text-center">{errorMessage}</p>}
+
+                        <div className="mb-4 mt-10">
+                            <button
+                                onClick={handleLogin}
+                                ref={submitBt}
+                                type="submit"
+                                className="w-full bg-blue-500 text-white rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                            >
+                                {showBtLoader ? <Loader h='h-[2rem]' /> : 'Sign In'}
+                            </button>
+                        </div>
+                    </form>
+
+                    <p className="text-center text-gray-500 mt-6">
+                        {`Don't have an account ? `}
+                        <Link href="/sign-up" className="text-blue-500">Sign Up</Link>
+                    </p>
+                    <p className="text-center text-gray-500 mt-3">
+                        <Link href="/forgot-password" className="text-blue-500">Forgot Password ?</Link>
+                    </p>
+                </div >
             </div >
-        </div >
+        </Suspense>
     );
 };
 
