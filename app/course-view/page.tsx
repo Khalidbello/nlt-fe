@@ -122,6 +122,7 @@ const Main: React.FC<{ courseData: courseDataType; courseId: number }> = ({ cour
 
     useEffect(() => {
         if (courseData.currentChapter > 1 && !courseData.reviewed) setShowEnterReview(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const data = {
         labels: ['Failed', 'Passed',],

@@ -89,7 +89,7 @@ const CourseCard: React.FC<courseCardProps> =
                             disabled={true}
                             className="bg-blue-500 bg-opacity-50 text-white font-semibold py-2 px-4 rounded-md inline-flex items-center justify-center"
                         >
-                            Comig soon
+                            Coming soon
                         </button>
                     )
                     }

@@ -110,7 +110,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
                                 {/* this woulld be shown only when user free offer of half payment have ended */}
                                 {options < 3 && <p>Complete payment to continue course</p>}
 
-                                <p className="text-xl font-medium mb-6">Price: $ {data.price}</p>
+                                <p className="text-xl font-medium mb-6">Price: ₦{data.price}</p>
                                 {options > 2 && (
                                     <button
                                         ref={freeBtRef}
@@ -137,7 +137,7 @@ const EnrollmentOpt: React.FC<enrollProps> = ({ courseId, hide, options = 3 }) =
                                             onClick={() => handlePaymentButtonCLicked('full', fullBtRef)}
                                             className="inline-block bg-blue-500 text-whte w-full text-center text-white py-2 px-4 mb-45 rounded-xl"
                                         >
-                                            Pay Full ${data.price - (data.price * data.discount / 100)} <span className="text-xs bg-green-600 rounded-full px-2 py-1 mx-3">{data.discount}% discout</span>
+                                            Pay Full ₦{data.price - (data.price * data.discount / 100)} <span className="text-xs bg-green-600 rounded-full px-2 py-1 mx-3">{data.discount}% discout</span>
                                         </button>
                                     </>
                                 )}

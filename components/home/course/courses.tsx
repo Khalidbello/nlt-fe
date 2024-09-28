@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import CourseCard from "./unit-course";
 import Loader from '@/components/multipurpose/loader';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { faExclamationCircle, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import showClicked from "@/app/utils/clicked";
 
@@ -96,6 +96,19 @@ const CoursesView: React.FC<{ enrolled: boolean }> = ({ enrolled }) => {
             </>
         );
     };
+
+    if (courses.length < 1) {
+        return (
+            <>
+                <h2 className="mb-4 ml-4 font-semibold mt-20">Courses</h2>
+                <div className="flex flex-col items-center gap-6 bg-blue-500 px-5 py-5 mt-8 mx-6 text-white rounded-md">
+                    <FontAwesomeIcon icon={faExclamationCircle} className="mr-2 h-10" />
+                    <p className="text-sm font-medium">{`No any active courses yet, you'll recieve a notification once courses are available.`}</p>
+                </div>
+            </>
+        );
+    };
+
 
     return (
         <div className="mt-10 w-full py-4 overflow-y-auto">
