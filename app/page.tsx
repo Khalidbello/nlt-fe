@@ -10,12 +10,6 @@ import Footer from "@/components/landing-page/footer";
 
 // ngrok http --domain=weekly-settled-falcon.ngrok-free.app 3000
 
-export const metadata = {
-  title: 'LifeStyleLeverage landing page',
-  description: 'A simple e learning platform that enable individuals to learn things that matters lifestylelevrage lifestylelevrage.com.ng life style leverage',
-  favicon: '/favicon.png',
-};
-
 export default function LandigPage() {
   return (
     <>
