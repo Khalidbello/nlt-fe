@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'Lifestyle Leverage: Learn Valuable Skills',
+  title: 'lifestyleleverage.com.ng',
   description: 'Discover a wide range of online courses and tutorials at Lifestyle Leverage, Nigeria\'s leading e-learning platform.',
   keywords: 'e-learning, online courses, skill development, personal growth, Nigeria',
   openGraph: {
