@@ -19,33 +19,39 @@ const LessonView = () => {
     const [quizReloader, setQuizReloader] = useState<boolean>(false);
 
     return (
-        <Suspense fallback={<Loader h={'h-[5rem]'} />}>
-            <div className="w-full h-full pt-20 relative">
-                <Header heading="Lesson view" />
-                {
-                    // @ts-ignore
-                    <LessonData courseId={courseId} ChapterId={chapterId} lessonId={lessonId} />
-                }
-                {
-                    // @ts-ignore
-                    <LessonContent courseId={courseId} chapterId={chapterId} lessonId={lessonId} />
-                }
+        <div className="w-full h-full pt-20 relative">
+            <Header heading="Lesson view" />
+            {
+                // @ts-ignore
+                <LessonData courseId={courseId} ChapterId={chapterId} lessonId={lessonId} />
+            }
+            {
+                // @ts-ignore
+                <LessonContent courseId={courseId} chapterId={chapterId} lessonId={lessonId} />
+            }
 
-                {
-                    // @ts-ignore
-                    showAddQuiz && <AddQuizForm courseId={courseId} lessonId={lessonId} chapterId={chapterId} hide={setShowAddQuiz} reload={quizReloader} setReload={setQuizReloader} />
-                }
+            {
+                // @ts-ignore
+                showAddQuiz && <AddQuizForm courseId={courseId} lessonId={lessonId} chapterId={chapterId} hide={setShowAddQuiz} reload={quizReloader} setReload={setQuizReloader} />
+            }
 
-                {
-                    // @ts-ignore
-                    <QuizView courseId={courseId} chapterId={chapterId} lessonId={lessonId} reloader={quizReloader} setReloader={setQuizReloader} />
-                }
-                <AddQuizBt show={setShowAddQuiz} />
-                <div className="h-20"></div>
-            </div>
-        </Suspense>
+            {
+                // @ts-ignore
+                <QuizView courseId={courseId} chapterId={chapterId} lessonId={lessonId} reloader={quizReloader} setReloader={setQuizReloader} />
+            }
+            <AddQuizBt show={setShowAddQuiz} />
+            <div className="h-20"></div>
+        </div>
     );
 };
 
 
-export default LessonView;
+const Page: React.FC = () => {
+    return (
+        <Suspense fallback={<Loader h={'h-[5rem]'} />}>
+            <LessonView />
+        </Suspense>
+    );
+};
+
+export default Page;

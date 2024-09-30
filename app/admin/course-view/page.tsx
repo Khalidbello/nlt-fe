@@ -11,20 +11,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSearchParams } from "next/navigation";
 import { useState, useRef, Suspense } from "react";
 
-const CourseView = () => {
-    const searchParams = useSearchParams();
-    const courseId = searchParams.get('courseId');
-    const [showAddChapterBt, setShowAddChapterBt] = useState<boolean>(false);
-    const [showAddChapter, setShowAddChapter] = useState<boolean>(false);
-    const btRef = useRef<HTMLButtonElement | null>(null);
+const
+    CourseView = () => {
+        const searchParams = useSearchParams();
+        const courseId = searchParams.get('courseId');
+        const [showAddChapterBt, setShowAddChapterBt] = useState<boolean>(false);
+        const [showAddChapter, setShowAddChapter] = useState<boolean>(false);
+        const btRef = useRef<HTMLButtonElement | null>(null);
 
-    const handleAddChapterBtClick = () => {
-        if (btRef.current) showClicked(btRef.current);
-        setTimeout(() => setShowAddChapter(true), 250);
-    };
+        const handleAddChapterBtClick = () => {
+            if (btRef.current) showClicked(btRef.current);
+            setTimeout(() => setShowAddChapter(true), 250);
+        };
 
-    return (
-        <Suspense fallback={<Loader h={'h-[5rem]'} />}>
+        return (
             <div className="w-full h-full pt-20 relative overflow-auto">
                 <Header heading='Course view' />
                 <DisplayCourseData courseId={courseId} setShowAddChapterBt={setShowAddChapterBt} />
@@ -44,8 +44,16 @@ const CourseView = () => {
                 }
                 <div className="h-20"></div>
             </div>
-        </Suspense>
-    )
-}
+        );
+    };
 
-export default CourseView;
+
+const Page: React.FC = () => {
+    return (
+        <Suspense fallback={<Loader h={'h-[5rem]'} />}>
+            <CourseView />
+        </Suspense>
+    );
+};
+
+export default Page;

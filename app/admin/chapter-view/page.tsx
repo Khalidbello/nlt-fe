@@ -22,31 +22,37 @@ const ChapterView: React.FC = () => {
     const [showAddLessonBt, setShowAddLessonBt] = useState<boolean>(false);
 
     return (
-        <Suspense fallback={<Loader h={'h-[5rem]'} />}>
-            <div className="w-ful h-full relative pt-20">
-                <Header heading="Chapter view" />
-                {
-                    // @ts-ignore
-                    <ChapterData courseId={courseId} chapterId={chapterId} setShowAddLessonBt={setShowAddLessonBt} />
-                }
+        <div className="w-ful h-full relative pt-20">
+            <Header heading="Chapter view" />
+            {
+                // @ts-ignore
+                <ChapterData courseId={courseId} chapterId={chapterId} setShowAddLessonBt={setShowAddLessonBt} />
+            }
 
-                <h2 className="mb-2 px-3 font-medium">Lessons</h2>
-                {
-                    // @ts-ignore
-                    <Lessons courseId={courseId} chapterId={chapterId} />
+            <h2 className="mb-2 px-3 font-medium">Lessons</h2>
+            {
+                // @ts-ignore
+                <Lessons courseId={courseId} chapterId={chapterId} />
 
-                }
-                {
-                    // @ts-ignore
-                    showAddLesson && <AddLesson courseId={courseId} chapterId={chapterId} show={setShowAddLesson} />
-                }
+            }
+            {
+                // @ts-ignore
+                showAddLesson && <AddLesson courseId={courseId} chapterId={chapterId} show={setShowAddLesson} />
+            }
 
-                {showAddLessonBt && <AddLectureBt show={setShowAddLesson} />}
+            {showAddLessonBt && <AddLectureBt show={setShowAddLesson} />}
 
-                <div className="h-20"></div>
-            </div>
-        </Suspense>
+            <div className="h-20"></div>
+        </div>
     )
 }
 
-export default ChapterView;
+const Page: React.FC = () => {
+    return (
+        <Suspense fallback={<Loader h={'h-[5rem]'} />}>
+            <ChapterView />
+        </Suspense>
+    );
+};
+
+export default Page;

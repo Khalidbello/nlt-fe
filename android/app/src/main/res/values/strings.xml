@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ltl</string>
+    <string name="title_activity_main">ltl</string>
+    <string name="package_name">ng.com.lifestyleleverage</string>
+    <string name="custom_url_scheme">ng.com.lifestyleleverage</string>
+</resources>
