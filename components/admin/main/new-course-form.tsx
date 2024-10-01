@@ -185,7 +185,7 @@ const NewCourseForm: React.FC<NewCourseForm> = ({ show, data }) => {
                     value={aboutCourse}
                 />
 
-                <label htmlFor="course-price" className='block mt-4'>Course price ($)</label>
+                <label htmlFor="course-price" className='block mt-4'>Course price (₦)</label>
                 <input type="number" name='course-price' className='w-full border-[1px] border-gray-200 px-4 py-2 rounded-full'
                     onChange={(e) => inputChange('price', e.target.value)}
                     value={price}

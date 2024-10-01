@@ -3,7 +3,7 @@ import Question from "./question"
 import showClicked from '@/app/utils/clicked';
 import Loader from '@/components/multipurpose/loader';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import QuizResult from '@/components/lecture/quiz-result';
 import { useRouter } from "next/navigation";
 import CongratulationsUI from "./course-completion";
@@ -33,6 +33,7 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
     const [reload, setReload] = useState<boolean>(false);
     const [showResult, setShowResult] = useState<boolean>(false);
     const submitBtRef = useRef<null | HTMLButtonElement>(null);
+    const nextBtRef = useRef<null | HTMLButtonElement>(null);
     const [completionData, setCompletionData] = useState<any>(null);
     const [showCongrats, setShowCongrats] = useState<boolean>(false);
     const apiHost = process.env.NEXT_PUBLIC_API_HOST;
@@ -45,6 +46,8 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
 
     // function to handle  no quiz scnerio
     const handleNoQuiz = async () => {
+        if (nextBtRef.current) showClicked(nextBtRef.current);
+        
         console.log('push tonext lesson no quiz');
         const response = await fetch(`${apiHost}/users/quiz-submit/${courseId}/${chapterId}/${lessonId}`, {
             method: 'PUT',
@@ -52,7 +55,7 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ percentage: 100 })
+            body: JSON.stringify({ percentage: 100, noQuiz: true })
         });
 
         if (response.status === 200) {
@@ -91,8 +94,8 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
                     answers[i + 1] = false;
                 };
 
-                // check if quiz is empty just push user to next lesson
-                if (questions.quiz.length === 0) setTimeout(() => handleNoQuiz(), 2000);
+                // check if quiz is empty just show user button to next lesson
+                //if (questions.quiz.length === 0) setTimeout(() => showNextLessonButton(true), 2000);
             } else {
                 throw 'somthing went wrong';
             }
@@ -125,9 +128,17 @@ const Quiz: React.FC<QuizProps> = ({ courseId, chapterId, lessonId, setShowQuiz 
                         <div>
                             {questions.map((ele, index) => <Question key={index} question={ele} setAnswers={setAnswers} answers={answers} index={index} />)}
                             {questions.length < 1 && <p className="text-center text-sm my-3">No quiz for this lesson</p>}
-                            {questions.length > 0 && <div className='mt-5 text-center'>
-                                <button ref={submitBtRef} onClick={handleSubmit} className='bg-blue-500 text-white px-4 py-2 rounded-full '>Submiit</button>
-                            </div>}
+                            {questions.length > 0 ? (
+                                <div className='mt-5 text-center'>
+                                    <button ref={submitBtRef} onClick={handleSubmit} className='bg-blue-500 text-white px-4 py-2 rounded-full '>Submiit</button>
+                                </div>
+                            ) : (
+                                <div className='mt-5 text-right pr-4'>
+                                    <button ref={nextBtRef} onClick={handleNoQuiz} className='bg-blue-500 text-white px-4 py-2 rounded-full '>
+                                        Next <FontAwesomeIcon icon={faArrowRight} className="text-white w-5 h-5" />
+                                    </button>
+                                </div>
+                            )}
 
                             {showResult && <QuizResult answers={answers} setShowResult={setShowResult} setShowQuiz={setShowQuiz} courseId={courseId} chapterId={chapterId} lessonId={lessonId} />}
                         </div>

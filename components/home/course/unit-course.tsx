@@ -49,7 +49,7 @@ const CourseCard: React.FC<courseCardProps> =
                         <>
                             <div className="flex items-center text-gray-500 text-sm">
                                 <FontAwesomeIcon icon={faChartPie} className='w-5 h-5 text-blue-400' />
-                                <p className='ml-3'>Progress: {progress}%</p>
+                                <p className='ml-3'>Progress: {Math.floor(progress)}%</p>
                             </div>
                             <div className="w-full h-2 rounded-full bg-gray-200">
                                 <div

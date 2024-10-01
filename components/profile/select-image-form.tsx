@@ -91,7 +91,7 @@ const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setRelo
     };
 
     return (
-        <div className="fixed top-0 right-0 w-full h-full flex justify-center items-center bg-blue-600 bg-opacity-90 z-50">
+        <div className="fixed top-0 right-0 w-full h-full flex justify-center items-center bg-blue-600 bg-opacity-90 z-50 overflow-y-auto">
             <div className="bg-white p-4 w-[90%] rounded-xl relative">
                 <button
                     ref={hideBtRef}

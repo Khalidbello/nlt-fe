@@ -114,6 +114,7 @@ const Lecture: React.FC = () => {
                     </button>
                 </div>
             ) : (
+                
                 <>
                     {showLecture && (
                         <>

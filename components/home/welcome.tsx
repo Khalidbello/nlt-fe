@@ -7,8 +7,8 @@ const Welcome: React.FC = () => {
         <div className="bg-blue-50 text-gray-700 p-8 mt-2 mx-4 rounded-lg shadow-md flex gap-2 items-start justify-between">
             <FontAwesomeIcon icon={faHandshake} className="text-blue-500 w-8 h-8" />
             <div className="text-left">
-                <h2 className="text-xl font-semibold">Welcome to Platform!</h2>
-                <p className="mt-2">Enjoy your learning journey with NLP courses.</p>
+                <h2 className="text-xl font-semibold">Welcome to LifeStyleLeverage!</h2>
+                <p className="mt-2">Enjoy your learning journey with life changing courses.</p>
             </div>
         </div>
 
