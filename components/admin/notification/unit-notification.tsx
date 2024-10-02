@@ -20,14 +20,15 @@ const Notification: React.FC<NotificationProps> = ({ type, message, viewed, date
         error: "bg-red-500",
         info: "bg-blue-500",
     };
+
     const convertDateFormat = (date: Date) => {
         const dateObj = new Date(date);
         const month = dateObj.toLocaleString("en-US", { month: "short" });
-        const day = dateObj.toLocaleString("en-US", { weekday: "short" });
+        const day = dateObj.getDate(); // Get the numeric day of the month
         const year = dateObj.getFullYear();
 
         return `${day}-${month}-${year}`;
-    }
+    };
 
     return (
         <div

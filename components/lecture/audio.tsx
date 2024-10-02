@@ -1,5 +1,3 @@
-// 'use client'; // Not required in modern React setups
-
 import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward, faForward, faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +11,13 @@ const AudioComponent: React.FC<AudioProps> = ({ src }) => {
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  // Convert seconds to MM:SS format
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60).toString().padStart(2, '0');
+    return `${minutes}:${seconds}`;
+  };
 
   const handlePlayPause = () => {
     if (audioRef.current) {
@@ -40,7 +45,6 @@ const AudioComponent: React.FC<AudioProps> = ({ src }) => {
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       setCurrentTime(audioRef.current.currentTime);
-      setDuration(audioRef.current.duration);
     }
   };
 
@@ -52,8 +56,14 @@ const AudioComponent: React.FC<AudioProps> = ({ src }) => {
 
   useEffect(() => {
     if (audioRef.current) {
+      // Load duration when metadata is loaded
+      audioRef.current.addEventListener('loadedmetadata', () => {
+        setDuration(audioRef.current!.duration);
+      });
+
       audioRef.current.addEventListener('ended', () => setIsPlaying(false));
     }
+
     return () => {
       if (audioRef.current) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,7 +90,7 @@ const AudioComponent: React.FC<AudioProps> = ({ src }) => {
           <FontAwesomeIcon icon={faBackward} />
         </button>
         <div className="text-gray-600">
-          {currentTime.toFixed(0)}s / {duration.toFixed(0)}s
+          {formatTime(currentTime)} / {formatTime(duration)}
         </div>
         <button onClick={handlePlayPause} className="text-gray-600">
           {isPlaying ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}

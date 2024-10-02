@@ -119,7 +119,7 @@ const Lecture: React.FC = () => {
                     {showLecture && (
                         <>
                             <Link href={`course-view?course_id=${data.course_id}`}>
-                                <div className="text-xl font-medium mx-4 mb-4">{data.course_name}</div>
+                                <div className="text-xl text-blue-500 font-medium mx-4 mb-4">{data.course_name}</div>
                             </Link>
                             <Note text={data.opening_note} />
                             {data.audio && <Audio src={data.audio} />}
