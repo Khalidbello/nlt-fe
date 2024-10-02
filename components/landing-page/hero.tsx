@@ -24,7 +24,15 @@ export default function Hero() {
                 </div>
             </div>
             <div className="relative z-30 flex-grow-1 bg-blue-600 rounded-2xl h-96 w-full mb-10 md:mb-0 md:h-[80%] md:min-w-[50%] min-w-[80%]">
-                <Image alt='hero' src='/images/hero.gif' height={1000} width={1000} className='w-full h-full' unoptimized />
+                <Image
+                    alt='hero'
+                    src='/images/hero.gif'
+                    objectFit="cover" // To maintain the image's aspect ratio 
+                    height={1000}
+                    width={1000}
+                    className='w-full h-full'
+                    unoptimized
+                />
             </div>
         </div >
     )

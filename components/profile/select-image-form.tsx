@@ -77,7 +77,7 @@ const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setRelo
 
     useEffect(() => {
         config();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     if (success) {
@@ -105,7 +105,14 @@ const SelectImageForm: React.FC<SelectImageFormProps> = ({ show, reload, setRelo
                 <form onSubmit={handleSubmit}>
                     <div className="mx-auto h-50 w-50 rounded-xl bg-gray-100 flex items-center justify-center mt-10 mb-4">
                         {imageUrl ? (
-                            <Image alt="dp" height={500} width={500} src={imageUrl} className="h-50 w-50 rounded-xl" />
+                            <Image
+                                alt="dp"
+                                objectFit="cover" // To maintain the image's aspect ratio 
+                                height={500}
+                                width={500}
+                                src={imageUrl}
+                                className="h-50 w-50 rounded-xl"
+                            />
                         ) : (
                             <label htmlFor="image"> <FontAwesomeIcon icon={faPlus} className="text-gray-400 w-24 h-24" /> </label>
                         )}

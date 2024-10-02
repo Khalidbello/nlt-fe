@@ -36,8 +36,15 @@ const CourseCard: React.FC<courseCardProps> =
 
         return (
             <div className="bg-blue-50 mb-4 mx-3 pt-2 px-2 rounded-lg shadow-md overflow-hidden">
-                <div className='w-full h-[15rem] rounded-lg bg-blue-500'>
-                    <Image alt='course image' src={`data:image/jpeg;base64,${imageUrl}`} height={400} width={300} className='w-full h-full rounded-lg' />
+                <div className='w-full rounded-lg bg-blue-500'>
+                    <Image
+                        alt='course image'
+                        src={`data:image/jpeg;base64,${imageUrl}`}
+                        objectFit="cover" // To maintain the image's aspect ratio 
+                        height={500}
+                        width={500}
+                        className='w-full h-full rounded-lg'
+                    />
                 </div>
 
                 <div className="p-6 flex flex-col gap-4">
