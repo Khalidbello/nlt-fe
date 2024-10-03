@@ -14,10 +14,9 @@ const Name: React.FC<NameProps> = ({ name, image }) => {
                 <Image
                     alt='course image'
                     src={`data:image/jpeg;base64,${image}`}
-                    layout="fill"  // Ensures the image fills the parent div
                     objectFit="cover" // To maintain the image's aspect ratio 
-                    height={400}
-                    width={300}
+                    height={1000}
+                    width={1000}
                     className='w-full h-full rounded-lg'
                 />
             </div>
