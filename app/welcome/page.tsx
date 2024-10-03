@@ -20,17 +20,17 @@ const Welcome: React.FC = () => {
             <div className="flex items-center justify-center mb-4">
                 <Image src='/images/logo.jpg' alt='Brand logo' width={200} height={200} />
             </div>
-            <h1 className="text-3xl font-bold mb-12 text-gray-800">{`Learn What Matter`}</h1>
-            <div className="w-64 h-64  rounded-xl flex flex-col items-center justify-center gap-4 bg-white">
+            <h1 className="text-3xl font-bold mb-12 text-gray-800">{`Learn What Matters`}</h1>
+            <div className="w-64 h-64  rounded-xl flex flex-col items-center justify-center gap-3 bg-white">
                 <Link
-                    className="px-6 py-2 bg-blue-500 text-white text-lg font-medium rounded-full hover:bg-blue-600 transition-colors"
+                    className="w-full px-6 py-2 bg-blue-500 text-white text-lg font-medium rounded-full hover:bg-blue-600 transition-colors"
                     href={'/sign-in'}
                 >
                     Log In
                 </Link>
                 <div className='rounded-full w-10 h-10 bg-blue-200 text-blue-600 flex items-center justify-center'>OR</div>
                 <Link
-                    className="px-6 py-2 bg-blue-500 text-white text-lg font-medium rounded-full hover:bg-blue-600 transition-colors"
+                    className="w-full px-6 py-2 bg-blue-500 text-white text-lg font-medium rounded-full hover:bg-blue-600 transition-colors"
                     href={'/sign-up'}
                 >
                     Create Account
