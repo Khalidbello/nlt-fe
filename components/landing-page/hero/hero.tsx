@@ -7,7 +7,7 @@ import Carousel from "./courses-image";
 
 export default function Hero() {
   return (
-    <div className="relative bg-blue-700 py-10 max-w-srcree-2xl h-auto flex flex-col justify-around items-center  gap-x-10 gap-y-14 px-10  md:h-full  md:flex-row md:px-20">
+    <div className="relative bg-blue-700 py-10 pt-20 max-w-srcree-2xl h-auto flex flex-col justify-around items-center  gap-x-10 gap-y-14 px-10  md:h-full  md:flex-row md:px-20">
       <div className="w-[20rem] h-[20rem] md:h-[35rem] md:w-[35rem] rounded-full absolute -top-[4rem] -left-[3rem] md:-top-[10rem] md:-left-[6rem] bg-blue-800 z-20 bg-opacity-70 z-1"></div>
       <div className="relative z-30 flex flex-col items-start gap-y-6 text-center  md:mr-8 md:text-left">
         <p className="pt-16 md:pt-28 text-2xl md:text-4xl font-bold md:font-extrabold text-white flex flex-col gap-y-12 items-start">
