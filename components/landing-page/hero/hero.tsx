@@ -32,7 +32,7 @@ export default function Hero() {
           </Link>
         </div>
       </div>
-      <div className="relative z-30 flex-grow-1 bg-blue-600 rounded-2xl w-full min-w-[45%] mb-10 max-h-[90%] overflow-hidden">
+      <div className="relative z-30 flex-grow-1 rounded-2xl w-full min-w-[45%] mb-10 max-h-[90%] overflow-hidden">
         <Carousel />
       </div>
     </div>
