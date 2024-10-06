@@ -10,7 +10,7 @@ const Name: React.FC<NameProps> = ({ name, image }) => {
   return (
     <div className="mb-4 px-4">
       <h2 className="mb-2 font-semibold text-xl">{name}</h2>
-      <div className="mx-2 bg-blue-200 p-1 rounded-lg h-[15rem]">
+      <div className="mx-2 bg-blue-200 p-1 rounded-lg">
         <Image
           alt="course image"
           src={`data:image/jpeg;base64,${image}`}
