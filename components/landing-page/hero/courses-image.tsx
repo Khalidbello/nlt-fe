@@ -109,7 +109,7 @@ const Carousel: React.FC = ({}) => {
           </div>
         ) : (
           <>
-            <div className="bg-red-500">
+            <div className="">
               <div
                 ref={carouselRef}
                 className="flex w-full overflow-x-auto scroll-snap-x mandatory"
