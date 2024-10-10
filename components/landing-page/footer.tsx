@@ -16,7 +16,7 @@ import Image from "next/image";
 
 const Footer = () => {
   const [activeSection, setActiveSection] = useState("");
-  const encodedNumber = encodeURIComponent(whatsappNumber);
+  const encodedNumber = encodeURIComponent("+2349043454370");
   const whatsAppLink = `https://wa.me/${encodedNumber}`;
 
   useEffect(() => {
