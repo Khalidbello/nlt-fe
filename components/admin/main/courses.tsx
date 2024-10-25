@@ -7,7 +7,6 @@ import UnitCourse from "./unit-course";
 import showClicked from "@/app/utils/clicked";
 import RollerAnimation from "@/components/multipurpose/roller-white";
 
-
 const Courses = () => {
     const router = useRouter();
     const [reload, setReload] = useState<boolean>(true);
