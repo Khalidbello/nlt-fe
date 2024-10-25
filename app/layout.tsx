@@ -3,30 +3,33 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'lifestyleleverage.com.ng',
-  description: 'Discover a wide range of online courses and tutorials at Lifestyle Leverage, Nigeria\'s leading e-learning platform.',
-  keywords: 'e-learning, online courses, skill development, personal growth, Nigeria',
+  title: "Lifestyle Leverage - Online Courses in Nigeria",
+  description:
+    "Discover a wide range of online courses and tutorials at Lifestyle Leverage, Nigeria's leading e-learning platform.",
+  keywords:
+    "e-learning, online courses, skill development, personal growth, Nigeria",
   openGraph: {
-    title: 'Lifestyle Leverage: Learn Valuable Skills',
-    description: 'Discover a wide range of online courses and tutorials at Lifestyle Leverage, Nigeria\'s leading e-learning platform. LifestyleLeverage',
-    url: 'https://lifestyleleverage.com.ng',
+    title: "Lifestyle Leverage: Learn Valuable Skills",
+    description:
+      "Explore various online courses and tutorials at Lifestyle Leverage, Nigeria's leading e-learning platform.",
+    url: "https://lifestyleleverage.com.ng",
     images: [
       {
-        url: 'https://lifestyleleverage.com.ng/images/hero.gif',
-        alt: 'Lifestyle Leverage Hero Image',
+        url: "https://lifestyleleverage.com.ng/images/hero.gif",
+        alt: "Lifestyle Leverage Hero Image",
         width: 1200,
-        height: 627
-      }
-    ]
+        height: 627,
+      },
+    ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Lifestyle Leverage: Learn Valuable Skills',
-    description: 'Discover a wide range of online courses and tutorials at Lifestyle Leverage, Nigeria\'s leading e-learning platform.',
-    images: 'https://lifestyleleverage.com.ng/images/hero.gif'
-  }
+    card: "summary_large_image",
+    title: "Lifestyle Leverage: Learn Valuable Skills",
+    description:
+      "Explore various online courses and tutorials at Lifestyle Leverage, Nigeria's leading e-learning platform.",
+    images: "https://lifestyleleverage.com.ng/images/hero.gif",
+  },
 };
-
 
 export default function RootLayout({
   children,
@@ -35,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body >{children}</body>
+      <body>{children}</body>
     </html>
   );
 }

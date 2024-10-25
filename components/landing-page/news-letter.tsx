@@ -64,7 +64,11 @@ const NewsLetter: React.FC = () => {
           </span>
         </h3>
 
-        <form className="text-gray-600 pt-5" onSubmit={subscribe}>
+        <form
+          className="text-gray-600 pt-5"
+          onSubmit={subscribe}
+          aria-label="Newsletter Subscription Form"
+        >
           <div className="flex justify-evenly items-stretch">
             <input
               value={email}
