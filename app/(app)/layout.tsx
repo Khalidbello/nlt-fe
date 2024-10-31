@@ -1,15 +1,47 @@
-//'use client';
+"use client";
 
-import NavBar from '@/components/home/nav';
-//import Loading from '@/components/home/loading';
+import NavBar from "@/components/home/nav";
+import { useEffect } from "react";
+import { App as CapacitorApp } from "@capacitor/app";
+import { useRouter } from "next/navigation";
+import { PluginListenerHandle } from "@capacitor/core";
 
-export default function Layout(
-    { children }: { children: React.ReactNode }
-) {
-    return (
-        <div className='w-full h-full'>
-            {children}
-            <NavBar />
-        </div>
-    )
+export default function Layout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const setupBackButtonListener = async () => {
+      const backButtonListener = await CapacitorApp.addListener(
+        "backButton",
+        ({ canGoBack }) => {
+          if (canGoBack) {
+            router.back();
+          } else {
+            // Exit the app if there’s no navigation history
+            CapacitorApp.exitApp();
+          }
+        }
+      );
+
+      return backButtonListener;
+    };
+
+    let backButtonListenerHandle: PluginListenerHandle;
+    setupBackButtonListener().then((handle) => {
+      backButtonListenerHandle = handle;
+    });
+
+    return () => {
+      if (backButtonListenerHandle) {
+        backButtonListenerHandle.remove();
+      }
+    };
+  }, [router]);
+
+  return (
+    <div className="w-full h-full">
+      {children}
+      <NavBar />
+    </div>
+  );
 }
